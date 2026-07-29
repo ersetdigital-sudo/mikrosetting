@@ -3,8 +3,7 @@ import { NavLink, StatItem, FaqItem, HeroSlide, ProductItem, BlogArticle } from 
 export const NAV_LINKS: NavLink[] = [
   { href: "#home", label: "Home" },
   { href: "#layanan", label: "Layanan" },
-  { href: "#produk", label: "Mikhmon & Port Forwarding" },
-  { href: "#tentang", label: "Tentang" },
+  { href: "#produk", label: "Produk" },
   { href: "/blog", label: "Blog" },
   { href: "#kontak", label: "Kontak" },
 ];

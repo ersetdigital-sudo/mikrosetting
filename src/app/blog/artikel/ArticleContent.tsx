@@ -268,7 +268,7 @@ export default function ArticleContent({ topic }: { topic: string }) {
                   <h2 className="font-head font-extrabold text-xl text-[var(--navy)] mt-1">Tim MikroSetting</h2>
                   <p className="text-sm leading-relaxed text-slate-500 mt-2">Praktisi jaringan yang menangani konfigurasi MikroTik, OLT, hotspot, VPN, dan access point untuk berbagai kebutuhan operasional.</p>
                 </div>
-                <Link href="/#tentang" className="text-sm font-bold text-[var(--blue)] shrink-0">Tentang kami →</Link>
+                <Link href="/tentang" className="text-sm font-bold text-[var(--blue)] shrink-0">Tentang kami →</Link>
               </section>
 
               {/* Related Articles */}

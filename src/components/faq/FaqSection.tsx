@@ -4,7 +4,7 @@ import { FAQ_ITEMS } from "@/constants";
 
 export default function FaqSection() {
   return (
-    <section id="tentang" className="bg-[var(--soft)] py-16 md:py-20">
+    <section id="faq" className="bg-[var(--soft)] py-16 md:py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-10">
           <span className="text-[var(--blue)] font-semibold tracking-widest text-xs uppercase">

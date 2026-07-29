@@ -59,13 +59,18 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="#tentang" className="hover:text-white transition">
+              <a href="#faq" className="hover:text-white transition">
                 FAQ
               </a>
             </li>
             <li>
               <Link href="/blog" className="hover:text-white transition">
                 Blog & Panduan
+              </Link>
+            </li>
+            <li>
+              <Link href="/tentang" className="hover:text-white transition">
+                Tentang Kami
               </Link>
             </li>
             <li>
