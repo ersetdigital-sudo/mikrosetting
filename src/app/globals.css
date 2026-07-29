@@ -239,3 +239,8 @@ details[open] .faq-icon {
     font-size: 1.4rem;
   }
 }
+/* Smooth anchor offset supaya judul section tidak ketutup navbar sticky */
+section[id],
+footer[id] {
+  scroll-margin-top: 4.5rem;
+}
