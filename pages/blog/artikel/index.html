@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>7 Langkah Optimasi MikroTik agar Jaringan Stabil | MikroSetting</title>
+  <meta id="metaDescription" name="description" content="Panduan praktis optimasi MikroTik untuk meningkatkan stabilitas, keamanan, dan performa jaringan.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="id_ID">
+  <meta property="og:site_name" content="MikroSetting">
+  <meta id="ogTitle" property="og:title" content="7 Langkah Optimasi MikroTik agar Jaringan Stabil">
+  <meta id="ogDescription" property="og:description" content="Panduan praktis optimasi MikroTik untuk meningkatkan stabilitas jaringan.">
+  <meta property="og:image" content="https://api.moda.app/api/v2/images/ref/fb3b9521-c9c8-4641-b2c5-c60073257a0f?v=7cf0f1dad58a611c&amp;s=f46bbfaebf67b2f218bbe8d6b9dd260e">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{--navy:#0b1b4d;--navy-2:#0a1f6b;--blue:#1d4ed8;--cyan:#22d3ee;--green:#16a34a;--ink:#0f172a;--muted:#64748b;}
+    html{scroll-behavior:smooth;}
+    body{font-family:"DM Sans",system-ui,sans-serif;color:var(--ink);background:#f8fafc;}
+    h1,h2,h3,h4,.font-head{font-family:"Sora",system-ui,sans-serif;}
+    .reading-prose p{font-size:1.075rem;line-height:1.9;color:#475569;margin-top:1.25rem;}
+    .reading-prose h2{font-size:1.65rem;line-height:1.3;font-weight:800;color:var(--navy);margin-top:3rem;scroll-margin-top:6rem;}
+    .reading-prose h3{font-size:1.15rem;font-weight:800;color:#172554;margin-top:1.8rem;}
+    .reading-prose ul{margin-top:1rem;display:grid;gap:.7rem;color:#475569;}
+    .reading-prose li{position:relative;padding-left:1.6rem;line-height:1.75;}
+    .reading-prose li::before{content:"";position:absolute;left:.15rem;top:.68rem;width:.5rem;height:.5rem;border-radius:999px;background:var(--blue);box-shadow:0 0 0 4px #dbeafe;}
+    .reading-progress{transform-origin:left;transform:scaleX(0);}
+    .ai-shine{background:linear-gradient(120deg,#eef2ff 0%,#ecfeff 45%,#eff6ff 100%);}
+    #heroVisualTitle{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;line-height:1.35;}
+    @media(max-width:640px){.reading-prose p{font-size:1rem;line-height:1.8}.reading-prose h2{font-size:1.4rem}}
+  </style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../../fonts/dmsans-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../../fonts/sora-wght--thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../../fonts/sora-wght--extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../../fonts/sora-wght--light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../../fonts/sora-wght--regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../../fonts/sora-wght--medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../../fonts/sora-wght--semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../../fonts/sora-wght--bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../../fonts/sora-wght--extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }</style></head>
+<body class="antialiased">
+  <div id="readingProgress" class="reading-progress fixed top-0 left-0 right-0 z-[60] h-1 bg-gradient-to-r from-[var(--cyan)] to-[var(--blue)]"></div>
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-2" aria-label="MikroSetting - Beranda"><span class="grid place-items-center w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--blue)] to-[var(--cyan)] text-white font-head font-bold">M</span><span class="font-head font-extrabold text-lg tracking-tight text-[var(--navy)]">Mikro<span class="text-[var(--blue)]">Setting</span></span></a>
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600"><a href="/" class="hover:text-[var(--blue)]">Home</a><a href="/blog" class="text-[var(--blue)] font-bold">Blog</a><a href="/#layanan" class="hover:text-[var(--blue)]">Layanan</a></nav>
+      <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="inline-flex items-center bg-[var(--green)] hover:bg-green-700 text-white text-sm font-bold px-4 py-2 rounded-lg transition">Konsultasi</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="bg-white border-b border-slate-200">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 pt-10 md:pt-16 pb-8 md:pb-12">
+        <nav class="flex items-center gap-2 text-sm text-slate-500 mb-8" aria-label="Breadcrumb"><a href="/" class="hover:text-[var(--blue)]">Home</a><span>/</span><a href="/blog" class="hover:text-[var(--blue)]">Blog</a><span>/</span><span id="crumb" class="truncate text-slate-700">MikroTik</span></nav>
+        <div class="max-w-4xl">
+          <div class="flex flex-wrap items-center gap-3 text-xs font-bold"><span id="category" class="rounded-full bg-blue-50 text-[var(--blue)] px-3 py-1.5 uppercase tracking-widest">MikroTik</span><time id="date" datetime="2025-02-18" class="text-slate-400">18 Feb 2025</time><span class="text-slate-300">•</span><span id="readTime" class="text-slate-500">8 menit baca</span></div>
+          <h1 id="articleTitle" class="font-head font-extrabold text-3xl sm:text-4xl md:text-5xl leading-[1.12] text-[var(--navy)] mt-5">7 Langkah Optimasi MikroTik agar Jaringan Lebih Stabil</h1>
+          <p id="articleLead" class="text-lg md:text-xl text-slate-500 leading-relaxed mt-5 max-w-3xl">Checklist praktis untuk meningkatkan stabilitas, keamanan, dan performa jaringan tanpa harus mengganti perangkat.</p>
+          <div class="mt-7 flex flex-wrap items-center justify-between gap-5 border-t border-slate-100 pt-6">
+            <div class="flex items-center gap-3"><span class="grid place-items-center w-11 h-11 rounded-full bg-blue-100 text-[var(--blue)] font-head font-bold">MS</span><div><p class="font-bold text-sm text-slate-900">Tim MikroSetting</p><p class="text-xs text-slate-500">Praktisi jaringan</p></div></div>
+            <div class="flex gap-2"><button id="copyBtn" class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-600 hover:border-blue-300 hover:text-[var(--blue)] transition" aria-label="Salin tautan">Salin link</button><a href="/blog" class="inline-flex items-center rounded-lg bg-slate-100 px-3.5 py-2 text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-[var(--blue)]">← Semua artikel</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+      <div class="grid lg:grid-cols-[minmax(0,1fr)_280px] gap-10 lg:gap-14 items-start">
+        <article class="min-w-0">
+          <figure class="relative rounded-2xl sm:rounded-3xl overflow-hidden min-h-72 sm:min-h-0 sm:aspect-[16/9] bg-gradient-to-br from-slate-950 via-[var(--navy)] to-blue-700 shadow-[0_24px_65px_-35px_rgba(11,27,77,.55)]" aria-label="Visualisasi performa jaringan">
+            <div class="absolute inset-0 opacity-20" style="background-image:linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px);background-size:36px 36px"></div>
+            <div class="absolute -right-20 -top-24 w-80 h-80 rounded-full bg-cyan-400/25 blur-3xl"></div>
+            <div class="absolute left-[8%] right-[8%] top-[14%] bottom-[14%] rounded-2xl border border-white/15 bg-white/10 backdrop-blur p-5 sm:p-8 flex flex-col justify-between">
+              <div class="flex items-start justify-between gap-4"><div><p id="heroVisualCategory" class="text-[10px] sm:text-xs font-bold tracking-[.2em] uppercase text-[var(--cyan)]">MikroTik</p><p id="heroVisualTitle" class="font-head font-bold text-white text-lg sm:text-2xl mt-2 max-w-lg">Network performance overview</p></div><span class="shrink-0 inline-flex items-center gap-2 rounded-full bg-emerald-400/15 border border-emerald-300/30 px-3 py-1 text-[10px] sm:text-xs font-bold text-emerald-300"><span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span> Online</span></div>
+              <div class="grid grid-cols-3 gap-2 sm:gap-4"><div class="rounded-xl bg-slate-950/45 border border-white/10 p-3 sm:p-4"><p class="text-[9px] sm:text-xs text-blue-200">Latency</p><p class="font-head font-extrabold text-white text-lg sm:text-2xl mt-1">12 <span class="text-xs font-normal text-blue-200">ms</span></p></div><div class="rounded-xl bg-slate-950/45 border border-white/10 p-3 sm:p-4"><p class="text-[9px] sm:text-xs text-blue-200">Uptime</p><p class="font-head font-extrabold text-white text-lg sm:text-2xl mt-1">99.9<span class="text-xs font-normal text-blue-200">%</span></p></div><div class="rounded-xl bg-slate-950/45 border border-white/10 p-3 sm:p-4"><p class="text-[9px] sm:text-xs text-blue-200">Status</p><p class="font-head font-extrabold text-emerald-300 text-sm sm:text-xl mt-1">Stabil</p></div></div>
+            </div>
+          </figure>
+
+          <section class="ai-shine relative overflow-hidden rounded-2xl border border-blue-200 mt-8 p-5 sm:p-7" aria-labelledby="ai-title">
+            <div class="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-cyan-300/20 blur-2xl"></div>
+            <div class="relative">
+              <div class="flex items-center justify-between gap-4"><div class="flex items-center gap-3"><span class="grid place-items-center w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-cyan-500 text-white shadow-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 3l1.4 4.2L18 9l-4.6 1.8L12 15l-1.4-4.2L6 9l4.6-1.8z"></path><path d="M19 15l.7 2.3L22 18l-2.3.7L19 21l-.7-2.3L16 18l2.3-.7z"></path></svg></span><div><p class="text-[10px] font-bold uppercase tracking-[.2em] text-indigo-600">Ringkasan cerdas</p><h2 id="ai-title" class="font-head font-extrabold text-xl text-[var(--navy)]">Intisari Artikel</h2></div></div><span class="hidden sm:inline-flex rounded-full border border-blue-200 bg-white/70 px-3 py-1 text-[11px] font-bold text-slate-500">± 30 detik baca</span></div>
+              <p id="aiSummary" class="mt-5 text-slate-700 leading-relaxed">Stabilitas jaringan paling efektif ditingkatkan lewat audit trafik, pembagian bandwidth yang adil, DNS responsif, firewall minimum, dan monitoring berkala.</p>
+              <ul id="aiPoints" class="mt-5 grid gap-3 sm:grid-cols-3"></ul>
+              <p class="mt-5 text-[11px] text-slate-400">Ringkasan otomatis berdasarkan isi artikel. Verifikasi konfigurasi sesuai topologi dan versi RouterOS Anda.</p>
+            </div>
+          </section>
+
+          <div id="articleBody" class="reading-prose bg-white rounded-2xl border border-slate-200 mt-8 p-6 sm:p-9 md:p-11">
+            <p>Jaringan yang terasa lambat belum tentu membutuhkan router baru. Sering kali masalah berasal dari konfigurasi yang tumbuh tanpa dokumentasi, rule yang tumpang tindih, atau pembagian bandwidth yang tidak lagi sesuai jumlah pengguna.</p>
+            <h2 id="audit">1. Mulai dengan audit trafik</h2>
+            <p>Gunakan Torch, Traffic Monitor, dan grafik interface untuk melihat protokol, perangkat, atau jam sibuk yang paling banyak memakai bandwidth. Catat kondisi normal agar Anda memiliki pembanding saat gangguan muncul.</p>
+            <ul><li>Periksa pemakaian CPU, RAM, dan storage.</li><li>Identifikasi interface yang sering mencapai kapasitas maksimum.</li><li>Cari user atau koneksi yang mendominasi trafik.</li></ul>
+            <h2 id="bandwidth">2. Terapkan pembagian bandwidth yang adil</h2>
+            <p>Gunakan queue yang sederhana dan mudah dirawat. Untuk banyak pengguna dengan kebutuhan serupa, PCQ membantu membagi kapasitas secara dinamis tanpa membuat ratusan rule manual.</p>
+            <div class="mt-6 rounded-xl bg-slate-950 p-5 text-sm text-slate-200 overflow-x-auto"><div class="flex justify-between mb-3 text-xs text-slate-500"><span>Contoh konsep PCQ</span><span>RouterOS</span></div><code>/queue type add name=pcq-download kind=pcq<br>pcq-classifier=dst-address<br><br>/queue type add name=pcq-upload kind=pcq<br>pcq-classifier=src-address</code></div>
+            <h2 id="security">3. Rapikan DNS dan firewall</h2>
+            <p>Pilih resolver tepercaya, batasi akses DNS hanya dari jaringan internal, lalu susun firewall dari rule paling spesifik ke rule umum. Hapus rule duplikat setelah membuat backup.</p>
+            <ul><li>Izinkan established dan related lebih awal.</li><li>Drop invalid connection.</li><li>Batasi Winbox, SSH, dan API dari internet.</li><li>Dokumentasikan fungsi setiap rule melalui comment.</li></ul>
+            <h2 id="monitoring">4. Monitoring dan evaluasi</h2>
+            <p>Optimasi bukan pekerjaan satu kali. Pantau latency, packet loss, penggunaan interface, dan resource router secara berkala. Lakukan perubahan satu per satu agar dampaknya mudah diukur.</p>
+            <div class="mt-8 rounded-2xl border-l-4 border-[var(--blue)] bg-blue-50 p-5"><p class="!mt-0 !text-base"><strong class="text-[var(--navy)]">Tips teknisi:</strong> Selalu backup konfigurasi sebelum perubahan besar dan simpan salinannya di luar router.</p></div>
+          </div>
+
+          <section id="checklist" class="bg-white rounded-2xl border border-slate-200 mt-8 p-6 sm:p-9" aria-labelledby="checklist-title">
+            <span class="text-[var(--blue)] text-xs font-bold tracking-widest uppercase">Checklist Implementasi</span>
+            <h2 id="checklist-title" class="font-head font-extrabold text-2xl sm:text-3xl text-[var(--navy)] mt-2">Sebelum dan sesudah konfigurasi</h2>
+            <p class="text-slate-500 leading-relaxed mt-3">Gunakan tabel ini sebagai kontrol kualitas sederhana. Catat hasil pengukuran agar perubahan tidak hanya dinilai berdasarkan perasaan.</p>
+            <div class="overflow-x-auto mt-6 rounded-xl border border-slate-200">
+              <table class="w-full min-w-[560px] text-sm"><thead class="bg-slate-50 text-left text-[var(--navy)]"><tr><th class="px-5 py-4 font-bold">Parameter</th><th class="px-5 py-4 font-bold">Sebelum</th><th class="px-5 py-4 font-bold">Target</th><th class="px-5 py-4 font-bold">Cara cek</th></tr></thead><tbody id="metricRows" class="divide-y divide-slate-100 text-slate-600"></tbody></table>
+            </div>
+          </section>
+
+          <section id="kesalahan" class="bg-white rounded-2xl border border-slate-200 mt-8 p-6 sm:p-9" aria-labelledby="mistakes-title">
+            <span class="text-rose-600 text-xs font-bold tracking-widest uppercase">Wajib Dihindari</span>
+            <h2 id="mistakes-title" class="font-head font-extrabold text-2xl sm:text-3xl text-[var(--navy)] mt-2">Kesalahan yang sering terjadi</h2>
+            <div id="mistakeGrid" class="grid sm:grid-cols-3 gap-4 mt-6"></div>
+          </section>
+
+          <section id="faq" class="bg-white rounded-2xl border border-slate-200 mt-8 p-6 sm:p-9" aria-labelledby="faq-title">
+            <span class="text-[var(--blue)] text-xs font-bold tracking-widest uppercase">Pertanyaan Umum</span>
+            <h2 id="faq-title" class="font-head font-extrabold text-2xl sm:text-3xl text-[var(--navy)] mt-2">FAQ</h2>
+            <div id="faqList" class="mt-6 divide-y divide-slate-200"></div>
+          </section>
+
+          <section class="mt-8 rounded-2xl bg-gradient-to-br from-[var(--navy)] to-[var(--blue)] text-white p-7 sm:p-9 flex flex-col sm:flex-row sm:items-center justify-between gap-6"><div><p class="text-xs font-bold tracking-widest uppercase text-[var(--cyan)]">Perlu konfigurasi langsung?</p><h2 class="font-head font-extrabold text-2xl mt-2">Konsultasikan topologi Anda</h2><p class="text-blue-100 text-sm mt-2">Tim kami siap membantu audit dan konfigurasi jarak jauh.</p></div><a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="shrink-0 inline-flex justify-center bg-[var(--green)] hover:bg-green-600 text-white font-bold px-6 py-3 rounded-xl transition">Chat WhatsApp →</a></section>
+
+          <section class="bg-white rounded-2xl border border-slate-200 mt-8 p-6 sm:p-8 flex flex-col sm:flex-row gap-5 sm:items-center"><span class="grid place-items-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-100 to-cyan-100 text-[var(--blue)] font-head font-extrabold text-xl shrink-0">MS</span><div class="grow"><p class="text-xs font-bold tracking-widest uppercase text-[var(--blue)]">Tentang Penulis</p><h2 class="font-head font-extrabold text-xl text-[var(--navy)] mt-1">Tim MikroSetting</h2><p class="text-sm leading-relaxed text-slate-500 mt-2">Praktisi jaringan yang menangani konfigurasi MikroTik, OLT, hotspot, VPN, dan access point untuk berbagai kebutuhan operasional.</p></div><a href="/#tentang" class="text-sm font-bold text-[var(--blue)] shrink-0">Tentang kami →</a></section>
+
+          <section class="mt-8" aria-labelledby="related-title"><div class="flex items-end justify-between gap-4"><div><span class="text-[var(--blue)] text-xs font-bold tracking-widest uppercase">Lanjut Membaca</span><h2 id="related-title" class="font-head font-extrabold text-2xl text-[var(--navy)] mt-2">Artikel terkait</h2></div><a href="/blog" class="text-sm font-bold text-[var(--blue)]">Lihat semua →</a></div><div id="relatedGrid" class="grid sm:grid-cols-2 gap-4 mt-5"></div></section>
+        </article>
+
+        <aside class="lg:sticky lg:top-24 space-y-5">
+          <div class="rounded-2xl bg-white border border-slate-200 p-5"><p class="font-head font-bold text-[var(--navy)]">Dalam artikel ini</p><nav id="toc" class="mt-4 grid gap-1 text-sm"><a href="#audit" class="toc-link rounded-lg px-3 py-2 text-slate-500 hover:bg-blue-50 hover:text-[var(--blue)]">Audit kondisi jaringan</a><a href="#bandwidth" class="toc-link rounded-lg px-3 py-2 text-slate-500 hover:bg-blue-50 hover:text-[var(--blue)]">Pembagian bandwidth</a><a href="#security" class="toc-link rounded-lg px-3 py-2 text-slate-500 hover:bg-blue-50 hover:text-[var(--blue)]">DNS dan firewall</a><a href="#monitoring" class="toc-link rounded-lg px-3 py-2 text-slate-500 hover:bg-blue-50 hover:text-[var(--blue)]">Monitoring</a></nav></div>
+          <div class="rounded-2xl bg-[var(--navy)] text-white p-5"><span class="text-[var(--cyan)] text-xs font-bold tracking-widest uppercase">Catatan penting</span><p class="font-head font-bold text-lg mt-2">Backup sebelum eksekusi</p><p class="text-sm leading-relaxed text-blue-100 mt-2">Setiap jaringan berbeda. Uji perubahan di luar jam sibuk dan siapkan jalur rollback.</p></div>
+          <a href="/blog" class="flex items-center justify-between rounded-2xl bg-white border border-slate-200 p-5 font-bold text-sm text-[var(--blue)] hover:border-blue-300">Artikel lainnya <span>→</span></a>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <footer id="kontak" class="bg-[var(--navy)] text-slate-300 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <a href="/" class="flex items-center gap-2 mb-3">
+          <span class="grid place-items-center w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--blue)] to-[var(--cyan)] text-white font-head font-bold">M</span>
+          <span class="font-head font-extrabold text-lg text-white">Mikro<span class="text-[var(--cyan)]">Setting</span></span>
+        </a>
+        <p class="text-sm text-slate-400">Solusi profesional untuk setting jaringan MikroTik, OLT, Ruijie, dan Access Point.</p>
+      </div>
+      <div>
+        <h2 class="font-head font-semibold text-white mb-3">Layanan</h2>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/#layanan" class="hover:text-white transition">Jasa Setting MikroTik</a></li>
+          <li><a href="/#layanan" class="hover:text-white transition">Jasa Setting OLT</a></li>
+          <li><a href="/#layanan" class="hover:text-white transition">Jasa Setting Ruijie</a></li>
+          <li><a href="/#layanan" class="hover:text-white transition">Jasa Setting Access Point</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-head font-semibold text-white mb-3">Mikhmon &amp; Port Forwarding</h2>
+        <ul class="space-y-2 text-sm">
+          <li><a href="/#produk" class="hover:text-white transition">Mikhmon Online</a></li>
+          <li><a href="/#produk" class="hover:text-white transition">VPN Port Forwarding</a></li>
+          <li><a href="/#tentang" class="hover:text-white transition">FAQ</a></li>
+          <li><a href="/blog" class="hover:text-white transition">Blog &amp; Panduan</a></li>
+          <li><a href="/#kontak" class="hover:text-white transition">Kontak</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="font-head font-semibold text-white mb-3">Kontak Kami</h2>
+        <ul class="space-y-2 text-sm">
+          <li class="flex items-center gap-2"><span class="text-[var(--cyan)]">✆</span> +62 812-3456-7890</li>
+          <li class="flex items-center gap-2"><span class="text-[var(--cyan)]">✉</span> admin@mikrosetting.com</li>
+          <li class="flex items-center gap-2"><span class="text-[var(--cyan)]">◷</span> Setiap hari, 08.00–21.00 WIB</li>
+          <li class="flex gap-3 pt-2">
+            <a href="#" aria-label="Facebook" class="grid place-items-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 transition">f</a>
+            <a href="#" aria-label="Instagram" class="grid place-items-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 transition">◎</a>
+            <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" aria-label="WhatsApp" class="grid place-items-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 transition">✆</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
+        <p>© 2025 MikroSetting. All Rights Reserved.</p>
+        <div class="flex gap-4"><a href="#" class="hover:text-white transition">Privacy Policy</a><a href="#" class="hover:text-white transition">Terms of Service</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const IMG={network:'https://api.moda.app/api/v2/images/ref/fb3b9521-c9c8-4641-b2c5-c60073257a0f?v=7cf0f1dad58a611c&s=f46bbfaebf67b2f218bbe8d6b9dd260e',vpn:'https://api.moda.app/api/v2/images/ref/751c3bc4-1bc6-40bd-aa78-5b5dde4f7868?v=9e5eb0b6ba09ec9f&s=99f79ab4351a8a07697d7347bbfe3b90',hotspot:'https://api.moda.app/api/v2/images/ref/b016bc02-0547-4245-9a6f-6b3b9d2b540e?v=acefb2da0d76b467&s=d546264e5465570f76c150bc3f2e46b8'};
+    const articles={
+      optimasi:{title:'7 Langkah Optimasi MikroTik agar Jaringan Lebih Stabil',category:'MikroTik',date:'18 Feb 2025',time:'8 menit baca',lead:'Checklist praktis untuk meningkatkan stabilitas, keamanan, dan performa jaringan tanpa harus mengganti perangkat.',image:IMG.network,summary:'Stabilitas jaringan paling efektif ditingkatkan lewat audit trafik, pembagian bandwidth yang adil, DNS responsif, firewall minimum, dan monitoring berkala.',points:['Audit trafik & resource','Atur queue secara adil','Monitor setelah perubahan'],sections:[['audit','1. Audit trafik dan resource','Periksa CPU, RAM, interface, dan pola trafik pada jam sibuk. Gunakan data awal ini sebagai baseline agar setiap perubahan dapat diukur.'],['bandwidth','2. Pembagian bandwidth yang adil','Gunakan Simple Queue atau PCQ sesuai skala jaringan. Hindari terlalu banyak rule yang tumpang tindih karena akan menyulitkan proses troubleshooting.'],['security','3. Rapikan DNS dan firewall','Batasi layanan router dari internet, izinkan koneksi established dan related, drop invalid, lalu dokumentasikan setiap rule penting.'],['monitoring','4. Monitoring dan evaluasi','Pantau latency, packet loss, penggunaan interface, dan resource router. Terapkan perubahan satu per satu dan selalu siapkan backup.']]},
+      'load-balance':{title:'Cara Setting Load Balance 2 ISP Tanpa Bikin Koneksi Putus',category:'MikroTik',date:'12 Feb 2025',time:'7 menit baca',lead:'Konsep pembagian trafik dua koneksi internet dengan failover yang lebih rapi dan mudah dirawat.',image:IMG.vpn,summary:'Load balance yang stabil membutuhkan penandaan koneksi konsisten, routing terpisah, pengecualian trafik lokal, dan health check yang benar.',points:['Tandai koneksi PCC','Pisahkan tabel routing','Aktifkan health check'],sections:[['audit','1. Siapkan topologi dan gateway','Pastikan setiap modem memiliki subnet berbeda. Catat gateway, DNS, kapasitas, serta interface WAN dan LAN sebelum membuat rule.'],['bandwidth','2. Terapkan PCC secara konsisten','Gunakan per-connection-classifier untuk membagi koneksi baru. Connection mark harus dipertahankan agar paket balasan kembali melalui ISP yang sama.'],['security','3. Buat routing dan pengecualian','Tambahkan route sesuai routing mark. Kecualikan trafik lokal, VPN, dan layanan perbankan bila membutuhkan alamat sumber yang konsisten.'],['monitoring','4. Uji failover','Simulasikan salah satu ISP putus. Periksa koneksi baru, DNS, serta aplikasi real-time dan sesuaikan check-gateway bila perpindahan terlalu lambat.']]},
+      olt:{title:'Mengenal OLT, ODC, ODP, dan ONU untuk Pemula',category:'OLT & Fiber',date:'8 Feb 2025',time:'6 menit baca',lead:'Memahami fungsi perangkat utama pada jaringan FTTH sebelum merancang distribusi fiber optik.',image:IMG.network,summary:'Jaringan FTTH mengalir dari OLT menuju ODC, dibagi lagi melalui ODP, lalu diterima ONU/ONT pelanggan. Perencanaan redaman menentukan kualitas akhirnya.',points:['OLT sebagai pusat akses','ODC/ODP membagi jalur','Hitung power budget'],sections:[['audit','1. OLT sebagai pusat jaringan','OLT berada di sisi provider dan mengelola profil layanan, VLAN, bandwidth, serta registrasi perangkat pelanggan.'],['bandwidth','2. Fungsi ODC dan splitter','ODC menjadi titik distribusi utama. Splitter membagi satu core menjadi beberapa jalur dengan konsekuensi penurunan daya optik.'],['security','3. ODP dan drop cable','ODP ditempatkan dekat area pelanggan dan meneruskan koneksi melalui drop cable menuju ONU atau ONT.'],['monitoring','4. Ukur redaman end-to-end','Hitung power budget dari jumlah sambungan, splitter, konektor, dan panjang kabel. Verifikasi hasil lapangan menggunakan optical power meter.']]},
+      hotspot:{title:'Checklist Membangun Hotspot Voucher yang Siap Jual',category:'WiFi',date:'3 Feb 2025',time:'9 menit baca',lead:'Dari desain paket, user profile, captive portal, sampai laporan penjualan voucher.',image:IMG.hotspot,summary:'Hotspot voucher yang siap jual membutuhkan segmentasi pelanggan, paket sederhana, limit yang jelas, portal ringan, dan prosedur monitoring harian.',points:['Pisahkan jaringan user','Buat paket mudah dipahami','Pantau sesi & penjualan'],sections:[['audit','1. Pisahkan jaringan pelanggan','Gunakan interface atau VLAN khusus agar user hotspot tidak bercampur dengan jaringan manajemen perangkat.'],['bandwidth','2. Susun paket voucher','Buat pilihan paket berdasarkan durasi, uptime, atau kuota. Jaga jumlah pilihan tetap sederhana agar mudah dijelaskan kepada pelanggan.'],['security','3. Amankan captive portal','Gunakan halaman login ringan, ubah kredensial default, dan batasi akses ke router hanya dari jaringan admin.'],['monitoring','4. Monitoring melalui Mikhmon','Pantau user aktif, pemakaian bandwidth, voucher terjual, dan pendapatan. Lakukan backup database serta konfigurasi secara berkala.']]},
+      firewall:{title:'5 Firewall Rule Wajib untuk Mengamankan Router',category:'Keamanan',date:'28 Jan 2025',time:'5 menit baca',lead:'Proteksi dasar MikroTik dari brute force, port scanning, dan akses ilegal melalui internet.',image:IMG.network,summary:'Firewall dasar sebaiknya menerima established/related, membuang invalid, membatasi akses manajemen, memblokir trafik WAN tak diminta, dan mencatat anomali seperlunya.',points:['Accept koneksi valid','Batasi port manajemen','Drop akses dari WAN'],sections:[['audit','1. Backup dan identifikasi layanan','Catat layanan yang benar-benar dibutuhkan. Nonaktifkan service yang tidak digunakan dan ubah port bukan sebagai satu-satunya proteksi.'],['bandwidth','2. Accept established dan related','Letakkan rule ini di awal agar koneksi sah diproses efisien, kemudian drop paket berstatus invalid.'],['security','3. Lindungi input chain','Izinkan Winbox, SSH, API, dan ICMP hanya dari alamat atau subnet tepercaya. Drop input lain yang berasal dari interface WAN.'],['monitoring','4. Logging secukupnya','Gunakan logging untuk kejadian penting saja agar storage dan CPU tidak dipenuhi catatan serangan berulang.']]},
+      vpn:{title:'VPN atau Port Forwarding: Mana yang Lebih Aman?',category:'VPN',date:'21 Jan 2025',time:'6 menit baca',lead:'Perbandingan praktis untuk akses CCTV, router, server, dan perangkat kantor dari luar jaringan.',image:IMG.vpn,summary:'VPN umumnya lebih aman karena layanan internal tidak diekspos langsung. Port forwarding lebih sederhana, tetapi membutuhkan pembatasan sumber, autentikasi kuat, dan patch rutin.',points:['VPN untuk akses privat','Forward hanya bila perlu','Gunakan autentikasi kuat'],sections:[['audit','1. Pahami kebutuhan akses','Tentukan siapa yang mengakses, perangkat tujuan, frekuensi, dan apakah pengguna membutuhkan satu layanan atau seluruh subnet.'],['bandwidth','2. Kapan memilih VPN','Pilih VPN untuk administrasi jaringan, akses beberapa perangkat, atau kebutuhan enkripsi end-to-end. WireGuard cocok untuk performa dan konfigurasi modern.'],['security','3. Risiko port forwarding','Port yang terbuka dapat dipindai dari internet. Jika wajib digunakan, batasi source IP, gunakan port layanan yang aman, dan aktifkan autentikasi kuat.'],['monitoring','4. Audit akses','Pantau login gagal, koneksi aktif, serta perubahan alamat sumber. Cabut akun dan kunci perangkat yang sudah tidak digunakan.']]},
+      'access-point':{title:'Cara Menentukan Posisi Access Point yang Ideal',category:'WiFi',date:'15 Jan 2025',time:'5 menit baca',lead:'Kurangi blank spot dan interferensi dengan penempatan access point yang tepat.',image:IMG.hotspot,summary:'Posisi AP ideal berada dekat area pengguna, cukup tinggi, minim penghalang, dan menggunakan kanal yang tidak saling tumpang tindih berdasarkan hasil site survey.',points:['Dekat pusat pengguna','Hindari penghalang padat','Atur kanal & power'],sections:[['audit','1. Petakan area pengguna','Tandai ruangan padat, jenis dinding, sumber interferensi, dan titik kabel sebelum menentukan jumlah access point.'],['bandwidth','2. Tempatkan AP dengan terbuka','Pasang di plafon atau posisi tinggi yang bebas lemari logam dan beton tebal. Hindari menaruh AP di sudut bila pengguna tersebar.'],['security','3. Atur kanal dan transmit power','Gunakan kanal 2.4 GHz yang tidak tumpang tindih dan manfaatkan 5 GHz untuk kapasitas. Power terlalu tinggi dapat memperburuk roaming.'],['monitoring','4. Lakukan site survey','Ukur RSSI, noise floor, channel utilization, dan throughput di titik penting. Koreksi posisi berdasarkan data, bukan hanya jumlah bar sinyal.']]}
+    };
+    const guidance={
+      'MikroTik':{metrics:[['CPU saat sibuk','Belum dicatat','< 70%','System → Resources'],['Packet loss','Belum dicatat','< 1%','Ping berkala'],['Latency gateway','Fluktuatif','Stabil','Ping / Netwatch'],['Backup konfigurasi','Tidak ada','Tersimpan','Files / Export']],mistakes:['Mengubah banyak rule sekaligus sehingga sumber masalah sulit ditemukan.','Membuka layanan manajemen router langsung ke internet tanpa pembatasan.','Tidak menyimpan baseline dan backup sebelum optimasi.'],faqs:[['Apakah optimasi harus reset konfigurasi?','Tidak. Audit dan rapikan konfigurasi secara bertahap. Reset hanya dipilih jika struktur lama benar-benar tidak terdokumentasi.'],['Simple Queue atau Queue Tree?','Simple Queue cocok untuk kebutuhan sederhana. Queue Tree lebih fleksibel untuk klasifikasi trafik yang kompleks.'],['Kapan router perlu diganti?','Pertimbangkan upgrade jika CPU konsisten tinggi, port tidak mencukupi, atau throughput perangkat tidak lagi sesuai kebutuhan.']]},
+      'OLT & Fiber':{metrics:[['Power RX ONU','Belum diukur','Dalam batas vendor','Optical power meter'],['Redaman total','Belum dihitung','Sesuai power budget','Hitung end-to-end'],['Kebersihan konektor','Belum dicek','Bersih','Visual inspection'],['Dokumentasi core','Tidak lengkap','Terpetakan','Label & spreadsheet']],mistakes:['Menyambung konektor tanpa membersihkan ferrule terlebih dahulu.','Memilih rasio splitter tanpa menghitung power budget.','Tidak memberi label core, ODP, dan port pelanggan.'],faqs:[['Berapa redaman yang masih aman?','Batas bergantung pada class optic dan vendor perangkat. Selalu ikuti spesifikasi OLT serta ONU yang digunakan.'],['Apakah semua ONU kompatibel?','Tidak selalu. Pastikan chipset, mode autentikasi, dan profil layanan didukung oleh OLT.'],['Kapan perlu memakai splitter bertingkat?','Gunakan setelah perhitungan redaman dan kebutuhan distribusi menunjukkan desain bertingkat lebih efisien.']]},
+      'WiFi':{metrics:[['RSSI area utama','Belum diukur','-45 s/d -67 dBm','WiFi analyzer'],['Noise floor','Belum diukur','Serendah mungkin','Site survey'],['Channel utilization','Tidak diketahui','< 50%','Controller / analyzer'],['Roaming test','Belum diuji','Mulus','Walk test']],mistakes:['Menempatkan access point di balik beton, lemari, atau benda logam.','Mengatur transmit power maksimum pada semua access point.','Menggunakan kanal yang saling tumpang tindih tanpa site survey.'],faqs:[['Berapa access point yang dibutuhkan?','Jumlah ditentukan oleh luas, material bangunan, kepadatan pengguna, dan kebutuhan kapasitas—bukan luas saja.'],['Lebih baik 2.4 GHz atau 5 GHz?','2.4 GHz menjangkau lebih jauh, sedangkan 5 GHz memberi kapasitas dan kanal lebih banyak. Gunakan keduanya secara terencana.'],['Kenapa sinyal penuh tetapi internet lambat?','Kualitas WiFi juga dipengaruhi interferensi, utilisasi kanal, kapasitas uplink, dan jumlah pengguna aktif.']]},
+      'Keamanan':{metrics:[['Service terbuka','Belum diaudit','Minimum','IP → Services'],['Login gagal','Tidak dipantau','Terdeteksi','Log / alert'],['Rule tanpa comment','Banyak','0 rule penting','Firewall audit'],['Backup aman','Tidak ada','Terenkripsi','Export berkala']],mistakes:['Mengandalkan perubahan port sebagai satu-satunya perlindungan.','Menaruh rule drop di posisi yang salah hingga memblokir trafik sah.','Mengaktifkan logging berlebihan sampai storage dan CPU terbebani.'],faqs:[['Apakah mengganti port Winbox sudah aman?','Belum. Batasi source address, gunakan VPN, password kuat, dan update RouterOS.'],['Berapa sering firewall diaudit?','Lakukan minimal setiap ada perubahan topologi, layanan baru, atau temuan keamanan.'],['Apakah semua trafik perlu dicatat?','Tidak. Log hanya kejadian penting agar data tetap berguna dan resource router terjaga.']]},
+      'VPN':{metrics:[['Latency tunnel','Belum diukur','Stabil','Ping via tunnel'],['Enkripsi','Belum diaudit','Modern','Cek protocol'],['Akun aktif','Tidak terdata','Terverifikasi','User audit'],['Akses layanan','Terlalu luas','Minimum','Firewall policy']],mistakes:['Mengekspos port internal saat VPN sebenarnya sudah tersedia.','Membagikan satu akun VPN untuk banyak pengguna.','Tidak mencabut kredensial perangkat atau staf yang sudah tidak aktif.'],faqs:[['VPN mana yang cocok untuk MikroTik?','WireGuard cocok untuk performa modern. IPsec digunakan untuk kebutuhan site-to-site dan kompatibilitas tertentu.'],['Apakah VPN membutuhkan IP publik?','Salah satu endpoint biasanya perlu bisa dijangkau, tetapi solusi relay atau server perantara dapat digunakan pada koneksi CGNAT.'],['Apakah port forwarding selalu berbahaya?','Tidak selalu, tetapi risikonya lebih tinggi. Batasi alamat sumber, patch layanan, dan gunakan autentikasi kuat.']]}
+    };
+    const key=new URLSearchParams(location.search).get('topik')||'optimasi';const data=articles[key]||articles.optimasi;const extra=guidance[data.category]||guidance.MikroTik;
+    document.title=data.title+' | MikroSetting';document.getElementById('metaDescription').content=data.lead;document.getElementById('ogTitle').content=data.title;document.getElementById('ogDescription').content=data.lead;
+    articleTitle.textContent=data.title;articleLead.textContent=data.lead;category.textContent=data.category;crumb.textContent=data.category;date.textContent=data.date;readTime.textContent=data.time;heroVisualCategory.textContent=data.category;heroVisualTitle.textContent=data.title;aiSummary.textContent=data.summary;
+    aiPoints.innerHTML=data.points.map((p,i)=>`<li class="rounded-xl bg-white/75 border border-white p-3 text-sm font-bold text-slate-700"><span class="text-[var(--blue)] mr-1">0${i+1}.</span> ${p}</li>`).join('');
+    articleBody.innerHTML=`<p><strong class="text-[var(--navy)]">${data.title}</strong> bukan sekadar soal memasukkan beberapa rule lalu selesai. Konfigurasi yang baik harus sesuai topologi, kapasitas perangkat, jumlah pengguna, dan pola trafik pada jam sibuk.</p><p>${data.lead} Panduan ini membahas proses dari persiapan sampai verifikasi agar hasilnya dapat diukur, didokumentasikan, dan mudah dirawat oleh teknisi berikutnya.</p><h2 id="context">Kenapa topik ini penting?</h2><p>Masalah jaringan sering terlihat sederhana di sisi pengguna, tetapi penyebabnya bisa berasal dari banyak lapisan. Tanpa baseline, teknisi cenderung mencoba banyak perubahan sekaligus dan akhirnya tidak mengetahui konfigurasi mana yang benar-benar memberi dampak.</p><ul>${data.points.map(p=>`<li>${p} menjadi bagian utama yang perlu diperiksa.</li>`).join('')}</ul>`+data.sections.map((s,i)=>`<h2 id="${s[0]}">${s[1]}</h2><p>${s[2]}</p><p>Pada tahap ini, catat kondisi awal dan hasil sesudah perubahan. Jalankan pengujian dari sisi router sekaligus perangkat pengguna karena hasil yang terlihat baik di router belum tentu sama di lapangan.</p>${i===1?'<div class="mt-6 rounded-xl bg-slate-950 p-5 text-sm text-slate-200 overflow-x-auto"><div class="flex justify-between gap-4 text-xs text-slate-500 mb-3"><span>Alur implementasi aman</span><span>Checklist</span></div><code>backup → audit → konfigurasi → pengujian → monitoring</code></div>':''}`).join('')+`<h2 id="verification">Cara memverifikasi hasil</h2><p>Jangan berhenti setelah konfigurasi berhasil disimpan. Uji kembali layanan utama pada kondisi normal dan saat beban meningkat. Bandingkan hasilnya dengan baseline yang dibuat di awal.</p><ul><li>Lakukan ping dan traceroute dari beberapa segmen jaringan.</li><li>Uji akses layanan utama menggunakan perangkat pengguna nyata.</li><li>Pantau resource dan log minimal selama satu siklus jam sibuk.</li><li>Simpan dokumentasi perubahan, hasil tes, dan jalur rollback.</li></ul><div class="mt-8 rounded-2xl border-l-4 border-[var(--blue)] bg-blue-50 p-5"><p class="!mt-0 !text-base"><strong class="text-[var(--navy)]">Tips teknisi:</strong> Selalu simpan backup dan lakukan perubahan satu per satu agar proses rollback mudah dilakukan.</p></div>`;
+    metricRows.innerHTML=extra.metrics.map(r=>`<tr>${r.map((cell,i)=>`<${i===0?'th':'td'} class="px-5 py-4 ${i===0?'font-bold text-slate-800':'text-slate-500'}">${cell}</${i===0?'th':'td'}>`).join('')}</tr>`).join('');
+    mistakeGrid.innerHTML=extra.mistakes.map((m,i)=>`<article class="rounded-xl border border-rose-100 bg-rose-50/60 p-4"><span class="grid place-items-center w-7 h-7 rounded-lg bg-rose-100 text-rose-600 text-xs font-extrabold">${i+1}</span><p class="text-sm leading-relaxed text-slate-600 mt-3">${m}</p></article>`).join('');
+    faqList.innerHTML=extra.faqs.map((f,i)=>`<details class="group py-4" ${i===0?'open':''}><summary class="flex cursor-pointer items-center justify-between gap-4 font-bold text-[var(--navy)]">${f[0]}<span class="text-[var(--blue)] text-xl group-open:rotate-45 transition">+</span></summary><p class="text-sm leading-relaxed text-slate-500 mt-3 pr-8">${f[1]}</p></details>`).join('');
+    const related=Object.entries(articles).filter(([k])=>k!==key).slice(0,2);relatedGrid.innerHTML=related.map(([k,a])=>`<a href="/blog/artikel?topik=${k}" class="group rounded-2xl border border-slate-200 bg-white p-5 hover:border-blue-300 hover:shadow-lg transition"><span class="text-[10px] font-bold uppercase tracking-widest text-[var(--blue)]">${a.category}</span><h3 class="font-head font-bold text-lg leading-snug text-[var(--navy)] mt-2 group-hover:text-[var(--blue)]">${a.title}</h3><span class="inline-block text-sm font-bold text-[var(--blue)] mt-4">Baca artikel →</span></a>`).join('');
+    document.getElementById('toc').innerHTML=`<a href="#context" class="toc-link rounded-lg px-3 py-2 text-slate-500 hover:bg-blue-50 hover:text-[var(--blue)]">Kenapa ini penting</a>`+data.sections.map(s=>`<a href="#${s[0]}" class="toc-link rounded-lg px-3 py-2 text-slate-500 hover:bg-blue-50 hover:text-[var(--blue)]">${s[1].replace(/^\d+\.\s*/,'')}</a>`).join('')+`<a href="#verification" class="toc-link rounded-lg px-3 py-2 text-slate-500 hover:bg-blue-50 hover:text-[var(--blue)]">Verifikasi hasil</a><a href="#faq" class="toc-link rounded-lg px-3 py-2 text-slate-500 hover:bg-blue-50 hover:text-[var(--blue)]">FAQ</a>`;
+    copyBtn.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(location.href);copyBtn.textContent='Link tersalin ✓';setTimeout(()=>copyBtn.textContent='Salin link',1800)}catch(e){copyBtn.textContent='Gagal menyalin'}});
+    const progress=document.getElementById('readingProgress');addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-innerHeight;progress.style.transform=`scaleX(${max?scrollY/max:0})`;},{passive:true});
+  </script>
+
+</body></html>

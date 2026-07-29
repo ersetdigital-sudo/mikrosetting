@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MikroSetting — Jasa Setting MikroTik, OLT &amp; Ruijie Profesional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.moda.app/runtime-libs/swiper-12.2.0/swiper-bundle.min.css">
+<style>
+  :root{
+    --navy:#0b1b4d;
+    --navy-2:#0a1f6b;
+    --blue:#1d4ed8;
+    --blue-light:#3b82f6;
+    --cyan:#22d3ee;
+    --green:#16a34a;
+    --green-dark:#15803d;
+    --ink:#0f172a;
+    --muted:#64748b;
+    --soft:#f1f5f9;
+  }
+  html{scroll-behavior:smooth;}
+  body{font-family:"DM Sans",system-ui,sans-serif;color:var(--ink);background:#fff;}
+  h1,h2,h3,h4,.font-head{font-family:"Sora",system-ui,sans-serif;}
+  .hero-bg{
+    background:
+      radial-gradient(120% 90% at 85% 10%, rgba(34,211,238,.25), transparent 55%),
+      radial-gradient(90% 80% at 10% 90%, rgba(59,130,246,.30), transparent 60%),
+      linear-gradient(135deg,#0a1a52 0%, #0b1b4d 40%, #071445 100%);
+  }
+  .grid-overlay{
+    background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+    background-size:44px 44px;
+  }
+  .btn-green{background:var(--green);}
+  .btn-green:hover{background:var(--green-dark);}
+  .card-hover{transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;}
+  .card-hover:hover{transform:translateY(-6px);box-shadow:0 22px 45px -20px rgba(13,32,102,.45);border-color:var(--blue-light);}
+  details>summary{list-style:none;cursor:pointer;}
+  details>summary::-webkit-details-marker{display:none;}
+  details[open] .faq-icon{transform:rotate(45deg);}
+  .faq-icon{transition:transform .2s ease;}
+
+  /* ---- Hero Swiper ---- */
+  .hero-swiper{--swiper-theme-color:var(--cyan);}
+  .hero-swiper .swiper-pagination{bottom:20px !important;}
+  .hero-swiper .swiper-pagination-bullet{background:rgba(255,255,255,.5);opacity:1;width:9px;height:9px;transition:width .25s ease, background .25s ease;}
+  .hero-swiper .swiper-pagination-bullet-active{background:var(--cyan);width:26px;border-radius:9999px;}
+  .hero-slide{
+    position:relative;background-size:cover;background-position:center;
+    min-height:540px;
+  }
+  @media (min-width:1024px){.hero-slide{min-height:620px;}}
+  /* dark overlay so text stays readable over the full image */
+  .hero-slide::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,rgba(6,15,55,.94) 0%,rgba(7,18,64,.82) 42%,rgba(7,18,64,.35) 70%,rgba(7,18,64,.15) 100%);
+  }
+  @media (max-width:640px){
+    .hero-slide::before{background:linear-gradient(180deg,rgba(6,15,55,.80) 0%,rgba(6,15,55,.88) 55%,rgba(6,15,55,.94) 100%);}
+  }
+</style>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../fonts/dmsans-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../fonts/sora-wght--thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../fonts/sora-wght--extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../fonts/sora-wght--light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../fonts/sora-wght--regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../fonts/sora-wght--medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../fonts/sora-wght--semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../fonts/sora-wght--bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../fonts/sora-wght--extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }</style></head>
+<body class="antialiased">
+
+<!-- ============ NAVBAR ============ -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+    <a href="#" class="flex items-center gap-2 shrink-0">
+      <span class="grid place-items-center w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--blue)] to-[var(--cyan)] text-white font-head font-bold">M</span>
+      <span class="font-head font-extrabold text-lg tracking-tight text-[var(--navy)]">Mikro<span class="text-[var(--blue)]">Setting</span></span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-600">
+      <a href="#home" class="hover:text-[var(--blue)] transition">Home</a>
+      <a href="#layanan" class="hover:text-[var(--blue)] transition">Layanan</a>
+      <a href="#produk" class="hover:text-[var(--blue)] transition">Mikhmon &amp; Port Forwarding</a>
+      <a href="#tentang" class="hover:text-[var(--blue)] transition">Tentang</a>
+      <a href="/blog" class="hover:text-[var(--blue)] transition">Blog</a>
+      <a href="#kontak" class="hover:text-[var(--blue)] transition">Kontak</a>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-1.5 btn-green text-white text-sm font-semibold px-3.5 py-2 rounded-lg transition">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94s-.46-.15-.66.15-.76.94-.93 1.13-.34.22-.63.08a8.2 8.2 0 0 1-2.4-1.48 9 9 0 0 1-1.67-2.06c-.17-.3 0-.46.13-.6s.3-.34.44-.51.19-.3.29-.5.05-.37 0-.52-.66-1.6-.9-2.18-.48-.5-.66-.5h-.56a1.1 1.1 0 0 0-.79.37 3.27 3.27 0 0 0-1 2.43 5.68 5.68 0 0 0 1.2 3 13 13 0 0 0 5 4.42 16.9 16.9 0 0 0 1.67.62 4 4 0 0 0 1.85.12 3 3 0 0 0 2-1.4 2.47 2.47 0 0 0 .17-1.39c-.07-.13-.26-.2-.55-.35zM12 2a10 10 0 0 0-8.6 15.06L2 22l5.06-1.33A10 10 0 1 0 12 2z"></path></svg>
+        Chat WA
+      </a>
+      <a href="#kontak" class="inline-flex items-center gap-1.5 bg-[var(--blue)] hover:bg-[var(--navy-2)] text-white text-sm font-semibold px-3.5 py-2 rounded-lg transition">
+        Login / Daftar
+      </a>
+      <button id="menuBtn" class="lg:hidden grid place-items-center w-10 h-10 rounded-lg border border-slate-200 text-slate-700" aria-label="Menu">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"></path></svg>
+      </button>
+    </div>
+  </div>
+  <!-- mobile menu -->
+  <div id="mobileMenu" class="lg:hidden hidden border-t border-slate-200 bg-white">
+    <nav class="px-4 py-3 flex flex-col text-sm font-medium text-slate-700">
+      <a href="#home" class="py-2.5 border-b border-slate-100">Home</a>
+      <a href="#layanan" class="py-2.5 border-b border-slate-100">Layanan</a>
+      <a href="#produk" class="py-2.5 border-b border-slate-100">Mikhmon &amp; Port Forwarding</a>
+      <a href="#tentang" class="py-2.5 border-b border-slate-100">Tentang</a>
+      <a href="/blog" class="py-2.5 border-b border-slate-100">Blog</a>
+      <a href="#kontak" class="py-2.5">Kontak</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO SLIDER (full-bleed image + text) ============ -->
+<section id="home" class="hero-bg text-white relative overflow-hidden">
+  <div class="swiper hero-swiper">
+    <div class="swiper-wrapper">
+
+      <!-- SLIDE 1 : Jasa Setting -->
+      <div class="swiper-slide">
+        <div class="hero-slide flex items-center" style="background-image:url('../images/fb3b9521-c9c8-4641-b2c5-c60073257a0f.png')">
+          <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+            <div class="max-w-xl">
+              <span class="inline-block text-[var(--cyan)] font-semibold tracking-[.2em] text-xs uppercase mb-4">Solusi Jaringan Profesional</span>
+              <h1 class="font-head font-extrabold leading-[1.08] text-4xl sm:text-5xl xl:text-6xl drop-shadow">
+                Jasa Setting<br>
+                <span class="text-[var(--cyan)]">MikroTik</span>, OLT &amp;<br>
+                Ruijie <span class="text-[var(--blue-light)]">Profesional</span>
+              </h1>
+              <p class="mt-5 text-slate-200 text-base sm:text-lg">
+                Kami membantu Anda membangun jaringan yang cepat, aman, stabil dan mudah dikelola untuk RT/RW Net, Hotel, Kantor, Sekolah, dan ISP.
+              </p>
+              <ul class="mt-6 space-y-2.5 text-sm sm:text-base">
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> MikroTik (PPPoE, Hotspot, VPN, Load Balance)</li>
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> OLT (Data, VSOL, HSGQ, Global, Hioso)</li>
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> Ruijie &amp; Access Point</li>
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> Jaringan Kabel &amp; Wireless</li>
+              </ul>
+              <div class="mt-8 flex flex-wrap gap-3">
+                <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="inline-flex items-center gap-2 btn-green text-white font-semibold px-5 py-3 rounded-xl transition">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94s-.46-.15-.66.15-.76.94-.93 1.13-.34.22-.63.08a8.2 8.2 0 0 1-2.4-1.48 9 9 0 0 1-1.67-2.06c-.17-.3 0-.46.13-.6s.3-.34.44-.51.19-.3.29-.5.05-.37 0-.52-.66-1.6-.9-2.18-.48-.5-.66-.5h-.56a1.1 1.1 0 0 0-.79.37 3.27 3.27 0 0 0-1 2.43 5.68 5.68 0 0 0 1.2 3 13 13 0 0 0 5 4.42 16.9 16.9 0 0 0 1.67.62 4 4 0 0 0 1.85.12 3 3 0 0 0 2-1.4 2.47 2.47 0 0 0 .17-1.39c-.07-.13-.26-.2-.55-.35zM12 2a10 10 0 0 0-8.6 15.06L2 22l5.06-1.33A10 10 0 1 0 12 2z"></path></svg>
+                  Konsultasi WhatsApp
+                </a>
+                <a href="#layanan" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold px-5 py-3 rounded-xl transition">Lihat Layanan</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2 : VPN Port Forwarding -->
+      <div class="swiper-slide">
+        <div class="hero-slide flex items-center" style="background-image:url('../images/751c3bc4-1bc6-40bd-aa78-5b5dde4f7868.png')">
+          <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+            <div class="max-w-xl">
+              <span class="inline-block text-[var(--cyan)] font-semibold tracking-[.2em] text-xs uppercase mb-4">Akses Remote Aman</span>
+              <h1 class="font-head font-extrabold leading-[1.08] text-4xl sm:text-5xl xl:text-6xl drop-shadow">
+                VPN <span class="text-[var(--cyan)]">Port</span><br>
+                <span class="text-[var(--blue-light)]">Forwarding</span>
+              </h1>
+              <p class="mt-5 text-slate-200 text-base sm:text-lg">
+                Akses perangkat Anda dari mana saja dengan koneksi VPN yang aman dan stabil — tanpa ribet IP Public.
+              </p>
+              <ul class="mt-6 space-y-2.5 text-sm sm:text-base">
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> Akses CCTV / NVR dari HP</li>
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> Remote Router / Mikrotik / RDP</li>
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> Akses Exam / ANBK / ACB</li>
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> Koneksi Terenkripsi &amp; Anti Putus</li>
+              </ul>
+              <div class="mt-8 flex flex-wrap gap-3">
+                <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="inline-flex items-center gap-2 btn-green text-white font-semibold px-5 py-3 rounded-xl transition">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94s-.46-.15-.66.15-.76.94-.93 1.13-.34.22-.63.08a8.2 8.2 0 0 1-2.4-1.48 9 9 0 0 1-1.67-2.06c-.17-.3 0-.46.13-.6s.3-.34.44-.51.19-.3.29-.5.05-.37 0-.52-.66-1.6-.9-2.18-.48-.5-.66-.5h-.56a1.1 1.1 0 0 0-.79.37 3.27 3.27 0 0 0-1 2.43 5.68 5.68 0 0 0 1.2 3 13 13 0 0 0 5 4.42 16.9 16.9 0 0 0 1.67.62 4 4 0 0 0 1.85.12 3 3 0 0 0 2-1.4 2.47 2.47 0 0 0 .17-1.39c-.07-.13-.26-.2-.55-.35zM12 2a10 10 0 0 0-8.6 15.06L2 22l5.06-1.33A10 10 0 1 0 12 2z"></path></svg>
+                  Pesan VPN Sekarang
+                </a>
+                <a href="#produk" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold px-5 py-3 rounded-xl transition">Pelajari Lebih</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3 : Mikhmon Online -->
+      <div class="swiper-slide">
+        <div class="hero-slide flex items-center" style="background-image:url('../images/b016bc02-0547-4245-9a6f-6b3b9d2b540e.png')">
+          <div class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+            <div class="max-w-xl">
+              <span class="inline-block text-[var(--cyan)] font-semibold tracking-[.2em] text-xs uppercase mb-4">Manajemen Hotspot</span>
+              <h1 class="font-head font-extrabold leading-[1.08] text-4xl sm:text-5xl xl:text-6xl drop-shadow">
+                <span class="text-[var(--cyan)]">Mikhmon</span><br>
+                <span class="text-[var(--blue-light)]">Online</span>
+              </h1>
+              <p class="mt-5 text-slate-200 text-base sm:text-lg">
+                Kelola jaringan hotspot &amp; voucher Anda dari mana saja, kapan saja — langsung dari browser tanpa perlu VPS.
+              </p>
+              <ul class="mt-6 space-y-2.5 text-sm sm:text-base">
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> Multi Router Management</li>
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> Voucher &amp; User Management</li>
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> Monitoring Real-time</li>
+                <li class="flex items-center gap-3"><span class="text-[var(--cyan)]">✓</span> Laporan &amp; Statistik Lengkap</li>
+              </ul>
+              <div class="mt-8 flex flex-wrap gap-3">
+                <a href="#kontak" class="inline-flex items-center gap-2 bg-[var(--blue)] hover:bg-[var(--navy-2)] text-white font-semibold px-5 py-3 rounded-xl transition">Login / Daftar</a>
+                <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="inline-flex items-center gap-2 btn-green text-white font-semibold px-5 py-3 rounded-xl transition">
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94s-.46-.15-.66.15-.76.94-.93 1.13-.34.22-.63.08a8.2 8.2 0 0 1-2.4-1.48 9 9 0 0 1-1.67-2.06c-.17-.3 0-.46.13-.6s.3-.34.44-.51.19-.3.29-.5.05-.37 0-.52-.66-1.6-.9-2.18-.48-.5-.66-.5h-.56a1.1 1.1 0 0 0-.79.37 3.27 3.27 0 0 0-1 2.43 5.68 5.68 0 0 0 1.2 3 13 13 0 0 0 5 4.42 16.9 16.9 0 0 0 1.67.62 4 4 0 0 0 1.85.12 3 3 0 0 0 2-1.4 2.47 2.47 0 0 0 .17-1.39c-.07-.13-.26-.2-.55-.35zM12 2a10 10 0 0 0-8.6 15.06L2 22l5.06-1.33A10 10 0 1 0 12 2z"></path></svg>
+                  Chat WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="bg-[var(--navy)] border-t border-white/10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="flex items-center gap-4 text-white">
+      <span class="grid place-items-center w-12 h-12 rounded-xl bg-white/10 text-[var(--cyan)] shrink-0">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="1"></rect><rect x="3" y="14" width="18" height="6" rx="1"></rect><path d="M7 7h.01M7 17h.01" stroke-linecap="round"></path></svg>
+      </span>
+      <div><div class="font-head font-extrabold text-2xl">500+</div><div class="text-slate-300 text-xs sm:text-sm">Router MikroTik Setup</div></div>
+    </div>
+    <div class="flex items-center gap-4 text-white">
+      <span class="grid place-items-center w-12 h-12 rounded-xl bg-white/10 text-[var(--cyan)] shrink-0">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0M8.5 12a3.5 3.5 0 0 1 7 0M12 12v6" stroke-linecap="round"></path></svg>
+      </span>
+      <div><div class="font-head font-extrabold text-2xl">100+</div><div class="text-slate-300 text-xs sm:text-sm">PPPoE &amp; Hotspot</div></div>
+    </div>
+    <div class="flex items-center gap-4 text-white">
+      <span class="grid place-items-center w-12 h-12 rounded-xl bg-white/10 text-[var(--cyan)] shrink-0">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 3v18M3 12h18"></path></svg>
+      </span>
+      <div><div class="font-head font-extrabold text-2xl">50+</div><div class="text-slate-300 text-xs sm:text-sm">Implementasi OLT</div></div>
+    </div>
+    <div class="flex items-center gap-4 text-white">
+      <span class="grid place-items-center w-12 h-12 rounded-xl bg-white/10 text-[var(--cyan)] shrink-0">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </span>
+      <div><div class="font-head font-extrabold text-2xl">100%</div><div class="text-slate-300 text-xs sm:text-sm">Garansi Konfigurasi</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LAYANAN ============ -->
+<section id="layanan" class="bg-[var(--soft)] py-16 md:py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-[var(--blue)] font-semibold tracking-widest text-xs uppercase">Layanan Kami</span>
+      <h2 class="font-head font-extrabold text-3xl md:text-4xl mt-2 text-[var(--navy)]">Solusi Setting Jaringan Lengkap</h2>
+      <p class="text-[var(--muted)] mt-3">Dikerjakan teknisi berpengalaman dengan konfigurasi rapi dan terdokumentasi.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- card template -->
+      <div class="card-hover bg-white rounded-2xl border border-slate-200 p-6 flex flex-col">
+        <span class="grid place-items-center w-12 h-12 rounded-xl bg-blue-50 text-[var(--blue)] mb-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="8" rx="2"></rect><path d="M7 12h.01M11 12h.01" stroke-linecap="round"></path></svg>
+        </span>
+        <h3 class="font-head font-bold text-lg text-[var(--navy)]">Jasa Setting MikroTik</h3>
+        <p class="text-sm text-[var(--muted)] mt-1 mb-4">Konfigurasi MikroTik untuk berbagai kebutuhan jaringan Anda.</p>
+        <ul class="text-sm text-slate-600 space-y-2 mb-6">
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> PPPoE Server</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Load Balance</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> VPN &amp; Firewall</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> VLAN &amp; Routing</li>
+        </ul>
+        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="mt-auto text-center btn-green text-white text-sm font-semibold py-2.5 rounded-lg transition">Konsultasi Sekarang</a>
+      </div>
+
+      <div class="card-hover bg-white rounded-2xl border border-slate-200 p-6 flex flex-col">
+        <span class="grid place-items-center w-12 h-12 rounded-xl bg-blue-50 text-[var(--blue)] mb-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="5" rx="1"></rect><rect x="3" y="14" width="18" height="5" rx="1"></rect><path d="M7 7.5h.01M7 16.5h.01" stroke-linecap="round"></path></svg>
+        </span>
+        <h3 class="font-head font-bold text-lg text-[var(--navy)]">Jasa Setting OLT</h3>
+        <p class="text-sm text-[var(--muted)] mt-1 mb-4">Setting OLT untuk ISP, RT/RW Net, dan jaringan fiber optik.</p>
+        <ul class="text-sm text-slate-600 space-y-2 mb-6">
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> VSOL, OLT</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> HSGQ OLT</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Global / Hioso</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Registrasi ONU/ONT</li>
+        </ul>
+        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="mt-auto text-center btn-green text-white text-sm font-semibold py-2.5 rounded-lg transition">Konsultasi Sekarang</a>
+      </div>
+
+      <div class="card-hover bg-white rounded-2xl border border-slate-200 p-6 flex flex-col">
+        <span class="grid place-items-center w-12 h-12 rounded-xl bg-blue-50 text-[var(--blue)] mb-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 7l8-4 8 4-8 4-8-4z"></path><path d="M4 12l8 4 8-4M4 17l8 4 8-4"></path></svg>
+        </span>
+        <h3 class="font-head font-bold text-lg text-[var(--navy)]">Jasa Setting Ruijie</h3>
+        <p class="text-sm text-[var(--muted)] mt-1 mb-4">Konfigurasi Ruijie untuk jaringan yang stabil dan terkelola.</p>
+        <ul class="text-sm text-slate-600 space-y-2 mb-6">
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Ruijie Gateway</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Ruijie Access Point</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Cloud Management</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Switch Managed</li>
+        </ul>
+        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="mt-auto text-center btn-green text-white text-sm font-semibold py-2.5 rounded-lg transition">Konsultasi Sekarang</a>
+      </div>
+
+      <div class="card-hover bg-white rounded-2xl border border-slate-200 p-6 flex flex-col">
+        <span class="grid place-items-center w-12 h-12 rounded-xl bg-blue-50 text-[var(--blue)] mb-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0M8.5 12a3.5 3.5 0 0 1 7 0" stroke-linecap="round"></path><circle cx="12" cy="16" r="1.5"></circle></svg>
+        </span>
+        <h3 class="font-head font-bold text-lg text-[var(--navy)]">Jasa Setting Access Point</h3>
+        <p class="text-sm text-[var(--muted)] mt-1 mb-4">Optimasi WiFi untuk Hotel, Kantor, Sekolah &amp; area publik.</p>
+        <ul class="text-sm text-slate-600 space-y-2 mb-6">
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Penempatan AP</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Optimasi Coverage</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> SSID &amp; VLAN</li>
+          <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Manajemen Bandwidth</li>
+        </ul>
+        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="mt-auto text-center btn-green text-white text-sm font-semibold py-2.5 rounded-lg transition">Konsultasi Sekarang</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MIKHMON & PORT FORWARDING ============ -->
+<section id="produk" class="py-16 md:py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-[var(--blue)] font-semibold tracking-widest text-xs uppercase">Produk Digital</span>
+      <h2 class="font-head font-extrabold text-3xl md:text-4xl mt-2 text-[var(--navy)]">Mikhmon Online &amp; Port Forwarding</h2>
+      <p class="text-[var(--muted)] mt-3">Produk digital untuk memudahkan pengelolaan jaringan dan akses remote Anda.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6">
+      <!-- Mikhmon -->
+      <div class="rounded-2xl border border-slate-200 overflow-hidden">
+        <div class="bg-[var(--soft)] px-6 py-3 text-xs font-semibold tracking-wide text-[var(--blue)] uppercase">Mikhmon Online</div>
+        <div class="p-6 grid sm:grid-cols-2 gap-6 items-center">
+          <div>
+            <h3 class="font-head font-bold text-xl text-[var(--navy)]">Mikhmon Online</h3>
+            <p class="text-sm text-[var(--muted)] mt-2 mb-4">Kelola jaringan hotspot Anda dengan mudah, kapanpun dan dimanapun.</p>
+            <ul class="text-sm text-slate-600 space-y-2 mb-5">
+              <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Multi Router Management</li>
+              <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Voucher &amp; User Management</li>
+              <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Monitoring Real-time</li>
+              <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Laporan &amp; Statistik Lengkap</li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <a href="#kontak" class="inline-flex items-center gap-1.5 bg-[var(--blue)] hover:bg-[var(--navy-2)] text-white text-sm font-semibold px-4 py-2 rounded-lg transition">Login / Daftar</a>
+              <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 btn-green text-white text-sm font-semibold px-4 py-2 rounded-lg transition">Chat WhatsApp</a>
+            </div>
+          </div>
+          <img src="../images/62d4909b-d648-4e4f-9666-8ac9016fb1d0.png" alt="Dashboard Mikhmon Online" loading="lazy" class="w-full rounded-xl border border-slate-100">
+        </div>
+      </div>
+
+      <!-- Port Forwarding -->
+      <div class="rounded-2xl border border-slate-200 overflow-hidden">
+        <div class="bg-[var(--soft)] px-6 py-3 text-xs font-semibold tracking-wide text-[var(--blue)] uppercase">Port Forwarding</div>
+        <div class="p-6 grid sm:grid-cols-2 gap-6 items-center">
+          <div>
+            <h3 class="font-head font-bold text-xl text-[var(--navy)]">VPN Port Forwarding</h3>
+            <p class="text-sm text-[var(--muted)] mt-2 mb-4">Akses perangkat Anda dari mana saja dengan koneksi VPN yang aman.</p>
+            <ul class="text-sm text-slate-600 space-y-2 mb-5">
+              <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Akses CCTV / NVR</li>
+              <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Akses Router / RDP</li>
+              <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Akses Exam / ACB</li>
+              <li class="flex gap-2"><span class="text-[var(--green)]">✓</span> Aman &amp; Stabil</li>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <a href="#kontak" class="inline-flex items-center gap-1.5 bg-[var(--blue)] hover:bg-[var(--navy-2)] text-white text-sm font-semibold px-4 py-2 rounded-lg transition">Login / Daftar</a>
+              <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 btn-green text-white text-sm font-semibold px-4 py-2 rounded-lg transition">Chat WhatsApp</a>
+            </div>
+          </div>
+          <img src="../images/3b178193-e609-4f9d-8f03-8af3123245a9.png" alt="Ilustrasi VPN Port Forwarding" loading="lazy" class="w-full rounded-xl border border-slate-100">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="tentang" class="bg-[var(--soft)] py-16 md:py-20">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6">
+    <div class="text-center mb-10">
+      <span class="text-[var(--blue)] font-semibold tracking-widest text-xs uppercase">FAQ</span>
+      <h2 class="font-head font-extrabold text-3xl md:text-4xl mt-2 text-[var(--navy)]">Pertanyaan yang Sering Diajukan</h2>
+    </div>
+
+    <div class="space-y-3" id="faq">
+      <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden" open="">
+        <summary class="flex items-center justify-between gap-4 p-5 font-semibold text-[var(--navy)]">
+          Berapa lama proses pengerjaan setting jaringan?
+          <span class="faq-icon text-[var(--blue)] text-2xl leading-none shrink-0">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-sm text-[var(--muted)]">Tergantung kompleksitas jaringan. Setting dasar MikroTik/OLT umumnya selesai dalam 1–3 jam, sementara instalasi skala ISP bisa memakan waktu beberapa hari.</div>
+      </details>
+
+      <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <summary class="flex items-center justify-between gap-4 p-5 font-semibold text-[var(--navy)]">
+          Apakah bisa setting jaringan secara remote?
+          <span class="faq-icon text-[var(--blue)] text-2xl leading-none shrink-0">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-sm text-[var(--muted)]">Bisa. Selama perangkat dapat diakses via VPN atau remote access yang aman, kami dapat mengerjakan konfigurasi dari jarak jauh.</div>
+      </details>
+
+      <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <summary class="flex items-center justify-between gap-4 p-5 font-semibold text-[var(--navy)]">
+          Apakah ada garansi setelah pengerjaan?
+          <span class="faq-icon text-[var(--blue)] text-2xl leading-none shrink-0">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-sm text-[var(--muted)]">Ya, kami memberikan garansi konfigurasi 100%. Jika ada kendala pada hasil setting, kami perbaiki tanpa biaya tambahan.</div>
+      </details>
+
+      <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <summary class="flex items-center justify-between gap-4 p-5 font-semibold text-[var(--navy)]">
+          Apakah melayani seluruh wilayah Indonesia?
+          <span class="faq-icon text-[var(--blue)] text-2xl leading-none shrink-0">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-sm text-[var(--muted)]">Untuk layanan remote menjangkau seluruh Indonesia. Untuk kunjungan on-site, silakan konsultasi terlebih dahulu via WhatsApp.</div>
+      </details>
+
+      <details class="group bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <summary class="flex items-center justify-between gap-4 p-5 font-semibold text-[var(--navy)]">
+          Bagaimana cara konsultasi atau pemesanan?
+          <span class="faq-icon text-[var(--blue)] text-2xl leading-none shrink-0">+</span>
+        </summary>
+        <div class="px-5 pb-5 text-sm text-[var(--muted)]">Cukup klik tombol Chat WhatsApp di halaman ini, jelaskan kebutuhan Anda, dan tim kami akan membantu prosesnya.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA SECTION ============ -->
+<section class="bg-white py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="relative overflow-hidden rounded-3xl px-6 py-12 md:px-16 md:py-16 text-center
+                bg-gradient-to-br from-[var(--navy)] via-[var(--blue)] to-[var(--blue-light)]
+                shadow-[0_30px_70px_-25px_rgba(13,32,102,.6)]">
+      <!-- decorative glow + grid -->
+      <div class="grid-overlay absolute inset-0 opacity-30"></div>
+      <div class="absolute -top-20 -right-16 w-72 h-72 rounded-full bg-[var(--cyan)]/25 blur-3xl"></div>
+      <div class="absolute -bottom-24 -left-16 w-72 h-72 rounded-full bg-white/10 blur-3xl"></div>
+
+      <div class="relative">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-1.5 text-xs font-semibold tracking-widest uppercase text-[var(--cyan)] mb-5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[var(--cyan)] animate-pulse"></span> Siap Membantu
+        </span>
+        <h2 class="font-head font-extrabold text-white text-3xl md:text-4xl lg:text-5xl leading-tight">
+          Butuh solusi jaringan terbaik?
+        </h2>
+        <p class="mt-4 text-white/80 text-base md:text-lg max-w-2xl mx-auto">
+          Konsultasikan kebutuhan jaringan Anda sekarang. Tim teknisi kami siap membantu
+          dari perencanaan sampai konfigurasi — gratis konsultasi awal.
+        </p>
+        <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-white text-[var(--blue)] hover:bg-slate-100 font-semibold px-7 py-3.5 rounded-xl transition shadow-lg hover:-translate-y-0.5">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94s-.46-.15-.66.15-.76.94-.93 1.13-.34.22-.63.08a8.2 8.2 0 0 1-2.4-1.48 9 9 0 0 1-1.67-2.06c-.17-.3 0-.46.13-.6s.3-.34.44-.51.19-.3.29-.5.05-.37 0-.52-.66-1.6-.9-2.18-.48-.5-.66-.5h-.56a1.1 1.1 0 0 0-.79.37 3.27 3.27 0 0 0-1 2.43 5.68 5.68 0 0 0 1.2 3 13 13 0 0 0 5 4.42 16.9 16.9 0 0 0 1.67.62 4 4 0 0 0 1.85.12 3 3 0 0 0 2-1.4 2.47 2.47 0 0 0 .17-1.39c-.07-.13-.26-.2-.55-.35zM12 2a10 10 0 0 0-8.6 15.06L2 22l5.06-1.33A10 10 0 1 0 12 2z"></path></svg>
+            Chat WhatsApp Sekarang
+          </a>
+          <a href="#layanan" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold px-7 py-3.5 rounded-xl transition">
+            Lihat Layanan
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="kontak" class="bg-[var(--navy)] text-slate-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <div class="flex items-center gap-2 mb-3">
+        <span class="grid place-items-center w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--blue)] to-[var(--cyan)] text-white font-head font-bold">M</span>
+        <span class="font-head font-extrabold text-lg text-white">Mikro<span class="text-[var(--cyan)]">Setting</span></span>
+      </div>
+      <p class="text-sm text-slate-400">Solusi profesional untuk setting jaringan MikroTik, OLT, Ruijie, dan Access Point.</p>
+    </div>
+    <div>
+      <h4 class="font-head font-semibold text-white mb-3">Layanan</h4>
+      <ul class="space-y-2 text-sm">
+        <li><a href="#layanan" class="hover:text-white transition">Jasa Setting MikroTik</a></li>
+        <li><a href="#layanan" class="hover:text-white transition">Jasa Setting OLT</a></li>
+        <li><a href="#layanan" class="hover:text-white transition">Jasa Setting Ruijie</a></li>
+        <li><a href="#layanan" class="hover:text-white transition">Jasa Setting Access Point</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-head font-semibold text-white mb-3">Mikhmon &amp; Port Forwarding</h4>
+      <ul class="space-y-2 text-sm">
+        <li><a href="#produk" class="hover:text-white transition">Mikhmon Online</a></li>
+        <li><a href="#produk" class="hover:text-white transition">VPN Port Forwarding</a></li>
+        <li><a href="#tentang" class="hover:text-white transition">FAQ</a></li>
+        <li><a href="/blog" class="hover:text-white transition">Blog &amp; Panduan</a></li>
+        <li><a href="#kontak" class="hover:text-white transition">Kontak</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-head font-semibold text-white mb-3">Kontak Kami</h4>
+      <ul class="space-y-2 text-sm">
+        <li class="flex items-center gap-2"><span class="text-[var(--cyan)]">✆</span> +62 812-3456-7890</li>
+        <li class="flex items-center gap-2"><span class="text-[var(--cyan)]">✉</span> admin@mikrosetting.com</li>
+        <li class="flex items-center gap-2"><span class="text-[var(--cyan)]">◷</span> Setiap hari, 08.00 – 21.00 WIB</li>
+        <li class="flex gap-3 pt-2">
+          <a href="#" aria-label="Facebook" class="grid place-items-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 transition">f</a>
+          <a href="#" aria-label="Instagram" class="grid place-items-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 transition">◎</a>
+          <a href="https://wa.me/6281234567890" aria-label="WhatsApp" class="grid place-items-center w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 transition">✆</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
+      <p>© 2024 MikroSetting. All Rights Reserved.</p>
+      <div class="flex gap-4"><a href="#" class="hover:text-white transition">Privacy Policy</a><a href="#" class="hover:text-white transition">Terms of Service</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- Floating WA -->
+<a href="https://wa.me/6281234567890" target="_blank" rel="noopener" aria-label="Chat WhatsApp" class="fixed bottom-5 right-5 z-50 grid place-items-center w-14 h-14 rounded-full btn-green text-white shadow-xl transition hover:scale-105">
+  <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94s-.46-.15-.66.15-.76.94-.93 1.13-.34.22-.63.08a8.2 8.2 0 0 1-2.4-1.48 9 9 0 0 1-1.67-2.06c-.17-.3 0-.46.13-.6s.3-.34.44-.51.19-.3.29-.5.05-.37 0-.52-.66-1.6-.9-2.18-.48-.5-.66-.5h-.56a1.1 1.1 0 0 0-.79.37 3.27 3.27 0 0 0-1 2.43 5.68 5.68 0 0 0 1.2 3 13 13 0 0 0 5 4.42 16.9 16.9 0 0 0 1.67.62 4 4 0 0 0 1.85.12 3 3 0 0 0 2-1.4 2.47 2.47 0 0 0 .17-1.39c-.07-.13-.26-.2-.55-.35zM12 2a10 10 0 0 0-8.6 15.06L2 22l5.06-1.33A10 10 0 1 0 12 2z"></path></svg>
+</a>
+
+<script>
+  const btn = document.getElementById('menuBtn');
+  const menu = document.getElementById('mobileMenu');
+  btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.add('hidden')));
+</script>
+
+<script src="https://cdn.moda.app/runtime-libs/swiper-12.2.0/swiper-bundle.min.js"></script>
+<script>
+  new Swiper('.hero-swiper', {
+    loop: true,
+    speed: 700,
+    autoplay: { delay: 6000, disableOnInteraction: false },
+    pagination: { el: '.hero-swiper .swiper-pagination', clickable: true },
+  });
+</script>
+
+</body></html>

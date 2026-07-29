@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog Jaringan MikroTik, OLT &amp; WiFi | MikroSetting</title>
+  <meta name="description" content="Panduan praktis seputar MikroTik, OLT, hotspot, VPN, WiFi, dan keamanan jaringan untuk teknisi, pemilik RT/RW Net, sekolah, kantor, dan ISP.">
+  <meta name="keywords" content="blog mikrotik, tutorial mikrotik, setting OLT, jaringan wifi, hotspot mikrotik, VPN port forwarding, RT RW Net">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="MikroSetting">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="id_ID">
+  <meta property="og:site_name" content="MikroSetting">
+  <meta property="og:title" content="Blog Jaringan MikroTik, OLT &amp; WiFi | MikroSetting">
+  <meta property="og:description" content="Insight teknis yang praktis, ringkas, dan bisa langsung diterapkan pada jaringan Anda.">
+  <meta property="og:image" content="https://api.moda.app/api/v2/images/ref/fb3b9521-c9c8-4641-b2c5-c60073257a0f?v=7cf0f1dad58a611c&amp;s=f46bbfaebf67b2f218bbe8d6b9dd260e">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root{--navy:#0b1b4d;--navy-2:#0a1f6b;--blue:#1d4ed8;--blue-light:#3b82f6;--cyan:#22d3ee;--green:#16a34a;--ink:#0f172a;--muted:#64748b;--soft:#f1f5f9;}
+    html{scroll-behavior:smooth;}
+    body{font-family:"DM Sans",system-ui,sans-serif;color:var(--ink);background:#fff;}
+    h1,h2,h3,h4,.font-head{font-family:"Sora",system-ui,sans-serif;}
+    .hero-grid{background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);background-size:42px 42px;}
+    .article-card{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
+    .article-card:hover{transform:translateY(-5px);box-shadow:0 24px 50px -25px rgba(11,27,77,.42);border-color:#93c5fd;}
+    .article-card img{transition:transform .5s ease;}
+    .article-card:hover img{transform:scale(1.045);}
+    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Blog",
+    "name":"Blog MikroSetting",
+    "description":"Panduan praktis seputar MikroTik, OLT, hotspot, VPN, WiFi, dan keamanan jaringan.",
+    "inLanguage":"id-ID",
+    "publisher":{"@type":"Organization","name":"MikroSetting"}
+  }
+  </script>
+<script src="https://cdn.moda.app/runtime-libs/tailwind-browser-4.1.13-index.global.min.js"></script><style data-moda-export-fonts="true">@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-thinitalic.ttf") format("truetype"); font-style: italic; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-extralightitalic.ttf") format("truetype"); font-style: italic; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-lightitalic.ttf") format("truetype"); font-style: italic; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-italic.ttf") format("truetype"); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-mediumitalic.ttf") format("truetype"); font-style: italic; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-semibolditalic.ttf") format("truetype"); font-style: italic; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-bolditalic.ttf") format("truetype"); font-style: italic; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-extrabolditalic.ttf") format("truetype"); font-style: italic; font-weight: 800; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-black.ttf") format("truetype"); font-style: normal; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url("../../fonts/dmsans-blackitalic.ttf") format("truetype"); font-style: italic; font-weight: 900; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../fonts/sora-wght--thin.ttf") format("truetype"); font-style: normal; font-weight: 100; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../fonts/sora-wght--extralight.ttf") format("truetype"); font-style: normal; font-weight: 200; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../fonts/sora-wght--light.ttf") format("truetype"); font-style: normal; font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../fonts/sora-wght--regular.ttf") format("truetype"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../fonts/sora-wght--medium.ttf") format("truetype"); font-style: normal; font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../fonts/sora-wght--semibold.ttf") format("truetype"); font-style: normal; font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../fonts/sora-wght--bold.ttf") format("truetype"); font-style: normal; font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Sora'; src: url("../../fonts/sora-wght--extrabold.ttf") format("truetype"); font-style: normal; font-weight: 800; font-display: swap; }</style></head>
+<body class="antialiased bg-slate-50">
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <a href="/" class="flex items-center gap-2 shrink-0" aria-label="MikroSetting - Beranda">
+        <span class="grid place-items-center w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--blue)] to-[var(--cyan)] text-white font-head font-bold">M</span>
+        <span class="font-head font-extrabold text-lg tracking-tight text-[var(--navy)]">Mikro<span class="text-[var(--blue)]">Setting</span></span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-600" aria-label="Navigasi utama">
+        <a href="/" class="hover:text-[var(--blue)] transition">Home</a>
+        <a href="/#layanan" class="hover:text-[var(--blue)] transition">Layanan</a>
+        <a href="/#produk" class="hover:text-[var(--blue)] transition">Mikhmon &amp; Port Forwarding</a>
+        <a href="/blog" class="text-[var(--blue)] font-bold" aria-current="page">Blog</a>
+        <a href="/#kontak" class="hover:text-[var(--blue)] transition">Kontak</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-2 bg-[var(--green)] hover:bg-green-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition">Konsultasi</a>
+        <button id="menuBtn" class="lg:hidden grid place-items-center w-10 h-10 rounded-lg border border-slate-200 text-slate-700" aria-label="Buka menu" aria-expanded="false">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"></path></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="lg:hidden hidden border-t border-slate-200 bg-white">
+      <nav class="px-4 py-3 flex flex-col text-sm font-medium text-slate-700" aria-label="Navigasi mobile">
+        <a href="/" class="py-2.5 border-b border-slate-100">Home</a>
+        <a href="/#layanan" class="py-2.5 border-b border-slate-100">Layanan</a>
+        <a href="/#produk" class="py-2.5 border-b border-slate-100">Mikhmon &amp; Port Forwarding</a>
+        <a href="/blog" class="py-2.5 border-b border-slate-100 text-[var(--blue)] font-bold">Blog</a>
+        <a href="/#kontak" class="py-2.5">Kontak</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="relative overflow-hidden bg-gradient-to-br from-[var(--navy)] via-[var(--navy-2)] to-[var(--blue)] text-white">
+      <div class="hero-grid absolute inset-0 opacity-70"></div>
+      <div class="absolute -top-24 right-0 w-80 h-80 rounded-full bg-[var(--cyan)]/20 blur-3xl"></div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 relative">
+        <nav class="flex items-center gap-2 text-sm text-blue-100 mb-7" aria-label="Breadcrumb"><a href="/" class="hover:text-white">Home</a><span aria-hidden="true">/</span><span class="text-white">Blog</span></nav>
+        <div class="max-w-3xl">
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-xs font-semibold tracking-widest uppercase text-[var(--cyan)]"><span class="w-1.5 h-1.5 rounded-full bg-[var(--cyan)]"></span> Knowledge Center</span>
+          <h1 class="font-head font-extrabold text-4xl sm:text-5xl md:text-6xl leading-[1.08] mt-5">Upgrade skill jaringan, <span class="text-[var(--cyan)]">satu artikel</span> sekali baca.</h1>
+          <p class="mt-5 text-base sm:text-lg text-blue-100 max-w-2xl leading-relaxed">Panduan teknis yang praktis dan mudah dipahami tentang MikroTik, OLT, WiFi, VPN, serta pengelolaan jaringan modern.</p>
+          <div class="mt-8 max-w-xl relative">
+            <label for="blogSearch" class="sr-only">Cari artikel</label>
+            <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+            <input id="blogSearch" type="search" placeholder="Cari topik: MikroTik, OLT, VPN..." class="w-full h-13 rounded-xl bg-white text-slate-900 pl-12 pr-4 shadow-xl outline-none ring-4 ring-white/10 focus:ring-[var(--cyan)]/40 placeholder:text-slate-400">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-10 md:pt-14">
+      <div class="flex gap-2 overflow-x-auto pb-2" aria-label="Filter kategori">
+        <button class="filter-btn shrink-0 rounded-full bg-[var(--blue)] text-white px-4 py-2 text-sm font-semibold" data-filter="all">Semua Artikel</button>
+        <button class="filter-btn shrink-0 rounded-full bg-white border border-slate-200 text-slate-600 hover:border-blue-300 px-4 py-2 text-sm font-semibold transition" data-filter="mikrotik">MikroTik</button>
+        <button class="filter-btn shrink-0 rounded-full bg-white border border-slate-200 text-slate-600 hover:border-blue-300 px-4 py-2 text-sm font-semibold transition" data-filter="olt">OLT &amp; Fiber</button>
+        <button class="filter-btn shrink-0 rounded-full bg-white border border-slate-200 text-slate-600 hover:border-blue-300 px-4 py-2 text-sm font-semibold transition" data-filter="wifi">WiFi</button>
+        <button class="filter-btn shrink-0 rounded-full bg-white border border-slate-200 text-slate-600 hover:border-blue-300 px-4 py-2 text-sm font-semibold transition" data-filter="keamanan">Keamanan</button>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12" aria-labelledby="featured-title">
+      <article class="article-card search-item overflow-hidden rounded-3xl bg-white border border-slate-200 grid lg:grid-cols-[1.12fr_.88fr]" data-category="mikrotik keamanan">
+        <a href="/blog/artikel?topik=optimasi" class="overflow-hidden min-h-72 lg:min-h-105 block" aria-label="Baca panduan optimasi MikroTik">
+          <img src="../../images/fb3b9521-c9c8-4641-b2c5-c60073257a0f.png" alt="Teknisi mengelola perangkat dan konfigurasi jaringan MikroTik" class="w-full h-full object-cover" width="900" height="600" fetchpriority="high">
+        </a>
+        <div class="p-7 sm:p-10 lg:p-12 flex flex-col justify-center">
+          <div class="flex items-center gap-3 text-xs font-semibold"><span class="text-[var(--blue)] uppercase tracking-widest">Pilihan Editor</span><span class="text-slate-300">•</span><time datetime="2025-02-18" class="text-slate-500">18 Feb 2025</time></div>
+          <h2 id="featured-title" class="font-head font-extrabold text-2xl sm:text-3xl text-[var(--navy)] leading-tight mt-4">7 Langkah Optimasi MikroTik agar Jaringan Lebih Stabil</h2>
+          <p class="mt-4 text-[var(--muted)] leading-relaxed">Mulai dari pembagian bandwidth, DNS, firewall, sampai monitoring—ini checklist dasar yang membantu jaringan tetap cepat saat trafik sedang padat.</p>
+          <div class="mt-6 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3"><span class="grid place-items-center w-10 h-10 rounded-full bg-blue-100 text-[var(--blue)] font-head font-bold">MS</span><div><p class="text-sm font-bold text-slate-800">Tim MikroSetting</p><p class="text-xs text-slate-500">8 menit baca</p></div></div>
+            <a href="/blog/artikel?topik=optimasi" class="inline-flex items-center gap-2 text-[var(--blue)] font-bold text-sm hover:gap-3 transition-all">Baca artikel <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="artikel-terbaru" class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 md:pb-24" aria-labelledby="latest-title">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
+        <div><span class="text-[var(--blue)] text-xs font-bold tracking-widest uppercase">Insight Terbaru</span><h2 id="latest-title" class="font-head font-extrabold text-3xl text-[var(--navy)] mt-2">Artikel pilihan untuk Anda</h2></div>
+        <p id="resultCount" class="text-sm text-slate-500">Menampilkan 6 artikel</p>
+      </div>
+
+      <div id="articleGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article class="article-card search-item bg-white rounded-2xl overflow-hidden border border-slate-200 flex flex-col" data-category="mikrotik">
+          <a href="/blog/artikel?topik=load-balance" class="block overflow-hidden h-52"><img src="../../images/751c3bc4-1bc6-40bd-aa78-5b5dde4f7868.png" alt="Dashboard VPN dan akses jaringan jarak jauh" class="w-full h-full object-cover" width="640" height="420"></a>
+          <div class="p-6 flex flex-col grow"><div class="flex items-center justify-between text-xs"><span class="font-bold text-[var(--blue)] uppercase tracking-wider">MikroTik</span><time datetime="2025-02-12" class="text-slate-400">12 Feb 2025</time></div><h3 class="font-head font-bold text-xl leading-snug text-[var(--navy)] mt-3"><a href="/blog/artikel?topik=load-balance" class="hover:text-[var(--blue)]">Cara Setting Load Balance 2 ISP Tanpa Bikin Koneksi Putus</a></h3><p class="line-clamp-2 text-sm leading-relaxed text-slate-500 mt-3">Panduan pembagian trafik yang lebih seimbang dengan failover otomatis saat salah satu jalur bermasalah.</p><div class="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-400"><span>7 menit baca</span><a href="/blog/artikel?topik=load-balance" class="font-bold text-[var(--blue)]">Selengkapnya →</a></div></div>
+        </article>
+
+        <article class="article-card search-item bg-white rounded-2xl overflow-hidden border border-slate-200 flex flex-col" data-category="olt">
+          <a href="/blog/artikel?topik=olt" class="block overflow-hidden h-52"><img src="../../images/fb3b9521-c9c8-4641-b2c5-c60073257a0f.png" alt="Perangkat OLT dan infrastruktur jaringan fiber optik" class="w-full h-full object-cover" width="640" height="420"></a>
+          <div class="p-6 flex flex-col grow"><div class="flex items-center justify-between text-xs"><span class="font-bold text-cyan-600 uppercase tracking-wider">OLT &amp; Fiber</span><time datetime="2025-02-08" class="text-slate-400">8 Feb 2025</time></div><h3 class="font-head font-bold text-xl leading-snug text-[var(--navy)] mt-3"><a href="/blog/artikel?topik=olt" class="hover:text-[var(--blue)]">Mengenal OLT, ODC, ODP, dan ONU untuk Pemula</a></h3><p class="line-clamp-2 text-sm leading-relaxed text-slate-500 mt-3">Pahami fungsi setiap perangkat dalam jaringan FTTH sebelum mulai merancang distribusi fiber.</p><div class="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-400"><span>6 menit baca</span><a href="/blog/artikel?topik=olt" class="font-bold text-[var(--blue)]">Selengkapnya →</a></div></div>
+        </article>
+
+        <article class="article-card search-item bg-white rounded-2xl overflow-hidden border border-slate-200 flex flex-col" data-category="wifi">
+          <a href="/blog/artikel?topik=hotspot" class="block overflow-hidden h-52"><img src="../../images/b016bc02-0547-4245-9a6f-6b3b9d2b540e.png" alt="Pengelolaan hotspot WiFi melalui dashboard Mikhmon" class="w-full h-full object-cover" width="640" height="420"></a>
+          <div class="p-6 flex flex-col grow"><div class="flex items-center justify-between text-xs"><span class="font-bold text-violet-600 uppercase tracking-wider">WiFi</span><time datetime="2025-02-03" class="text-slate-400">3 Feb 2025</time></div><h3 class="font-head font-bold text-xl leading-snug text-[var(--navy)] mt-3"><a href="/blog/artikel?topik=hotspot" class="hover:text-[var(--blue)]">Checklist Membangun Hotspot Voucher yang Siap Jual</a></h3><p class="line-clamp-2 text-sm leading-relaxed text-slate-500 mt-3">Dari desain paket, user profile, hingga cetak voucher dan laporan penjualan harian.</p><div class="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-400"><span>9 menit baca</span><a href="/blog/artikel?topik=hotspot" class="font-bold text-[var(--blue)]">Selengkapnya →</a></div></div>
+        </article>
+
+        <article class="article-card search-item bg-white rounded-2xl overflow-hidden border border-slate-200 flex flex-col" data-category="keamanan mikrotik">
+          <div class="h-52 bg-gradient-to-br from-slate-950 via-[var(--navy)] to-blue-700 p-6 flex items-end relative overflow-hidden"><div class="absolute -right-10 -top-10 w-40 h-40 border-[24px] border-cyan-300/15 rounded-full"></div><svg class="w-16 h-16 text-[var(--cyan)] relative" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg></div>
+          <div class="p-6 flex flex-col grow"><div class="flex items-center justify-between text-xs"><span class="font-bold text-emerald-600 uppercase tracking-wider">Keamanan</span><time datetime="2025-01-28" class="text-slate-400">28 Jan 2025</time></div><h3 class="font-head font-bold text-xl leading-snug text-[var(--navy)] mt-3"><a href="/blog/artikel?topik=firewall" class="hover:text-[var(--blue)]">5 Firewall Rule Wajib untuk Mengamankan Router</a></h3><p class="line-clamp-2 text-sm leading-relaxed text-slate-500 mt-3">Proteksi dasar untuk mengurangi risiko brute force, port scanning, dan akses router ilegal.</p><div class="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-400"><span>5 menit baca</span><a href="/blog/artikel?topik=firewall" class="font-bold text-[var(--blue)]">Selengkapnya →</a></div></div>
+        </article>
+
+        <article class="article-card search-item bg-white rounded-2xl overflow-hidden border border-slate-200 flex flex-col" data-category="mikrotik keamanan">
+          <div class="h-52 bg-gradient-to-br from-blue-600 to-cyan-400 p-6 flex items-end relative overflow-hidden"><div class="absolute inset-0 hero-grid opacity-40"></div><svg class="w-16 h-16 text-white relative" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M5 12a7 7 0 0114 0M8.5 12a3.5 3.5 0 017 0M12 12v6"></path><circle cx="12" cy="19" r="1" fill="currentColor"></circle></svg></div>
+          <div class="p-6 flex flex-col grow"><div class="flex items-center justify-between text-xs"><span class="font-bold text-[var(--blue)] uppercase tracking-wider">VPN</span><time datetime="2025-01-21" class="text-slate-400">21 Jan 2025</time></div><h3 class="font-head font-bold text-xl leading-snug text-[var(--navy)] mt-3"><a href="/blog/artikel?topik=vpn" class="hover:text-[var(--blue)]">VPN atau Port Forwarding: Mana yang Lebih Aman?</a></h3><p class="line-clamp-2 text-sm leading-relaxed text-slate-500 mt-3">Perbandingan praktis untuk akses CCTV, router, server, dan perangkat kantor dari luar jaringan.</p><div class="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-400"><span>6 menit baca</span><a href="/blog/artikel?topik=vpn" class="font-bold text-[var(--blue)]">Selengkapnya →</a></div></div>
+        </article>
+
+        <article class="article-card search-item bg-white rounded-2xl overflow-hidden border border-slate-200 flex flex-col" data-category="wifi">
+          <div class="h-52 bg-gradient-to-br from-indigo-950 via-blue-900 to-blue-500 p-6 flex items-end relative overflow-hidden"><div class="absolute -left-8 -top-12 w-56 h-56 rounded-full border border-cyan-200/20"></div><div class="absolute -left-2 -top-6 w-44 h-44 rounded-full border border-cyan-200/20"></div><svg class="w-16 h-16 text-[var(--cyan)] relative" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9a14 14 0 0118 0M6 12a9 9 0 0112 0M9 15a4.5 4.5 0 016 0"></path><circle cx="12" cy="18" r="1" fill="currentColor"></circle></svg></div>
+          <div class="p-6 flex flex-col grow"><div class="flex items-center justify-between text-xs"><span class="font-bold text-violet-600 uppercase tracking-wider">WiFi</span><time datetime="2025-01-15" class="text-slate-400">15 Jan 2025</time></div><h3 class="font-head font-bold text-xl leading-snug text-[var(--navy)] mt-3"><a href="/blog/artikel?topik=access-point" class="hover:text-[var(--blue)]">Cara Menentukan Posisi Access Point yang Ideal</a></h3><p class="line-clamp-2 text-sm leading-relaxed text-slate-500 mt-3">Kurangi blank spot dan interferensi dengan penempatan AP yang tepat untuk rumah, hotel, dan kantor.</p><div class="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-400"><span>5 menit baca</span><a href="/blog/artikel?topik=access-point" class="font-bold text-[var(--blue)]">Selengkapnya →</a></div></div>
+        </article>
+      </div>
+      <div id="emptyState" class="hidden text-center bg-white border border-dashed border-slate-300 rounded-2xl py-14 px-5"><p class="font-head font-bold text-xl text-[var(--navy)]">Artikel belum ditemukan</p><p class="text-slate-500 mt-2">Coba kata kunci atau kategori lainnya.</p></div>
+    </section>
+
+    <section class="bg-white border-y border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-20 grid lg:grid-cols-[1fr_auto] items-center gap-8">
+        <div class="max-w-2xl"><span class="text-[var(--blue)] text-xs font-bold tracking-widest uppercase">Butuh bantuan langsung?</span><h2 class="font-head font-extrabold text-3xl md:text-4xl text-[var(--navy)] mt-3">Masalah jaringan tidak selesai hanya dengan tutorial?</h2><p class="text-slate-500 mt-4 leading-relaxed">Diskusikan topologi, perangkat, dan kendala Anda dengan tim MikroSetting. Konsultasi awal gratis.</p></div>
+        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 bg-[var(--green)] hover:bg-green-700 text-white font-bold px-7 py-3.5 rounded-xl transition shadow-lg shadow-green-900/15">Chat WhatsApp <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-[var(--navy)] text-slate-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div><a href="/" class="flex items-center gap-2 mb-3"><span class="grid place-items-center w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--blue)] to-[var(--cyan)] text-white font-head font-bold">M</span><span class="font-head font-extrabold text-lg text-white">Mikro<span class="text-[var(--cyan)]">Setting</span></span></a><p class="text-sm text-slate-400">Solusi profesional untuk setting jaringan MikroTik, OLT, Ruijie, dan Access Point.</p></div>
+      <div><h2 class="font-head font-semibold text-white mb-3">Navigasi</h2><ul class="space-y-2 text-sm"><li><a href="/" class="hover:text-white">Home</a></li><li><a href="/#layanan" class="hover:text-white">Layanan</a></li><li><a href="/blog" class="hover:text-white">Blog</a></li><li><a href="/#kontak" class="hover:text-white">Kontak</a></li></ul></div>
+      <div><h2 class="font-head font-semibold text-white mb-3">Topik Populer</h2><ul class="space-y-2 text-sm"><li><a href="#artikel-terbaru" class="hover:text-white">Tutorial MikroTik</a></li><li><a href="#artikel-terbaru" class="hover:text-white">OLT &amp; Fiber Optik</a></li><li><a href="#artikel-terbaru" class="hover:text-white">Hotspot &amp; WiFi</a></li><li><a href="#artikel-terbaru" class="hover:text-white">Keamanan Jaringan</a></li></ul></div>
+      <div><h2 class="font-head font-semibold text-white mb-3">Kontak</h2><ul class="space-y-2 text-sm text-slate-400"><li>+62 812-3456-7890</li><li>admin@mikrosetting.com</li><li>Setiap hari, 08.00–21.00 WIB</li></ul></div>
+    </div>
+    <div class="border-t border-white/10"><div class="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400"><p>© 2025 MikroSetting. All Rights Reserved.</p><a href="/" class="hover:text-white">Kembali ke Home</a></div></div>
+  </footer>
+
+  <script>
+    const menuBtn=document.getElementById('menuBtn');
+    const mobileMenu=document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click',()=>{const open=mobileMenu.classList.toggle('hidden');menuBtn.setAttribute('aria-expanded',String(!open));});
+
+    const search=document.getElementById('blogSearch');
+    const filters=[...document.querySelectorAll('.filter-btn')];
+    const articles=[...document.querySelectorAll('#articleGrid .search-item')];
+    const empty=document.getElementById('emptyState');
+    const count=document.getElementById('resultCount');
+    let active='all';
+    function updateArticles(){
+      const query=search.value.toLowerCase().trim();let shown=0;
+      articles.forEach(article=>{const matchesCategory=active==='all'||article.dataset.category.includes(active);const matchesSearch=article.textContent.toLowerCase().includes(query);const visible=matchesCategory&&matchesSearch;article.classList.toggle('hidden',!visible);if(visible)shown++;});
+      count.textContent=`Menampilkan ${shown} artikel`;empty.classList.toggle('hidden',shown!==0);
+    }
+    filters.forEach(button=>button.addEventListener('click',()=>{active=button.dataset.filter;filters.forEach(item=>{const selected=item===button;item.classList.toggle('bg-[var(--blue)]',selected);item.classList.toggle('text-white',selected);item.classList.toggle('bg-white',!selected);item.classList.toggle('text-slate-600',!selected);});updateArticles();}));
+    search.addEventListener('input',updateArticles);
+  </script>
+
+</body></html>
