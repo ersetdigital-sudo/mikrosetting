@@ -7,6 +7,8 @@ const categories = [
   { value: "mikrotik", label: "MikroTik" },
   { value: "olt", label: "OLT & Fiber" },
   { value: "wifi", label: "WiFi" },
+  { value: "hotspot", label: "Hotspot" },
+  { value: "vpn", label: "VPN" },
   { value: "keamanan", label: "Keamanan" },
 ];
 

@@ -4,8 +4,8 @@ import Image from "next/image";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
-import { BLOG_ARTICLES } from "@/constants";
 import { SearchIcon } from "@/components/common/Icons";
+import { getArticles, formatDate, readingTime } from "@/lib/articles";
 import BlogFilter from "./BlogFilter";
 
 export const metadata: Metadata = {
@@ -21,10 +21,22 @@ export const metadata: Metadata = {
   },
 };
 
-const featuredArticle = BLOG_ARTICLES.find((a) => a.featured);
-const otherArticles = BLOG_ARTICLES.filter((a) => !a.featured);
+// Data artikel diambil dari Supabase saat request (selalu fresh)
+export const dynamic = "force-dynamic";
 
-export default function BlogPage() {
+const CATEGORY_COLORS: Record<string, string> = {
+  MikroTik: "text-[var(--blue)]",
+  "OLT & Fiber": "text-cyan-600",
+  WiFi: "text-violet-600",
+  Keamanan: "text-emerald-600",
+  Hotspot: "text-violet-600",
+  VPN: "text-[var(--blue)]",
+};
+
+export default async function BlogPage() {
+  const articles = await getArticles();
+  const featuredArticle = articles.find((a) => a.slug === "optimasi") ?? articles[0];
+  const otherArticles = articles.filter((a) => a.slug !== featuredArticle?.slug);
   return (
     <>
       <Navbar />
@@ -90,18 +102,18 @@ export default function BlogPage() {
                 <div className="flex items-center gap-3 text-xs font-semibold">
                   <span className="text-[var(--blue)] uppercase tracking-widest">Pilihan Editor</span>
                   <span className="text-slate-300">•</span>
-                  <time dateTime="2025-02-18" className="text-slate-500">{featuredArticle.date}</time>
+                  <time dateTime={featuredArticle.published_at ?? undefined} className="text-slate-500">{formatDate(featuredArticle.published_at)}</time>
                 </div>
                 <h2 id="featured-title" className="font-head font-extrabold text-2xl sm:text-3xl text-[var(--navy)] leading-tight mt-4">
                   {featuredArticle.title}
                 </h2>
-                <p className="mt-4 text-[var(--muted)] leading-relaxed">{featuredArticle.lead}</p>
+                <p className="mt-4 text-[var(--muted)] leading-relaxed">{featuredArticle.excerpt}</p>
                 <div className="mt-6 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <span className="grid place-items-center w-10 h-10 rounded-full bg-blue-100 text-[var(--blue)] font-head font-bold">MS</span>
                     <div>
                       <p className="text-sm font-bold text-slate-800">Tim MikroSetting</p>
-                      <p className="text-xs text-slate-500">{featuredArticle.readTime}</p>
+                      <p className="text-xs text-slate-500">{readingTime(featuredArticle)}</p>
                     </div>
                   </div>
                   <Link
@@ -131,10 +143,10 @@ export default function BlogPage() {
               <article
                 key={article.slug}
                 className="article-card search-item bg-white rounded-2xl overflow-hidden border border-slate-200 flex flex-col"
-                data-category={article.category.toLowerCase()}
+                data-category={(article.category ?? "").toLowerCase()}
               >
                 <Link href={`/blog/artikel?topik=${article.slug}`} className="block overflow-hidden h-52 relative">
-                  {article.image ? (
+                  {article.image && (
                     <Image
                       src={article.image}
                       alt={article.title}
@@ -142,31 +154,23 @@ export default function BlogPage() {
                       className="object-cover"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
-                  ) : article.gradient ? (
-                    <div className={`w-full h-full bg-gradient-to-br ${article.gradient} p-6 flex items-end relative overflow-hidden`}>
-                      <div className="absolute -right-10 -top-10 w-40 h-40 border-[24px] border-cyan-300/15 rounded-full" />
-                      <svg className="w-16 h-16 text-[var(--cyan)] relative" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                        <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z" />
-                        <path d="M9 12l2 2 4-4" />
-                      </svg>
-                    </div>
-                  ) : null}
+                  )}
                 </Link>
                 <div className="p-6 flex flex-col grow">
                   <div className="flex items-center justify-between text-xs">
-                    <span className={`font-bold uppercase tracking-wider ${article.categoryColor || "text-[var(--blue)]"}`}>
+                    <span className={`font-bold uppercase tracking-wider ${CATEGORY_COLORS[article.category ?? ""] || "text-[var(--blue)]"}`}>
                       {article.category}
                     </span>
-                    <time dateTime={article.date} className="text-slate-400">{article.date}</time>
+                    <time dateTime={article.published_at ?? undefined} className="text-slate-400">{formatDate(article.published_at)}</time>
                   </div>
                   <h3 className="font-head font-bold text-xl leading-snug text-[var(--navy)] mt-3">
                     <Link href={`/blog/artikel?topik=${article.slug}`} className="hover:text-[var(--blue)]">
                       {article.title}
                     </Link>
                   </h3>
-                  <p className="line-clamp-2 text-sm leading-relaxed text-slate-500 mt-3">{article.lead}</p>
+                  <p className="line-clamp-2 text-sm leading-relaxed text-slate-500 mt-3">{article.excerpt}</p>
                   <div className="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-400">
-                    <span>{article.readTime}</span>
+                    <span>{readingTime(article)}</span>
                     <Link href={`/blog/artikel?topik=${article.slug}`} className="font-bold text-[var(--blue)]">
                       Selengkapnya →
                     </Link>

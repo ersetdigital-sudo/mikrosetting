@@ -221,6 +221,83 @@ details[open] .faq-icon {
   box-shadow: 0 0 0 4px #dbeafe;
 }
 
+.reading-prose ol {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.7rem;
+  color: #475569;
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+
+.reading-prose ol li {
+  padding-left: 0.25rem;
+}
+
+.reading-prose ol li::before {
+  display: none;
+}
+
+.reading-prose strong {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.reading-prose a {
+  color: var(--blue);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.reading-prose blockquote {
+  margin-top: 1.75rem;
+  border-left: 4px solid var(--cyan);
+  background: linear-gradient(120deg, #eef2ff, #ecfeff);
+  border-radius: 0 0.9rem 0.9rem 0;
+  padding: 1rem 1.25rem;
+  color: #334155;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.reading-prose blockquote p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+.reading-prose table {
+  width: 100%;
+  margin-top: 1.75rem;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: #475569;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.reading-prose thead {
+  background: var(--navy);
+  color: #fff;
+}
+
+.reading-prose th {
+  text-align: left;
+  padding: 0.7rem 0.9rem;
+  font-weight: 700;
+}
+
+.reading-prose td {
+  padding: 0.65rem 0.9rem;
+  border-top: 1px solid #e2e8f0;
+  line-height: 1.6;
+}
+
+.reading-prose tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+
 .reading-progress {
   transform-origin: left;
   transform: scaleX(0);

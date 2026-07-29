@@ -1,9 +1,12 @@
 import type { MetadataRoute } from "next";
-import { articleSlugs } from "@/lib/blogData";
+import { getArticles } from "@/lib/articles";
 
 const siteUrl = "https://mikrosetting.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+// Sitemap dibuat saat request agar artikel baru dari Supabase langsung terindeks
+export const dynamic = "force-dynamic";
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     {
       url: siteUrl,
@@ -43,9 +46,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const articlePages = articleSlugs.map((slug) => ({
-    url: `${siteUrl}/blog/artikel?topik=${slug}`,
-    lastModified: new Date(),
+  const articles = await getArticles();
+  const articlePages = articles.map((a) => ({
+    url: `${siteUrl}/blog/artikel?topik=${a.slug}`,
+    lastModified: a.published_at ? new Date(a.published_at) : new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));

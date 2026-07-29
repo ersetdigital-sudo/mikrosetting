@@ -47,35 +47,3 @@ export interface ProductItem {
   secondaryCta: { text: string; href: string };
 }
 
-export interface BlogArticle {
-  slug: string;
-  title: string;
-  category: string;
-  date: string;
-  readTime: string;
-  lead: string;
-  image?: string;
-  gradient?: string;
-  icon?: string;
-  featured?: boolean;
-  categoryColor?: string;
-}
-
-export interface ArticleData {
-  title: string;
-  category: string;
-  date: string;
-  dateIso?: string;
-  time: string;
-  lead: string;
-  image: string;
-  summary: string;
-  points: string[];
-  sections: [string, string, string][];
-}
-
-export interface GuidanceData {
-  metrics: string[][];
-  mistakes: string[];
-  faqs: [string, string][];
-}
