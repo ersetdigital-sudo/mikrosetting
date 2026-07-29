@@ -65,6 +65,7 @@ export interface ArticleData {
   title: string;
   category: string;
   date: string;
+  dateIso?: string;
   time: string;
   lead: string;
   image: string;
