@@ -1,0 +1,27 @@
+# MikroSetting
+
+> Jasa setting MikroTik, OLT, Ruijie & Access Point profesional untuk RT/RW Net, Hotel, Kantor, Sekolah, dan ISP di Indonesia. Layanan remote menjangkau seluruh Indonesia, garansi konfigurasi 100%.
+
+## Layanan
+
+- Jasa Setting MikroTik: PPPoE Server, Hotspot, VPN, Load Balance, Firewall, VLAN & Routing
+- Jasa Setting OLT: VSOL, HSGQ, Global, Hioso, registrasi ONU/ONT untuk ISP & RT/RW Net
+- Jasa Setting Ruijie: Gateway, Access Point, Cloud Management, Switch Managed
+- Jasa Setting Access Point: penempatan AP, optimasi coverage, SSID & VLAN, manajemen bandwidth
+
+## Produk Digital
+
+- Mikhmon Online: manajemen hotspot & voucher dari browser — multi router, monitoring real-time, laporan lengkap tanpa VPS
+- VPN Port Forwarding: akses CCTV/NVR, remote router/MikroTik/RDP, Exam/ANBK dari mana saja tanpa IP Public
+
+## Kontak
+
+- WhatsApp: https://wa.me/6281234567890
+- Email: admin@mikrosetting.com
+- Jam operasional: Setiap hari, 08.00-21.00 WIB
+- Area: Seluruh Indonesia (remote)
+
+## Pages
+
+- [Beranda](https://mikrosetting.com/): layanan, produk digital, FAQ
+- [Blog](https://mikrosetting.com/blog): panduan & artikel seputar jaringan

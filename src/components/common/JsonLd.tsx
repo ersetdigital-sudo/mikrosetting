@@ -21,11 +21,6 @@ export default function JsonLd() {
           "@type": "PostalAddress",
           addressCountry: "ID",
         },
-        sameAs: [
-          WHATSAPP_URL,
-          "#",
-          "#",
-        ],
       },
       {
         "@type": "LocalBusiness",
@@ -194,31 +189,6 @@ export default function JsonLd() {
         width: 1200,
         height: 630,
         caption: "MikroSetting - Jasa Setting Jaringan Profesional",
-      },
-      {
-        "@type": "AggregateRating",
-        itemReviewed: {
-          "@type": "LocalBusiness",
-          name: "MikroSetting",
-        },
-        ratingValue: "4.9",
-        bestRating: "5",
-        ratingCount: "150",
-      },
-      {
-        "@type": "Review",
-        itemReviewed: {
-          "@type": "LocalBusiness",
-          name: "MikroSetting",
-        },
-        author: {
-          "@type": "Person",
-          name: "Pelanggan MikroSetting",
-        },
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: "5",
-        },
       },
       {
         "@type": "SiteNavigationElement",
