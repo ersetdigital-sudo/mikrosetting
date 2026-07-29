@@ -89,7 +89,11 @@ export default function Footer() {
                 Tentang Kami
               </Link>
             </li>
-            <li>{anchorLink("#kontak", "Kontak")}</li>
+            <li>
+              <Link href="/kontak" className="hover:text-white transition">
+                Kontak
+              </Link>
+            </li>
           </ul>
         </div>
         <div>

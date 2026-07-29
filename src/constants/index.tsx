@@ -5,7 +5,7 @@ export const NAV_LINKS: NavLink[] = [
   { href: "#layanan", label: "Layanan" },
   { href: "#produk", label: "Produk" },
   { href: "/blog", label: "Blog" },
-  { href: "#kontak", label: "Kontak" },
+  { href: "/kontak", label: "Kontak" },
 ];
 
 export const WHATSAPP_NUMBER = "6281234567890";

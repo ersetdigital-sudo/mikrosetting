@@ -40,7 +40,7 @@ export default function Navbar() {
     []
   );
 
-  const kontakHref = resolveHref("#kontak");
+  const kontakHref = "/kontak";
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">

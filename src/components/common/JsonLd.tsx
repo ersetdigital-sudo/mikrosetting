@@ -199,7 +199,7 @@ export default function JsonLd() {
           { "@type": "SiteNavigationElement", name: "Mikhmon & Port Forwarding", url: "https://mikrosetting.com/#produk" },
           { "@type": "SiteNavigationElement", name: "Tentang Kami", url: "https://mikrosetting.com/tentang" },
           { "@type": "SiteNavigationElement", name: "Blog", url: "https://mikrosetting.com/blog" },
-          { "@type": "SiteNavigationElement", name: "Kontak", url: "https://mikrosetting.com/#kontak" },
+          { "@type": "SiteNavigationElement", name: "Kontak", url: "https://mikrosetting.com/kontak" },
         ],
       },
     ],
