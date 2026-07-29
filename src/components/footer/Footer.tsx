@@ -1,7 +1,51 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { PHONE, EMAIL, BUSINESS_HOURS, WHATSAPP_URL } from "@/constants";
 
+// Anchor yang tersedia di semua halaman (footer dipasang site-wide)
+const GLOBAL_ANCHORS = ["#kontak"];
+
 export default function Footer() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  const resolveHref = (href: string) => {
+    if (!href.startsWith("#")) return href;
+    if (isHome || GLOBAL_ANCHORS.includes(href)) return href;
+    return `/${href}`;
+  };
+
+  const handleAnchorClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (!href.startsWith("#")) return;
+    const el = document.querySelector(href);
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", href);
+  };
+
+  const anchorLink = (href: string, label: string) => {
+    const resolved = resolveHref(href);
+    return (
+      <Link
+        href={resolved}
+        onClick={
+          resolved.startsWith("#")
+            ? (e) => handleAnchorClick(e, resolved)
+            : undefined
+        }
+        className="hover:text-white transition"
+      >
+        {label}
+      </Link>
+    );
+  };
+
   return (
     <footer id="kontak" className="bg-[var(--navy)] text-slate-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -21,26 +65,10 @@ export default function Footer() {
         <div>
           <h4 className="font-head font-semibold text-white mb-3">Layanan</h4>
           <ul className="space-y-2 text-sm">
-            <li>
-              <a href="#layanan" className="hover:text-white transition">
-                Jasa Setting MikroTik
-              </a>
-            </li>
-            <li>
-              <a href="#layanan" className="hover:text-white transition">
-                Jasa Setting OLT
-              </a>
-            </li>
-            <li>
-              <a href="#layanan" className="hover:text-white transition">
-                Jasa Setting Ruijie
-              </a>
-            </li>
-            <li>
-              <a href="#layanan" className="hover:text-white transition">
-                Jasa Setting Access Point
-              </a>
-            </li>
+            <li>{anchorLink("#layanan", "Jasa Setting MikroTik")}</li>
+            <li>{anchorLink("#layanan", "Jasa Setting OLT")}</li>
+            <li>{anchorLink("#layanan", "Jasa Setting Ruijie")}</li>
+            <li>{anchorLink("#layanan", "Jasa Setting Access Point")}</li>
           </ul>
         </div>
         <div>
@@ -48,21 +76,9 @@ export default function Footer() {
             Mikhmon & Port Forwarding
           </h4>
           <ul className="space-y-2 text-sm">
-            <li>
-              <a href="#produk" className="hover:text-white transition">
-                Mikhmon Online
-              </a>
-            </li>
-            <li>
-              <a href="#produk" className="hover:text-white transition">
-                VPN Port Forwarding
-              </a>
-            </li>
-            <li>
-              <a href="#faq" className="hover:text-white transition">
-                FAQ
-              </a>
-            </li>
+            <li>{anchorLink("#produk", "Mikhmon Online")}</li>
+            <li>{anchorLink("#produk", "VPN Port Forwarding")}</li>
+            <li>{anchorLink("#faq", "FAQ")}</li>
             <li>
               <Link href="/blog" className="hover:text-white transition">
                 Blog & Panduan
@@ -73,11 +89,7 @@ export default function Footer() {
                 Tentang Kami
               </Link>
             </li>
-            <li>
-              <a href="#kontak" className="hover:text-white transition">
-                Kontak
-              </a>
-            </li>
+            <li>{anchorLink("#kontak", "Kontak")}</li>
           </ul>
         </div>
         <div>
