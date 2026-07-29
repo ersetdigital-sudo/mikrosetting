@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -37,22 +38,25 @@ export default function HeroSection() {
                     {slide.badge}
                   </span>
                   <h1 className="font-head font-extrabold leading-[1.08] text-4xl sm:text-5xl xl:text-6xl drop-shadow">
-                    {slide.title}
-                    <br />
-                    <span className="text-[var(--cyan)]">{slide.titleHighlight}</span>
-                    {slide.titleEnd && (
-                      <>
-                        {" "}&<br />
-                        {slide.titleEnd.includes("Profesional") ? (
-                          <>
-                            Ruijie{" "}
-                            <span className="text-[var(--blue-light)]">Profesional</span>
-                          </>
-                        ) : (
-                          <span className="text-[var(--blue-light)]">{slide.titleEnd}</span>
-                        )}
-                      </>
-                    )}
+                    {slide.titleLines.map((line, lineIndex) => (
+                      <Fragment key={lineIndex}>
+                        {lineIndex > 0 && <br />}
+                        {line.map((segment, segmentIndex) => (
+                          <span
+                            key={segmentIndex}
+                            className={
+                              segment.color === "cyan"
+                                ? "text-[var(--cyan)]"
+                                : segment.color === "blue-light"
+                                  ? "text-[var(--blue-light)]"
+                                  : undefined
+                            }
+                          >
+                            {segment.text}
+                          </span>
+                        ))}
+                      </Fragment>
+                    ))}
                   </h1>
                   <p className="mt-5 text-slate-200 text-base sm:text-lg">
                     {slide.description}

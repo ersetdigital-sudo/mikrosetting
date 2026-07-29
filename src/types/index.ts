@@ -21,11 +21,14 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface HeroTitleSegment {
+  text: string;
+  color?: "cyan" | "blue-light";
+}
+
 export interface HeroSlide {
   badge: string;
-  title: string;
-  titleHighlight: string;
-  titleEnd: string;
+  titleLines: HeroTitleSegment[][];
   description: string;
   features: string[];
   image: string;

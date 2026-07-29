@@ -18,9 +18,11 @@ export const BUSINESS_HOURS = "Setiap hari, 08.00 – 21.00 WIB";
 export const HERO_SLIDES: HeroSlide[] = [
   {
     badge: "Solusi Jaringan Profesional",
-    title: "Jasa Setting",
-    titleHighlight: "MikroTik",
-    titleEnd: "OLT & Ruijie Profesional",
+    titleLines: [
+      [{ text: "Jasa Setting" }],
+      [{ text: "MikroTik", color: "cyan" }, { text: ", OLT &" }],
+      [{ text: "Ruijie " }, { text: "Profesional", color: "blue-light" }],
+    ],
     description:
       "Kami membantu Anda membangun jaringan yang cepat, aman, stabil dan mudah dikelola untuk RT/RW Net, Hotel, Kantor, Sekolah, dan ISP.",
     features: [
@@ -35,9 +37,10 @@ export const HERO_SLIDES: HeroSlide[] = [
   },
   {
     badge: "Akses Remote Aman",
-    title: "VPN",
-    titleHighlight: "Port",
-    titleEnd: "Forwarding",
+    titleLines: [
+      [{ text: "VPN " }, { text: "Port", color: "cyan" }],
+      [{ text: "Forwarding", color: "blue-light" }],
+    ],
     description:
       "Akses perangkat Anda dari mana saja dengan koneksi VPN yang aman dan stabil — tanpa ribet IP Public.",
     features: [
@@ -52,9 +55,10 @@ export const HERO_SLIDES: HeroSlide[] = [
   },
   {
     badge: "Manajemen Hotspot",
-    title: "Mikhmon",
-    titleHighlight: "Online",
-    titleEnd: "",
+    titleLines: [
+      [{ text: "Mikhmon", color: "cyan" }],
+      [{ text: "Online", color: "blue-light" }],
+    ],
     description:
       "Kelola jaringan hotspot & voucher Anda dari mana saja, kapan saja — langsung dari browser tanpa perlu VPS.",
     features: [
