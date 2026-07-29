@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV_LINKS, WHATSAPP_URL } from "@/constants";
+import { NAV_LINKS, WHATSAPP_URL, APP_URL } from "@/constants";
 import { MenuIcon, WhatsAppIcon } from "@/components/common/Icons";
 
 // Anchor yang tersedia di semua halaman (footer dipasang site-wide)
@@ -39,8 +39,6 @@ export default function Navbar() {
     },
     []
   );
-
-  const kontakHref = "/kontak";
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
@@ -84,17 +82,14 @@ export default function Navbar() {
             <WhatsAppIcon className="w-5 h-5" />
             Chat WA
           </a>
-          <Link
-            href={kontakHref}
-            onClick={
-              kontakHref.startsWith("#")
-                ? (e) => handleAnchorClick(e, kontakHref)
-                : undefined
-            }
+          <a
+            href={APP_URL}
+            target="_blank"
+            rel="noopener"
             className="inline-flex items-center gap-1.5 bg-[var(--blue)] hover:bg-[var(--navy-2)] text-white text-sm font-semibold px-3.5 py-2 rounded-lg transition"
           >
             Login / Daftar
-          </Link>
+          </a>
           <button
             onClick={toggleMobile}
             className="lg:hidden grid place-items-center w-10 h-10 rounded-lg border border-slate-200 text-slate-700"

@@ -194,7 +194,7 @@ export default function BlogPage() {
               </p>
             </div>
             <a
-              href="https://wa.me/6281234567890"
+              href="https://wa.me/6281112001036"
               target="_blank"
               rel="noopener"
               className="inline-flex items-center justify-center gap-2 bg-[var(--green)] hover:bg-green-700 text-white font-bold px-7 py-3.5 rounded-xl transition shadow-lg shadow-green-900/15"

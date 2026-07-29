@@ -257,7 +257,7 @@ export default function ArticleContent({ topic }: { topic: string }) {
                   <h2 className="font-head font-extrabold text-2xl mt-2">Konsultasikan topologi Anda</h2>
                   <p className="text-blue-100 text-sm mt-2">Tim kami siap membantu audit dan konfigurasi jarak jauh.</p>
                 </div>
-                <a href="https://wa.me/6281234567890" target="_blank" rel="noopener" className="shrink-0 inline-flex justify-center bg-[var(--green)] hover:bg-green-600 text-white font-bold px-6 py-3 rounded-xl transition">Chat WhatsApp →</a>
+                <a href="https://wa.me/6281112001036" target="_blank" rel="noopener" className="shrink-0 inline-flex justify-center bg-[var(--green)] hover:bg-green-600 text-white font-bold px-6 py-3 rounded-xl transition">Chat WhatsApp →</a>
               </section>
 
               {/* Author */}

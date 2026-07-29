@@ -8,9 +8,10 @@ export const NAV_LINKS: NavLink[] = [
   { href: "/kontak", label: "Kontak" },
 ];
 
-export const WHATSAPP_NUMBER = "6281234567890";
+export const WHATSAPP_NUMBER = "6281112001036";
 export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
-export const PHONE = "+62 812-3456-7890";
+export const APP_URL = "https://app.mikrosetting.com/";
+export const PHONE = "+62 811-1200-1036";
 export const EMAIL = "admin@mikrosetting.com";
 export const BUSINESS_HOURS = "Setiap hari, 08.00 – 21.00 WIB";
 

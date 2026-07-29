@@ -32,7 +32,7 @@ const contactCards = [
   },
   {
     title: "Telepon",
-    badge: "Jam kerja",
+    badge: "Langsung",
     value: PHONE,
     note: "Untuk diskusi kebutuhan yang lebih detail.",
     href: `tel:${PHONE.replace(/[^+\d]/g, "")}`,
