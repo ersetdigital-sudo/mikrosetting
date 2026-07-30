@@ -129,7 +129,7 @@ export default function ArticleContent({ article, toc, related }: Props) {
             <article className="min-w-0">
               {/* Article Body — konten dari Supabase */}
               <div
-                className="reading-prose bg-white rounded-2xl border border-slate-200 mt-4 md:mt-6 p-6 sm:p-9 md:p-11"
+                className="reading-prose bg-white rounded-2xl border border-slate-200 p-6 sm:p-9 md:p-11"
                 dangerouslySetInnerHTML={{ __html: article.content }}
               />
 
