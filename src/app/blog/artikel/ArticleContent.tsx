@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
@@ -28,23 +28,16 @@ export default function ArticleContent({ article, toc, related }: Props) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  // Wrap tables in scrollable container for mobile
-  useEffect(() => {
-    const articleEl = document.querySelector(".reading-prose");
-    if (!articleEl) return;
-    const tables = articleEl.querySelectorAll("table:not(.table-wrapper table)");
-    tables.forEach((table) => {
-      if (table.parentElement?.classList.contains("table-wrapper")) return;
-      const wrapper = document.createElement("div");
-      wrapper.className = "table-wrapper";
-      table.parentNode?.insertBefore(wrapper, table);
-      wrapper.appendChild(table);
-      const checkScroll = () => {
-        wrapper.classList.toggle("scrollable", wrapper.scrollWidth > wrapper.clientWidth);
-      };
-      checkScroll();
-      window.addEventListener("resize", checkScroll);
-    });
+  // Wrap every <table> from the rich-text content with a scrollable container.
+  // Done as a string transform (not a post-render DOM mutation) so the wrapper
+  // is baked into the HTML passed to dangerouslySetInnerHTML — it survives
+  // every re-render instead of getting wiped out when React re-applies innerHTML
+  // (e.g. on the scrollProgress state updates that fire on every scroll tick).
+  const renderedContent = useMemo(() => {
+    return article.content.replace(
+      /<table\b[\s\S]*?<\/table>/gi,
+      (tableHtml) => `<div class="table-scroll-wrapper">${tableHtml}</div>`
+    );
   }, [article.content]);
 
   const handleCopyLink = useCallback(async () => {
@@ -130,7 +123,7 @@ export default function ArticleContent({ article, toc, related }: Props) {
               {/* Article Body — konten dari Supabase */}
               <div
                 className="reading-prose bg-white rounded-2xl border border-slate-200 p-6 sm:p-9 md:p-11"
-                dangerouslySetInnerHTML={{ __html: article.content }}
+                dangerouslySetInnerHTML={{ __html: renderedContent }}
               />
 
               {/* FAQ */}

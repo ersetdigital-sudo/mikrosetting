@@ -266,6 +266,10 @@ details[open] .faq-icon {
   font-size: 1rem;
 }
 
+.reading-prose {
+  overflow-x: hidden;
+}
+
 .reading-prose table {
   width: 100%;
   margin-top: 1.75rem;
@@ -273,39 +277,46 @@ details[open] .faq-icon {
   font-size: 0.95rem;
   color: #475569;
   border-radius: 0.75rem;
-  overflow: hidden;
+  overflow: visible;
 }
 
-/* Responsive table wrapper */
-.reading-prose .table-wrapper {
+/*
+ * Responsive table wrapper.
+ * Injected server/client-side around every <table> as a plain string
+ * transform on the article HTML (see ArticleContent.tsx) — NOT via a
+ * post-render DOM mutation. That's what makes it reliable: the wrapper
+ * is part of the actual __html string, so it can never be wiped out by a
+ * React re-render (dangerouslySetInnerHTML resets are a real risk here,
+ * e.g. from scroll-position state updates elsewhere on the page).
+ */
+.reading-prose .table-scroll-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   margin-top: 1.75rem;
   border-radius: 0.75rem;
   border: 1px solid #e2e8f0;
-  position: relative;
+  max-width: 100%;
 }
 
-.reading-prose .table-wrapper::after {
-  content: "";
-  position: sticky;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 24px;
-  background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.reading-prose .table-wrapper.scrollable::after {
-  opacity: 1;
-}
-
-.reading-prose .table-wrapper table {
+.reading-prose .table-scroll-wrapper table {
   margin-top: 0;
-  min-width: 480px;
+  min-width: 600px;
+  width: auto;
+}
+
+/* Pure-CSS swipe hint — doesn't depend on JS detecting scrollability */
+@media (max-width: 640px) {
+  .reading-prose .table-scroll-wrapper::before {
+    content: "\2194 Geser tabel untuk melihat kolom lainnya";
+    display: block;
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #64748b;
+    background: #f8fafc;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
 }
 
 .reading-prose thead {
