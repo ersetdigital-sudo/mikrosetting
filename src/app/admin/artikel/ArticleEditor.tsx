@@ -330,14 +330,21 @@ export default function ArticleEditor({ mode, initial }: Props) {
                   )}
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-slate-500 block mb-1.5">Excerpt</label>
+                  <div className="flex justify-between items-baseline mb-1.5">
+                    <label className="text-xs font-bold text-slate-500">Excerpt</label>
+                    <span className={`text-[11px] font-bold tabular-nums ${excerpt.length > 160 ? "text-rose-500" : excerpt.length >= 120 ? "text-emerald-600" : "text-slate-400"}`}>
+                      {excerpt.length}/160
+                    </span>
+                  </div>
                   <textarea
                     value={excerpt}
                     onChange={(e) => setExcerpt(e.target.value)}
+                    maxLength={200}
                     rows={3}
-                    placeholder="1-2 kalimat ringkasan..."
+                    placeholder="1-2 kalimat ringkasan untuk kartu blog..."
                     className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] focus:ring-2 focus:ring-[var(--blue)]/10 resize-y transition"
                   />
+                  <p className="text-[11px] text-slate-400 mt-1">Tampil di kartu artikel halaman blog. Ideal: 120-160 karakter.</p>
                 </div>
               </div>
             </aside>
