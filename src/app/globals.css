@@ -276,6 +276,38 @@ details[open] .faq-icon {
   overflow: hidden;
 }
 
+/* Responsive table wrapper */
+.reading-prose .table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 1.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  position: relative;
+}
+
+.reading-prose .table-wrapper::after {
+  content: "";
+  position: sticky;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 24px;
+  background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.reading-prose .table-wrapper.scrollable::after {
+  opacity: 1;
+}
+
+.reading-prose .table-wrapper table {
+  margin-top: 0;
+  min-width: 480px;
+}
+
 .reading-prose thead {
   background: var(--navy);
   color: #fff;
@@ -313,6 +345,12 @@ details[open] .faq-icon {
   }
   .reading-prose h2 {
     font-size: 1.4rem;
+  }
+  .reading-prose th,
+  .reading-prose td {
+    padding: 0.5rem 0.65rem;
+    font-size: 0.8125rem;
+    white-space: nowrap;
   }
 }
 

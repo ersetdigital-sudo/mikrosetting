@@ -28,6 +28,25 @@ export default function ArticleContent({ article, toc, related }: Props) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
+  // Wrap tables in scrollable container for mobile
+  useEffect(() => {
+    const articleEl = document.querySelector(".reading-prose");
+    if (!articleEl) return;
+    const tables = articleEl.querySelectorAll("table:not(.table-wrapper table)");
+    tables.forEach((table) => {
+      if (table.parentElement?.classList.contains("table-wrapper")) return;
+      const wrapper = document.createElement("div");
+      wrapper.className = "table-wrapper";
+      table.parentNode?.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+      const checkScroll = () => {
+        wrapper.classList.toggle("scrollable", wrapper.scrollWidth > wrapper.clientWidth);
+      };
+      checkScroll();
+      window.addEventListener("resize", checkScroll);
+    });
+  }, [article.content]);
+
   const handleCopyLink = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
