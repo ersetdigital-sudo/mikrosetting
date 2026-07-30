@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import type { Article, ArticleFaq } from "@/lib/articles";
+import TipTapEditor from "@/components/tiptap-editor";
 
 type Props = { mode: "create" | "edit"; initial?: Article };
 
@@ -46,56 +47,8 @@ function ensureH2Ids(html: string): string {
   return doc.body.innerHTML;
 }
 
-/**
- * contentEditable created via DOM API (imperative).
- * Wrapped in memo(() => true) so React NEVER re-renders this component.
- * Without memo, React reconciler sees <div/> has no JSX children but real DOM
- * has the imperatively created div, so React DELETES it on every parent re-render.
- */
-const EditorArea = memo(function EditorArea({
-  editorRef,
-  onInput,
-}: {
-  editorRef: React.RefObject<HTMLDivElement | null>;
-  onInput: () => void;
-}) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const onInputRef = useRef(onInput);
-  onInputRef.current = onInput;
-
-  useEffect(function mountEditor() {
-    const container = containerRef.current;
-    if (!container || editorRef.current) return;
-
-    const div = document.createElement("div");
-    div.contentEditable = "true";
-    div.setAttribute("data-placeholder", "Tulis konten artikel di sini...");
-    div.className = "reading-prose editor-area min-h-[420px] px-6 sm:px-8 py-6 outline-none";
-    div.style.color = "#0f172a";
-    div.style.fontSize = "1.075rem";
-    div.style.lineHeight = "1.9";
-
-    div.addEventListener("input", function onDivInput() {
-      onInputRef.current();
-    });
-
-    container.appendChild(div);
-    (editorRef as React.MutableRefObject<HTMLDivElement | null>).current = div;
-
-    return function cleanup() {
-      if (container.contains(div)) container.removeChild(div);
-      (editorRef as React.MutableRefObject<HTMLDivElement | null>).current = null;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return <div ref={containerRef} className="relative" />;
-}, () => true); // Never re-render — imperatively created child would be deleted by React reconciler
-
-
 export default function ArticleEditor({ mode, initial }: Props) {
   const router = useRouter();
-  const editorRef = useRef<HTMLDivElement>(null);
 
   const [title, setTitle] = useState(initial?.title ?? "");
   const [slug, setSlug] = useState(initial?.slug ?? "");
@@ -110,52 +63,10 @@ export default function ArticleEditor({ mode, initial }: Props) {
   const [tab, setTab] = useState<"tulis" | "preview">("tulis");
   const [saving, setSaving] = useState<false | "draft" | "published">(false);
   const [notice, setNotice] = useState<{ ok: boolean; text: string } | null>(null);
-  const [linkModal, setLinkModal] = useState<{ url: string; text: string } | null>(null);
-
-  useEffect(function initContent() {
-    if (editorRef.current) {
-      editorRef.current.innerHTML = initial?.content ?? "";
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const syncHtml = useCallback(function syncHtml() {
-    if (editorRef.current) {
-      setHtml(editorRef.current.innerHTML);
-    }
-  }, []);
-
-  const exec = (cmd: string, value?: string) => {
-    editorRef.current?.focus();
-    document.execCommand(cmd, false, value);
-    syncHtml();
-  };
 
   const handleTitleChange = (value: string) => {
     setTitle(value);
     if (!slugTouched) setSlug(slugify(value));
-  };
-
-  const applyLink = () => {
-    if (!linkModal?.url) return setLinkModal(null);
-    const url = linkModal.url.match(/^https?:\/\//) ? linkModal.url : `https://${linkModal.url}`;
-    editorRef.current?.focus();
-    if (linkModal.text) {
-      document.execCommand("insertHTML", false, `<a href="${url}">${linkModal.text}</a>`);
-    } else {
-      document.execCommand("createLink", false, url);
-    }
-    setLinkModal(null);
-    syncHtml();
-  };
-
-  const insertTable = () => {
-    exec(
-      "insertHTML",
-      "<table><thead><tr><th>Kolom 1</th><th>Kolom 2</th><th>Kolom 3</th></tr></thead>" +
-        "<tbody><tr><td>Isi...</td><td>Isi...</td><td>Isi...</td></tr>" +
-        "<tr><td>Isi...</td><td>Isi...</td><td>Isi...</td></tr></tbody></table><p><br></p>"
-    );
   };
 
   const words = countWords(html);
@@ -166,7 +77,6 @@ export default function ArticleEditor({ mode, initial }: Props) {
     setNotice(null);
     const finalHtml = ensureH2Ids(html);
     setHtml(finalHtml);
-    if (editorRef.current) editorRef.current.innerHTML = finalHtml;
 
     const payload = {
       title: title.trim(),
@@ -198,21 +108,8 @@ export default function ArticleEditor({ mode, initial }: Props) {
     }
   };
 
-  const ToolBtn = ({ label, title: tip, onClick }: { label: React.ReactNode; title: string; onClick: () => void }) => (
-    <button
-      type="button"
-      title={tip}
-      onMouseDown={(e) => e.preventDefault()}
-      onClick={onClick}
-      className="min-w-8 h-8 px-1.5 grid place-items-center rounded-md text-sm font-bold text-slate-600 hover:bg-slate-100 hover:text-[var(--blue)] transition"
-    >
-      {label}
-    </button>
-  );
-
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-      {/* Top bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
         <Link href="/admin" className="text-sm font-bold text-slate-500 hover:text-[var(--blue)]">
           &larr; Semua Artikel
@@ -268,30 +165,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
               />
             </div>
 
-            <div className="rounded-2xl bg-white border border-slate-200 overflow-hidden">
-              <div className="flex flex-wrap items-center gap-0.5 border-b border-slate-200 bg-slate-50 px-3 py-2 sticky top-14 z-20">
-                <ToolBtn label="H2" title="Heading 2" onClick={() => exec("formatBlock", "<h2>")} />
-                <ToolBtn label="H3" title="Heading 3" onClick={() => exec("formatBlock", "<h3>")} />
-                <ToolBtn label={"\u00B6"} title="Paragraf" onClick={() => exec("formatBlock", "<p>")} />
-                <span className="w-px h-5 bg-slate-300 mx-1" />
-                <ToolBtn label={<b>B</b>} title="Bold" onClick={() => exec("bold")} />
-                <ToolBtn label={<i>I</i>} title="Italic" onClick={() => exec("italic")} />
-                <ToolBtn label={<u>U</u>} title="Underline" onClick={() => exec("underline")} />
-                <span className="w-px h-5 bg-slate-300 mx-1" />
-                <ToolBtn label={"\u2022\u2261"} title="Bullet list" onClick={() => exec("insertUnorderedList")} />
-                <ToolBtn label={"1\u2261"} title="Numbered list" onClick={() => exec("insertOrderedList")} />
-                <ToolBtn label={"\u275D"} title="Quote / callout" onClick={() => exec("formatBlock", "<blockquote>")} />
-                <ToolBtn label={"\u229E"} title="Sisipkan tabel" onClick={insertTable} />
-                <span className="w-px h-5 bg-slate-300 mx-1" />
-                <ToolBtn label={"\uD83D\uDD17"} title="Insert link" onClick={() => setLinkModal({ url: "", text: "" })} />
-                <ToolBtn label={"\u26D3\u200D\uD83D\uDD25"} title="Hapus link" onClick={() => exec("unlink")} />
-                <ToolBtn label={"\u232B"} title="Hapus format" onClick={() => exec("removeFormat")} />
-                <span className="w-px h-5 bg-slate-300 mx-1" />
-                <ToolBtn label={"\u21A9"} title="Undo" onClick={() => exec("undo")} />
-                <ToolBtn label={"\u21AA"} title="Redo" onClick={() => exec("redo")} />
-              </div>
-              <EditorArea editorRef={editorRef} onInput={syncHtml} />
-            </div>
+            <TipTapEditor content={html} onChange={setHtml} />
 
             <div className="rounded-2xl bg-white border border-slate-200 p-5">
               <div className="flex items-center justify-between gap-3 mb-4">
@@ -512,49 +386,6 @@ export default function ArticleEditor({ mode, initial }: Props) {
             </div>
             <span className="shrink-0 inline-flex justify-center bg-[var(--green)] text-white font-bold px-6 py-3 rounded-xl">Chat WhatsApp &rarr;</span>
           </section>
-        </div>
-      )}
-
-      {linkModal && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/50 px-4" onClick={() => setLinkModal(null)}>
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <h3 className="font-head font-extrabold text-lg text-[var(--navy)]">Sisipkan Link</h3>
-            <div className="mt-4 space-y-3">
-              <div>
-                <label className="text-xs font-bold text-slate-600 block mb-1.5">URL</label>
-                <input
-                  autoFocus
-                  value={linkModal.url}
-                  onChange={(e) => setLinkModal({ ...linkModal, url: e.target.value })}
-                  placeholder="https://... atau /kontak"
-                  className="w-full h-10 rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-[var(--blue)]"
-                />
-              </div>
-              <div>
-                <label className="text-xs font-bold text-slate-600 block mb-1.5">Teks link (opsional)</label>
-                <input
-                  value={linkModal.text}
-                  onChange={(e) => setLinkModal({ ...linkModal, text: e.target.value })}
-                  placeholder="teks yang bisa diklik"
-                  className="w-full h-10 rounded-lg border border-slate-300 px-3 text-sm outline-none focus:border-[var(--blue)]"
-                />
-              </div>
-            </div>
-            <div className="mt-5 flex justify-end gap-2">
-              <button
-                onClick={() => setLinkModal(null)}
-                className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 transition"
-              >
-                Batal
-              </button>
-              <button
-                onClick={applyLink}
-                className="rounded-lg bg-[var(--blue)] px-4 py-2 text-sm font-bold text-white hover:bg-[var(--navy-2)] transition"
-              >
-                Sisipkan
-              </button>
-            </div>
-          </div>
         </div>
       )}
     </main>
