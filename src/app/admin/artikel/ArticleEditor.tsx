@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Article, ArticleFaq } from "@/lib/articles";
 
 type Props = { mode: "create" | "edit"; initial?: Article };
@@ -48,32 +48,46 @@ function ensureH2Ids(html: string): string {
 }
 
 /**
- * contentEditable di-ISOLASI dari re-render React.
- * Tanpa isolasi ini, React 19 me-reset DOM contentEditable saat parent re-render
- * -> ketikan terhapus & caret hilang (gejala: counter kata naik tapi layar kosong).
- * memo(() => true) bikin komponen ini cuma mount sekali, React nggak nyentuh DOM lagi.
+ * contentEditable di-create via DOM API (imperatif), bukan JSX React.
+ * Ini bikin React nggak punya kontrol sama sekali terhadap div editor,
+ * sehingga nggak akan me-reset DOM meskipun parent re-render.
+ * Masalah sebelumnya: React 19 masih nge-reset DOM contentEditable meskipun pakai memo().
  */
-const EditorArea = memo(
-  function EditorArea({
-    editorRef,
-    onInput,
-  }: {
-    editorRef: React.RefObject<HTMLDivElement | null>;
-    onInput: () => void;
-  }) {
-    return (
-      <div
-        ref={editorRef}
-        contentEditable
-        suppressContentEditableWarning
-        onInput={onInput}
-        data-placeholder="Tulis konten artikel di sini... (pakai toolbar di atas untuk heading, list, link, tabel)"
-        className="reading-prose editor-area min-h-[420px] px-6 sm:px-8 py-6 outline-none"
-      />
-    );
-  },
-  () => true, // Jangan pernah re-render — contentEditable diurus manual
-);
+function EditorArea({
+  editorRef,
+  onInput,
+}: {
+  editorRef: React.RefObject<HTMLDivElement | null>;
+  onInput: () => void;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const onInputRef = useRef(onInput);
+  onInputRef.current = onInput;
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || editorRef.current) return;
+
+    const div = document.createElement("div");
+    div.contentEditable = "true";
+    div.setAttribute("data-placeholder", "Tulis konten artikel di sini... (pakai toolbar di atas untuk heading, list, link, tabel)");
+    div.className = "reading-prose editor-area min-h-[420px] px-6 sm:px-8 py-6 outline-none";
+    div.addEventListener("input", () => onInputRef.current());
+
+    container.appendChild(div);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (editorRef as any).current = div;
+
+    return () => {
+      container.removeChild(div);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (editorRef as any).current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return <div ref={containerRef} />;
+}
 
 
 export default function ArticleEditor({ mode, initial }: Props) {
