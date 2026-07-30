@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { isAdminAuthed } from "@/lib/admin-auth";
 import LogoutButton from "./LogoutButton";
 
@@ -22,7 +23,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
           <div className="flex items-center gap-5">
             <Link href="/admin" className="flex items-center gap-2 font-head font-extrabold tracking-tight">
-              <span className="grid place-items-center w-7 h-7 rounded-md bg-gradient-to-br from-[var(--blue)] to-[var(--cyan)] text-sm font-bold">M</span>
+              <Image src="/images/logo-mark-white.png" alt="MikroSetting" width={28} height={28} className="w-7 h-7" />
               MikroSetting <span className="text-[var(--cyan)]">Admin</span>
             </Link>
             <nav className="hidden sm:flex items-center gap-4 text-sm text-blue-100">

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { PHONE, EMAIL, BUSINESS_HOURS, WHATSAPP_URL } from "@/constants";
 
@@ -51,9 +52,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-14 pb-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <Link href="/" className="flex items-center gap-2 mb-3">
-            <span className="grid place-items-center w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--blue)] to-[var(--cyan)] text-white font-head font-bold">
-              M
-            </span>
+            <Image src="/images/logo-mark-white.png" alt="MikroSetting" width={40} height={40} className="w-10 h-10" />
             <span className="font-head font-extrabold text-lg text-white">
               Mikro<span className="text-[var(--cyan)]">Setting</span>
             </span>

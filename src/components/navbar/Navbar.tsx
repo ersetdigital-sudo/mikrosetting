@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { NAV_LINKS, WHATSAPP_URL, APP_URL } from "@/constants";
 import { MenuIcon, WhatsAppIcon } from "@/components/common/Icons";
@@ -44,9 +45,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2 shrink-0">
-          <span className="grid place-items-center w-9 h-9 rounded-lg bg-gradient-to-br from-[var(--blue)] to-[var(--cyan)] text-white font-head font-bold">
-            M
-          </span>
+          <Image src="/images/logo-mark.png" alt="MikroSetting" width={40} height={40} className="w-10 h-10" priority />
           <span className="font-head font-extrabold text-lg tracking-tight text-[var(--navy)]">
             Mikro<span className="text-[var(--blue)]">Setting</span>
           </span>
