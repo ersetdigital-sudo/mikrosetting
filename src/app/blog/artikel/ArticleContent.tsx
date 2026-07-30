@@ -108,37 +108,6 @@ export default function ArticleContent({ article, toc, related }: Props) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
           <div className="grid lg:grid-cols-[minmax(0,1fr)_280px] gap-10 lg:gap-14 items-start">
             <article className="min-w-0">
-              {/* Hero visual */}
-              <figure className="relative rounded-2xl sm:rounded-3xl overflow-hidden min-h-72 sm:min-h-0 sm:aspect-[16/9] bg-gradient-to-br from-slate-950 via-[var(--navy)] to-blue-700 shadow-[0_24px_65px_-35px_rgba(11,27,77,.55)]" aria-label="Visualisasi performa jaringan">
-                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px)", backgroundSize: "36px 36px" }} />
-                <div className="absolute -right-20 -top-24 w-80 h-80 rounded-full bg-cyan-400/25 blur-3xl" />
-                <div className="absolute left-[8%] right-[8%] top-[14%] bottom-[14%] rounded-2xl border border-white/15 bg-white/10 backdrop-blur p-5 sm:p-8 flex flex-col justify-between">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-[10px] sm:text-xs font-bold tracking-[.2em] uppercase text-[var(--cyan)]">{article.category}</p>
-                      <p className="font-head font-bold text-white text-lg sm:text-2xl mt-2 max-w-lg line-clamp-2">{article.title}</p>
-                    </div>
-                    <span className="shrink-0 inline-flex items-center gap-2 rounded-full bg-emerald-400/15 border border-emerald-300/30 px-3 py-1 text-[10px] sm:text-xs font-bold text-emerald-300">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse" /> Online
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 sm:gap-4">
-                    <div className="rounded-xl bg-slate-950/45 border border-white/10 p-3 sm:p-4">
-                      <p className="text-[9px] sm:text-xs text-blue-200">Latency</p>
-                      <p className="font-head font-extrabold text-white text-lg sm:text-2xl mt-1">12 <span className="text-xs font-normal text-blue-200">ms</span></p>
-                    </div>
-                    <div className="rounded-xl bg-slate-950/45 border border-white/10 p-3 sm:p-4">
-                      <p className="text-[9px] sm:text-xs text-blue-200">Uptime</p>
-                      <p className="font-head font-extrabold text-white text-lg sm:text-2xl mt-1">99.9<span className="text-xs font-normal text-blue-200">%</span></p>
-                    </div>
-                    <div className="rounded-xl bg-slate-950/45 border border-white/10 p-3 sm:p-4">
-                      <p className="text-[9px] sm:text-xs text-blue-200">Status</p>
-                      <p className="font-head font-extrabold text-emerald-300 text-sm sm:text-xl mt-1">Stabil</p>
-                    </div>
-                  </div>
-                </div>
-              </figure>
-
               {/* Article Body — konten dari Supabase */}
               <div
                 className="reading-prose bg-white rounded-2xl border border-slate-200 mt-8 p-6 sm:p-9 md:p-11"
