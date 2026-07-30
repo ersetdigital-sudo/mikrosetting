@@ -64,16 +64,7 @@ function EditorArea({
 
   useEffect(function mountEditor() {
     const container = containerRef.current;
-    console.log("[EditorArea] useEffect | container:", !!container, "editorRef:", !!editorRef.current);
-
-    if (!container) {
-      console.warn("[EditorArea] container is null, bailed");
-      return;
-    }
-    if (editorRef.current) {
-      console.warn("[EditorArea] editorRef already exists (StrictMode?), bailed");
-      return;
-    }
+    if (!container || editorRef.current) return;
 
     const div = document.createElement("div");
     div.contentEditable = "true";
@@ -81,29 +72,13 @@ function EditorArea({
     div.className = "reading-prose editor-area min-h-[420px] px-6 sm:px-8 py-6 outline-none";
 
     div.addEventListener("input", function onDivInput() {
-      const len = div.innerHTML.length;
-      console.log("[EditorArea] INPUT event | DOM length:", len, "first200:", div.innerHTML.slice(0, 200));
       onInputRef.current();
-    });
-
-    div.addEventListener("focus", function onDivFocus() {
-      console.log("[EditorArea] focused");
     });
 
     container.appendChild(div);
     (editorRef as React.MutableRefObject<HTMLDivElement | null>).current = div;
-    console.log("[EditorArea] div created and appended | contentEditable:", div.contentEditable);
-
-    const observer = new MutationObserver(function onMutation(mutations) {
-      for (const m of mutations) {
-        console.log("[EditorArea] DOM mutation:", m.type, "added:", m.addedNodes.length, "removed:", m.removedNodes.length, "innerHTMLLen:", div.innerHTML.length);
-      }
-    });
-    observer.observe(div, { childList: true, characterData: true, subtree: true });
 
     return function cleanup() {
-      console.log("[EditorArea] CLEANUP - removing div");
-      observer.disconnect();
       if (container.contains(div)) container.removeChild(div);
       (editorRef as React.MutableRefObject<HTMLDivElement | null>).current = null;
     };
@@ -134,23 +109,15 @@ export default function ArticleEditor({ mode, initial }: Props) {
   const [linkModal, setLinkModal] = useState<{ url: string; text: string } | null>(null);
 
   useEffect(function initContent() {
-    console.log("[Parent] initContent useEffect | editorRef:", !!editorRef.current, "contentLen:", (initial?.content ?? "").length);
     if (editorRef.current) {
       editorRef.current.innerHTML = initial?.content ?? "";
-      console.log("[Parent] innerHTML set to", editorRef.current.innerHTML.length, "chars");
-    } else {
-      console.warn("[Parent] editorRef is NULL at init time!");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const syncHtml = useCallback(function syncHtml() {
     if (editorRef.current) {
-      const len = editorRef.current.innerHTML.length;
-      console.log("[syncHtml] DOM innerHTML length:", len, "first200:", editorRef.current.innerHTML.slice(0, 200));
       setHtml(editorRef.current.innerHTML);
-    } else {
-      console.warn("[syncHtml] editorRef is NULL!");
     }
   }, []);
 
@@ -320,21 +287,6 @@ export default function ArticleEditor({ mode, initial }: Props) {
                 <ToolBtn label={"\u21AA"} title="Redo" onClick={() => exec("redo")} />
               </div>
               <EditorArea editorRef={editorRef} onInput={syncHtml} />
-              {/* DEBUG PANEL */}
-              <div className="bg-slate-900 text-green-400 border border-slate-700 rounded-b-xl mx-3 px-4 py-3 text-xs font-mono space-y-1">
-                <div><span className="text-yellow-300 font-bold">html state len:</span> {html.length}</div>
-                <div><span className="text-yellow-300 font-bold">editorRef.current:</span> {editorRef.current ? "EXISTS" : "NULL"}</div>
-                <div><span className="text-yellow-300 font-bold">DOM innerHTML len:</span> {editorRef.current?.innerHTML?.length ?? 0}</div>
-                <div><span className="text-yellow-300 font-bold">DOM childNodes:</span> {editorRef.current?.childNodes?.length ?? 0}</div>
-                <div><span className="text-yellow-300 font-bold">DOM innerHTML (first 300):</span></div>
-                <div className="bg-slate-800 rounded p-2 break-all text-green-300 max-h-24 overflow-auto">{editorRef.current?.innerHTML?.slice(0, 300) || "(empty)"}</div>
-                {html.length > 0 && (editorRef.current?.innerHTML?.length ?? 0) === 0 && (
-                  <div className="text-red-400 font-bold">BUG: state has content but DOM is EMPTY!</div>
-                )}
-                {html.length > 0 && (editorRef.current?.innerHTML?.length ?? 0) > 0 && html.length !== (editorRef.current?.innerHTML?.length ?? 0) && (
-                  <div className="text-orange-400 font-bold">MISMATCH: state={html.length} vs DOM={editorRef.current?.innerHTML?.length}</div>
-                )}
-              </div>
             </div>
 
             <div className="rounded-2xl bg-white border border-slate-200 p-5">

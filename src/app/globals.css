@@ -329,3 +329,10 @@ footer[id] {
   display: block;
   pointer-events: none;
 }
+
+/* Pastikan text di contenteditable editor selalu keliatan */
+.editor-area {
+  color: var(--ink);
+  font-size: 1.075rem;
+  line-height: 1.9;
+}
