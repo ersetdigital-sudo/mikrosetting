@@ -57,7 +57,6 @@ export default function ArticleEditor({ mode, initial }: Props) {
   const [category, setCategory] = useState(initial?.category ?? "MikroTik");
   const [excerpt, setExcerpt] = useState(initial?.excerpt ?? "");
   const [image, setImage] = useState(initial?.image ?? PRESET_IMAGES[0].value);
-  const [keywordsStr, setKeywordsStr] = useState((initial?.keywords ?? []).join(", "));
   const [faqs, setFaqs] = useState<ArticleFaq[]>(initial?.faqs ?? []);
   const [html, setHtml] = useState(initial?.content ?? "");
   const [tab, setTab] = useState<"tulis" | "preview">("tulis");
@@ -85,7 +84,6 @@ export default function ArticleEditor({ mode, initial }: Props) {
       category,
       excerpt: excerpt.trim(),
       content: finalHtml,
-      keywords: keywordsStr.split(",").map((k) => k.trim()).filter(Boolean),
       faqs: faqs.filter((f) => f.q.trim() && f.a.trim()),
       image,
       status: targetStatus,
@@ -290,15 +288,6 @@ export default function ArticleEditor({ mode, initial }: Props) {
                     rows={3}
                     placeholder="Ringkasan untuk Google..."
                     className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] focus:ring-2 focus:ring-[var(--blue)]/10 resize-y transition"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs font-bold text-slate-500 block mb-1.5">Keywords</label>
-                  <input
-                    value={keywordsStr}
-                    onChange={(e) => setKeywordsStr(e.target.value)}
-                    placeholder="mikrotik, hotspot, pcq"
-                    className="w-full h-8 rounded-lg border border-slate-200 px-3 text-sm text-slate-800 outline-none focus:border-[var(--blue)] transition"
                   />
                 </div>
                 <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-3">
