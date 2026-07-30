@@ -109,237 +109,267 @@ export default function ArticleEditor({ mode, initial }: Props) {
   };
 
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
-        <Link href="/admin" className="text-sm font-bold text-slate-500 hover:text-[var(--blue)]">
-          &larr; Semua Artikel
-        </Link>
-        <div className="flex items-center gap-2">
-          <div className="rounded-lg border border-slate-200 bg-white p-0.5 flex text-sm font-bold">
+    <main className="min-h-screen bg-slate-50/80">
+      {/* Top Navigation Bar */}
+      <div className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <Link href="/admin" className="shrink-0 text-sm font-bold text-slate-500 hover:text-[var(--blue)] transition-colors">
+              &larr; Artikel
+            </Link>
+            <div className="hidden sm:block w-px h-5 bg-slate-200" />
+            <div className="hidden sm:flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-sm font-bold">
+              <button
+                onClick={() => setTab("tulis")}
+                className={`px-3 py-1 rounded-md transition-all ${tab === "tulis" ? "bg-white text-[var(--blue)] shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+              >
+                Tulis
+              </button>
+              <button
+                onClick={() => setTab("preview")}
+                className={`px-3 py-1 rounded-md transition-all ${tab === "preview" ? "bg-white text-[var(--blue)] shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+              >
+                Preview
+              </button>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="hidden md:inline text-xs text-slate-400 tabular-nums">{words.toLocaleString("id-ID")} kata &bull; {readingMins} mnt</span>
             <button
-              onClick={() => setTab("tulis")}
-              className={`px-4 py-1.5 rounded-md transition ${tab === "tulis" ? "bg-[var(--blue)] text-white" : "text-slate-500 hover:text-[var(--blue)]"}`}
+              onClick={() => save("draft")}
+              disabled={saving !== false}
+              className="hidden sm:inline-flex items-center rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-sm font-semibold text-slate-600 hover:border-slate-300 hover:text-slate-800 transition disabled:opacity-50"
             >
-              Tulis
+              {saving === "draft" ? "Saving..." : "Draft"}
             </button>
             <button
-              onClick={() => setTab("preview")}
-              className={`px-4 py-1.5 rounded-md transition ${tab === "preview" ? "bg-[var(--blue)] text-white" : "text-slate-500 hover:text-[var(--blue)]"}`}
+              onClick={() => save("published")}
+              disabled={saving !== false}
+              className="rounded-lg bg-[var(--blue)] px-5 py-2 text-sm font-bold text-white hover:bg-[var(--navy-2)] shadow-sm transition disabled:opacity-50"
             >
-              Preview
+              {saving === "published" ? "Publishing..." : mode === "create" ? "Publish" : "Update"}
             </button>
           </div>
-          <span className="hidden sm:inline text-xs text-slate-400">{words.toLocaleString("id-ID")} kata &bull; &plusmn;{readingMins} mnt</span>
-          <button
-            onClick={() => save("draft")}
-            disabled={saving !== false}
-            className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-slate-600 hover:border-blue-300 hover:text-[var(--blue)] transition disabled:opacity-50"
-          >
-            {saving === "draft" ? "Menyimpan..." : "Simpan Draft"}
-          </button>
-          <button
-            onClick={() => save("published")}
-            disabled={saving !== false}
-            className="rounded-lg bg-[var(--blue)] px-5 py-2 text-sm font-bold text-white hover:bg-[var(--navy-2)] transition disabled:opacity-50"
-          >
-            {saving === "published" ? "Memproses..." : mode === "create" ? "Publish" : "Update"}
-          </button>
         </div>
       </div>
 
       {notice && (
-        <div className={`mb-5 rounded-xl border px-4 py-3 text-sm font-semibold ${notice.ok ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-rose-200 bg-rose-50 text-rose-700"}`}>
-          {notice.text}
+        <div className="max-w-3xl mx-auto mt-4">
+          <div className={`rounded-xl border px-4 py-3 text-sm font-semibold ${notice.ok ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-rose-200 bg-rose-50 text-rose-700"}`}>
+            {notice.text}
+          </div>
         </div>
       )}
 
       {tab === "tulis" ? (
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
-          <div className="space-y-6">
-            <div className="rounded-2xl bg-white border border-slate-200 p-5">
-              <input
-                value={title}
-                onChange={(e) => handleTitleChange(e.target.value)}
-                placeholder="Tulis judul artikel di sini..."
-                className="w-full font-head font-extrabold text-2xl sm:text-3xl text-[var(--navy)] placeholder:text-slate-300 outline-none"
-              />
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-8">
+          <div className="flex gap-8 items-start">
+            {/* Main Content Area - Paper-like */}
+            <div className="flex-1 min-w-0">
+              {/* Title - Paper-like */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm mb-6 px-8 sm:px-12 py-8">
+                <input
+                  value={title}
+                  onChange={(e) => handleTitleChange(e.target.value)}
+                  placeholder="Judul artikel..."
+                  className="w-full font-head font-extrabold text-3xl sm:text-4xl text-[var(--navy)] placeholder:text-slate-300 outline-none leading-tight"
+                />
+              </div>
+
+              {/* Editor - Paper-like with shadow */}
+              <TipTapEditor content={html} onChange={setHtml} />
+
+              {/* FAQ Section */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm mt-6 px-8 sm:px-12 py-8">
+                <div className="flex items-center justify-between gap-3 mb-6">
+                  <div>
+                    <h3 className="font-head font-extrabold text-lg text-[var(--navy)]">FAQ Artikel</h3>
+                    <p className="text-xs text-slate-400 mt-1">Accordion + schema FAQPage di blog.</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setFaqs([...faqs, { q: "", a: "" }])}
+                    className="rounded-lg border border-slate-200 px-3.5 py-2 text-xs font-bold text-slate-600 hover:border-[var(--blue)] hover:text-[var(--blue)] transition"
+                  >
+                    + Tambah
+                  </button>
+                </div>
+                {faqs.length === 0 ? (
+                  <p className="text-sm text-slate-400 border border-dashed border-slate-200 rounded-xl px-4 py-8 text-center">
+                    Belum ada FAQ. Klik &quot;+ Tambah&quot; untuk menambahkan.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {faqs.map((f, i) => (
+                      <div key={i} className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 space-y-3">
+                        <div className="flex items-start gap-3">
+                          <span className="shrink-0 grid place-items-center w-7 h-7 rounded-lg bg-[var(--blue)]/10 text-[var(--blue)] text-xs font-extrabold mt-0.5">{i + 1}</span>
+                          <input
+                            value={f.q}
+                            onChange={(e) => setFaqs(faqs.map((x, xi) => (xi === i ? { ...x, q: e.target.value } : x)))}
+                            placeholder="Pertanyaan..."
+                            className="flex-1 h-10 rounded-lg border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-800 outline-none focus:border-[var(--blue)] focus:ring-2 focus:ring-[var(--blue)]/10 transition"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setFaqs(faqs.filter((_, xi) => xi !== i))}
+                            className="shrink-0 grid place-items-center w-9 h-9 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition"
+                            title="Hapus FAQ"
+                          >
+                            &#x2715;
+                          </button>
+                        </div>
+                        <textarea
+                          value={f.a}
+                          onChange={(e) => setFaqs(faqs.map((x, xi) => (xi === i ? { ...x, a: e.target.value } : x)))}
+                          placeholder="Jawaban langsung 40-80 kata..."
+                          rows={3}
+                          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none focus:border-[var(--blue)] focus:ring-2 focus:ring-[var(--blue)]/10 resize-y transition"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
-            <TipTapEditor content={html} onChange={setHtml} />
-
-            <div className="rounded-2xl bg-white border border-slate-200 p-5">
-              <div className="flex items-center justify-between gap-3 mb-4">
-                <div>
-                  <h3 className="font-head font-extrabold text-lg text-[var(--navy)]">FAQ Artikel</h3>
-                  <p className="text-xs text-slate-400 mt-0.5">Tampil sebagai accordion + schema FAQPage di blog.</p>
+            {/* Sidebar - Sticky */}
+            <aside className="hidden lg:block w-[300px] shrink-0 space-y-5 sticky top-20">
+              {/* Publish */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+                <h3 className="font-head font-bold text-sm text-[var(--navy)] mb-3">Publish</h3>
+                <div className="space-y-2 text-sm text-slate-600">
+                  <p className="flex justify-between"><span>Kata</span><b className="tabular-nums">{words.toLocaleString("id-ID")}</b></p>
+                  <p className="flex justify-between"><span>Estimasi baca</span><b>{readingMins} menit</b></p>
+                  <p className="flex justify-between"><span>FAQ</span><b>{faqs.filter((f) => f.q.trim() && f.a.trim()).length}</b></p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setFaqs([...faqs, { q: "", a: "" }])}
-                  className="rounded-lg border border-slate-300 px-3.5 py-2 text-xs font-bold text-slate-600 hover:border-blue-300 hover:text-[var(--blue)] transition"
-                >
-                  + Tambah FAQ
-                </button>
-              </div>
-              <div className="space-y-3">
-                {faqs.length === 0 && (
-                  <p className="text-sm text-slate-400 border border-dashed border-slate-200 rounded-xl px-4 py-6 text-center">
-                    Belum ada FAQ &mdash; klik &quot;+ Tambah FAQ&quot; untuk menambahkan.
-                  </p>
+                {mode === "edit" && initial?.status === "published" && (
+                  <a
+                    href={`/blog/artikel?topik=${initial.slug}`}
+                    target="_blank"
+                    rel="noopener"
+                    className="mt-4 block text-center rounded-lg border border-slate-200 py-2 text-xs font-bold text-[var(--blue)] hover:border-[var(--blue)] transition"
+                  >
+                    Lihat live &#x2197;
+                  </a>
                 )}
-                {faqs.map((f, i) => (
-                  <div key={i} className="rounded-xl border border-slate-200 p-4 space-y-2 bg-slate-50/50">
-                    <div className="flex items-start gap-2">
-                      <span className="shrink-0 grid place-items-center w-6 h-6 rounded-md bg-blue-100 text-[var(--blue)] text-xs font-extrabold mt-1">{i + 1}</span>
-                      <input
-                        value={f.q}
-                        onChange={(e) => setFaqs(faqs.map((x, xi) => (xi === i ? { ...x, q: e.target.value } : x)))}
-                        placeholder="Pertanyaan (contoh: Apakah load balance menggabungkan kecepatan?)"
-                        className="w-full h-10 rounded-lg border border-slate-300 px-3 text-sm font-semibold text-slate-800 outline-none focus:border-[var(--blue)]"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setFaqs(faqs.filter((_, xi) => xi !== i))}
-                        className="shrink-0 grid place-items-center w-9 h-10 rounded-lg text-rose-500 hover:bg-rose-50 transition"
-                        title="Hapus FAQ"
-                      >
-                        &#x2715;
-                      </button>
-                    </div>
-                    <textarea
-                      value={f.a}
-                      onChange={(e) => setFaqs(faqs.map((x, xi) => (xi === i ? { ...x, a: e.target.value } : x)))}
-                      placeholder="Jawaban langsung 40-80 kata..."
-                      rows={3}
-                      className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] resize-y"
+              </div>
+
+              {/* SEO */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+                <h3 className="font-head font-bold text-sm text-[var(--navy)]">Meta SEO</h3>
+                <div>
+                  <div className="flex justify-between items-baseline mb-1.5">
+                    <label className="text-xs font-bold text-slate-500">Title tag</label>
+                    <span className={`text-[11px] font-bold tabular-nums ${title.length > 60 ? "text-rose-500" : "text-slate-400"}`}>{title.length}/60</span>
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-slate-500 block mb-1.5">Slug</label>
+                  <div className="flex items-center gap-1 text-sm">
+                    <span className="text-slate-400 text-xs">?topik=</span>
+                    <input
+                      value={slug}
+                      onChange={(e) => { setSlugTouched(true); setSlug(slugify(e.target.value)); }}
+                      disabled={mode === "edit"}
+                      className="flex-1 h-8 rounded-lg border border-slate-200 px-2 text-sm text-slate-800 outline-none focus:border-[var(--blue)] disabled:bg-slate-50 disabled:text-slate-400 transition"
                     />
                   </div>
-                ))}
+                  {mode === "edit" && <p className="text-[11px] text-slate-400 mt-1">Terkunci.</p>}
+                </div>
+                <div>
+                  <div className="flex justify-between items-baseline mb-1.5">
+                    <label className="text-xs font-bold text-slate-500">Meta desc</label>
+                    <span className={`text-[11px] font-bold tabular-nums ${metaDescription.length >= 140 && metaDescription.length <= 160 ? "text-emerald-600" : metaDescription.length > 160 ? "text-rose-500" : "text-amber-500"}`}>
+                      {metaDescription.length}/160
+                    </span>
+                  </div>
+                  <textarea
+                    value={metaDescription}
+                    onChange={(e) => setMetaDescription(e.target.value)}
+                    rows={3}
+                    placeholder="Ringkasan untuk Google..."
+                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] focus:ring-2 focus:ring-[var(--blue)]/10 resize-y transition"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-slate-500 block mb-1.5">Keywords</label>
+                  <input
+                    value={keywordsStr}
+                    onChange={(e) => setKeywordsStr(e.target.value)}
+                    placeholder="mikrotik, hotspot, pcq"
+                    className="w-full h-8 rounded-lg border border-slate-200 px-3 text-sm text-slate-800 outline-none focus:border-[var(--blue)] transition"
+                  />
+                </div>
+                <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-3">
+                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Google Preview</p>
+                  <p className="text-[#1a0dab] text-sm leading-snug truncate">{title || "Judul artikel..."}</p>
+                  <p className="text-[#006621] text-xs truncate">mikrosetting.com/blog/artikel?topik={slug || "..."}</p>
+                  <p className="text-xs text-slate-500 line-clamp-2 mt-0.5">{metaDescription || "Meta description..."}</p>
+                </div>
+              </div>
+
+              {/* Category & Image */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+                <div>
+                  <label className="text-xs font-bold text-slate-500 block mb-1.5">Kategori</label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="w-full h-10 rounded-lg border border-slate-200 px-3 text-sm text-slate-800 outline-none focus:border-[var(--blue)] bg-white transition"
+                  >
+                    {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-slate-500 block mb-1.5">Gambar sampul</label>
+                  <select
+                    value={PRESET_IMAGES.some((p) => p.value === image) ? image : "custom"}
+                    onChange={(e) => { if (e.target.value !== "custom") setImage(e.target.value); }}
+                    className="w-full h-10 rounded-lg border border-slate-200 px-3 text-sm text-slate-800 outline-none focus:border-[var(--blue)] bg-white transition"
+                  >
+                    {PRESET_IMAGES.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
+                    <option value="custom">URL kustom...</option>
+                  </select>
+                  {!PRESET_IMAGES.some((p) => p.value === image) && (
+                    <input
+                      value={image}
+                      onChange={(e) => setImage(e.target.value)}
+                      placeholder="/images/... atau https://..."
+                      className="mt-2 w-full h-9 rounded-lg border border-slate-200 px-3 text-sm text-slate-800 outline-none focus:border-[var(--blue)] transition"
+                    />
+                  )}
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-slate-500 block mb-1.5">Excerpt</label>
+                  <textarea
+                    value={excerpt}
+                    onChange={(e) => setExcerpt(e.target.value)}
+                    rows={3}
+                    placeholder="1-2 kalimat ringkasan..."
+                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] focus:ring-2 focus:ring-[var(--blue)]/10 resize-y transition"
+                  />
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          {/* Mobile Sidebar - Below content */}
+          <div className="lg:hidden mt-8 space-y-5">
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+              <div className="flex flex-wrap gap-4 text-sm text-slate-600">
+                <span><b className="tabular-nums">{words.toLocaleString("id-ID")}</b> kata</span>
+                <span><b>{readingMins}</b> menit baca</span>
+                <span><b>{faqs.filter((f) => f.q.trim() && f.a.trim()).length}</b> FAQ</span>
               </div>
             </div>
           </div>
-
-          <aside className="space-y-5 lg:sticky lg:top-20">
-            <div className="rounded-2xl bg-white border border-slate-200 p-5">
-              <h3 className="font-head font-extrabold text-[var(--navy)]">Publish</h3>
-              <div className="mt-3 space-y-2 text-sm text-slate-600">
-                <p className="flex justify-between"><span>Kata</span><b>{words.toLocaleString("id-ID")}</b></p>
-                <p className="flex justify-between"><span>Estimasi baca</span><b>{readingMins} menit</b></p>
-                <p className="flex justify-between"><span>FAQ</span><b>{faqs.filter((f) => f.q.trim() && f.a.trim()).length}</b></p>
-              </div>
-              {mode === "edit" && initial?.status === "published" && (
-                <a
-                  href={`/blog/artikel?topik=${initial.slug}`}
-                  target="_blank"
-                  rel="noopener"
-                  className="mt-4 block text-center rounded-lg border border-slate-200 py-2 text-sm font-bold text-[var(--blue)] hover:border-blue-300 transition"
-                >
-                  Lihat artikel live &#x2197;
-                </a>
-              )}
-            </div>
-
-            <div className="rounded-2xl bg-white border border-slate-200 p-5 space-y-4">
-              <h3 className="font-head font-extrabold text-[var(--navy)]">Meta SEO</h3>
-              <div>
-                <div className="flex justify-between items-baseline mb-1.5">
-                  <label className="text-xs font-bold text-slate-600">Judul (title tag)</label>
-                  <span className={`text-[11px] font-bold ${title.length > 60 ? "text-rose-500" : "text-slate-400"}`}>{title.length}/60</span>
-                </div>
-                <p className="text-xs text-slate-400">Diisi dari judul artikel di atas.</p>
-              </div>
-              <div>
-                <label className="text-xs font-bold text-slate-600 block mb-1.5">Slug URL</label>
-                <div className="flex items-center gap-1.5 text-sm">
-                  <span className="text-slate-400 text-xs">?topik=</span>
-                  <input
-                    value={slug}
-                    onChange={(e) => { setSlugTouched(true); setSlug(slugify(e.target.value)); }}
-                    disabled={mode === "edit"}
-                    className="w-full h-9 rounded-lg border border-slate-300 px-3 text-sm text-slate-800 outline-none focus:border-[var(--blue)] disabled:bg-slate-50 disabled:text-slate-400"
-                  />
-                </div>
-                {mode === "edit" && <p className="text-[11px] text-slate-400 mt-1">Slug terkunci agar URL tidak berubah.</p>}
-              </div>
-              <div>
-                <div className="flex justify-between items-baseline mb-1.5">
-                  <label className="text-xs font-bold text-slate-600">Meta description</label>
-                  <span className={`text-[11px] font-bold ${metaDescription.length >= 140 && metaDescription.length <= 160 ? "text-emerald-600" : metaDescription.length > 160 ? "text-rose-500" : "text-amber-500"}`}>
-                    {metaDescription.length}/160
-                  </span>
-                </div>
-                <textarea
-                  value={metaDescription}
-                  onChange={(e) => setMetaDescription(e.target.value)}
-                  rows={3}
-                  placeholder="Ringkasan 140-160 karakter untuk hasil pencarian Google..."
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] resize-y"
-                />
-              </div>
-              <div>
-                <label className="text-xs font-bold text-slate-600 block mb-1.5">Keywords (pisah koma)</label>
-                <input
-                  value={keywordsStr}
-                  onChange={(e) => setKeywordsStr(e.target.value)}
-                  placeholder="optimasi mikrotik, mikrotik lemot, pcq"
-                  className="w-full h-9 rounded-lg border border-slate-300 px-3 text-sm text-slate-800 outline-none focus:border-[var(--blue)]"
-                />
-              </div>
-              <div className="rounded-xl border border-slate-200 p-3 bg-slate-50">
-                <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Preview Google</p>
-                <p className="text-[#1a0dab] text-base leading-snug truncate">{title || "Judul artikel..."}</p>
-                <p className="text-[#006621] text-xs truncate">mikrosetting.com/blog/artikel?topik={slug || "..."}</p>
-                <p className="text-xs text-slate-600 line-clamp-2 mt-0.5">{metaDescription || "Meta description akan tampil di sini..."}</p>
-              </div>
-            </div>
-
-            <div className="rounded-2xl bg-white border border-slate-200 p-5 space-y-4">
-              <div>
-                <label className="text-xs font-bold text-slate-600 block mb-1.5">Kategori</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full h-10 rounded-lg border border-slate-300 px-3 text-sm text-slate-800 outline-none focus:border-[var(--blue)] bg-white"
-                >
-                  {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="text-xs font-bold text-slate-600 block mb-1.5">Gambar sampul</label>
-                <select
-                  value={PRESET_IMAGES.some((p) => p.value === image) ? image : "custom"}
-                  onChange={(e) => { if (e.target.value !== "custom") setImage(e.target.value); }}
-                  className="w-full h-10 rounded-lg border border-slate-300 px-3 text-sm text-slate-800 outline-none focus:border-[var(--blue)] bg-white"
-                >
-                  {PRESET_IMAGES.map((p) => <option key={p.value} value={p.value}>{p.label}</option>)}
-                  <option value="custom">URL kustom...</option>
-                </select>
-                {!PRESET_IMAGES.some((p) => p.value === image) && (
-                  <input
-                    value={image}
-                    onChange={(e) => setImage(e.target.value)}
-                    placeholder="/images/... atau https://..."
-                    className="mt-2 w-full h-9 rounded-lg border border-slate-300 px-3 text-sm text-slate-800 outline-none focus:border-[var(--blue)]"
-                  />
-                )}
-              </div>
-              <div>
-                <label className="text-xs font-bold text-slate-600 block mb-1.5">Excerpt (ringkasan kartu)</label>
-                <textarea
-                  value={excerpt}
-                  onChange={(e) => setExcerpt(e.target.value)}
-                  rows={3}
-                  placeholder="1-2 kalimat ringkasan untuk kartu blog &amp; lead artikel..."
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] resize-y"
-                />
-              </div>
-            </div>
-          </aside>
         </div>
       ) : (
-        <div className="max-w-5xl mx-auto">
-          <section className="bg-white border border-slate-200 rounded-2xl">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-8">
+        /* Preview Mode */
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div className="px-8 sm:px-12 pt-10 pb-8">
               <div className="flex flex-wrap items-center gap-3 text-xs font-bold">
                 <span className="rounded-full bg-blue-50 text-[var(--blue)] px-3 py-1.5 uppercase tracking-widest">{category}</span>
                 <span className="text-slate-400">{new Date().toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}</span>
@@ -353,15 +383,15 @@ export default function ArticleEditor({ mode, initial }: Props) {
                 {excerpt || metaDescription || "Excerpt / lead artikel..."}
               </p>
             </div>
-          </section>
+          </div>
 
           <div
-            className="reading-prose bg-white rounded-2xl border border-slate-200 mt-6 p-6 sm:p-9 md:p-11"
+            className="reading-prose bg-white rounded-2xl border border-slate-200 shadow-sm mt-6 px-8 sm:px-12 py-10"
             dangerouslySetInnerHTML={{ __html: html }}
           />
 
           {faqs.some((f) => f.q.trim() && f.a.trim()) && (
-            <section className="bg-white rounded-2xl border border-slate-200 mt-6 p-6 sm:p-9">
+            <section className="bg-white rounded-2xl border border-slate-200 shadow-sm mt-6 px-8 sm:px-12 py-10">
               <span className="text-[var(--blue)] text-xs font-bold tracking-widest uppercase">Pertanyaan Umum</span>
               <h2 className="font-head font-extrabold text-2xl sm:text-3xl text-[var(--navy)] mt-2">FAQ</h2>
               <div className="mt-6 divide-y divide-slate-200">
