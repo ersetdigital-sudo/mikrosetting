@@ -47,35 +47,25 @@ function ensureH2Ids(html: string): string {
   return doc.body.innerHTML;
 }
 
-/**
- * Area contentEditable yang di-ISOLASI dari re-render React.
- * Tanpa isolasi, tiap state berubah (mis. setHtml tiap ketikan) React 19
- * me-reset DOM contentEditable -> ketikan terhapus & caret hilang
- * (gejala: counter "Kata" naik tapi layar editor keliatan kosong).
- * memo + comparator () => true bikin komponen ini cuma dirender sekali (mount),
- * jadi React nggak pernah nyentuh DOM contentEditable lagi -> ketikan aman.
- */
-const EditorArea = memo(
-  function EditorArea({
-    editorRef,
-    onInput,
-  }: {
-    editorRef: React.RefObject<HTMLDivElement | null>;
-    onInput: () => void;
-  }) {
-    return (
-      <div
-        ref={editorRef}
-        contentEditable
-        suppressContentEditableWarning
-        onInput={onInput}
-        data-placeholder="Tulis konten artikel di sini... (pakai toolbar di atas untuk heading, list, link, tabel)"
-        className="reading-prose editor-area min-h-[420px] px-6 sm:px-8 py-6 outline-none"
-      />
-    );
-  },
-  () => true,
-);
+/** contentEditable di-memo agar React nggak me-reset DOM saat parent re-render */
+const EditorArea = memo(function EditorArea({
+  editorRef,
+  onInput,
+}: {
+  editorRef: React.RefObject<HTMLDivElement | null>;
+  onInput: () => void;
+}) {
+  return (
+    <div
+      ref={editorRef}
+      contentEditable
+      suppressContentEditableWarning
+      onInput={onInput}
+      data-placeholder="Tulis konten artikel di sini... (pakai toolbar di atas untuk heading, list, link, tabel)"
+      className="reading-prose editor-area min-h-[420px] px-6 sm:px-8 py-6 outline-none"
+    />
+  );
+});
 
 
 export default function ArticleEditor({ mode, initial }: Props) {
@@ -97,7 +87,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
   const [notice, setNotice] = useState<{ ok: boolean; text: string } | null>(null);
   const [linkModal, setLinkModal] = useState<{ url: string; text: string } | null>(null);
 
-  // Isi editor sekali saat mount (jangan di-render ulang tiap state berubah)
+  // Isi editor sekali saat mount
   useEffect(() => {
     if (editorRef.current) editorRef.current.innerHTML = initial?.content ?? "";
     // eslint-disable-next-line react-hooks/exhaustive-deps
