@@ -71,7 +71,7 @@ export default function ArticleContent({ article, toc, related }: Props) {
       <main>
         {/* Header */}
         <section className="bg-white border-b border-slate-200">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-10 md:pt-16 pb-8 md:pb-12">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-10 md:pt-16 pb-6 md:pb-8">
             <nav className="flex items-center gap-2 text-sm text-slate-500 mb-8" aria-label="Breadcrumb">
               <Link href="/" className="hover:text-[var(--blue)]">Home</Link>
               <span>/</span>
@@ -124,12 +124,12 @@ export default function ArticleContent({ article, toc, related }: Props) {
 
 
         {/* Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-4 md:pt-6 pb-8 md:pb-12">
           <div className="grid lg:grid-cols-[minmax(0,1fr)_280px] gap-10 lg:gap-14 items-start">
             <article className="min-w-0">
               {/* Article Body — konten dari Supabase */}
               <div
-                className="reading-prose bg-white rounded-2xl border border-slate-200 mt-8 p-6 sm:p-9 md:p-11"
+                className="reading-prose bg-white rounded-2xl border border-slate-200 mt-4 md:mt-6 p-6 sm:p-9 md:p-11"
                 dangerouslySetInnerHTML={{ __html: article.content }}
               />
 
