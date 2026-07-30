@@ -19,7 +19,7 @@ function slugify(text: string): string {
   return text
     .toLowerCase()
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9\s-]/g, "")
     .trim()
     .replace(/\s+/g, "-")
@@ -31,7 +31,6 @@ function countWords(html: string): number {
   return html.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
 }
 
-/** Pastikan semua H2 punya id (buat TOC sidebar blog) */
 function ensureH2Ids(html: string): string {
   const doc = new DOMParser().parseFromString(html, "text/html");
   const used = new Set<string>();
@@ -48,10 +47,9 @@ function ensureH2Ids(html: string): string {
 }
 
 /**
- * contentEditable di-create via DOM API (imperatif), bukan JSX React.
- * Ini bikin React nggak punya kontrol sama sekali terhadap div editor,
- * sehingga nggak akan me-reset DOM meskipun parent re-render.
- * Masalah sebelumnya: React 19 masih nge-reset DOM contentEditable meskipun pakai memo().
+ * contentEditable created via DOM API (imperative), NOT via JSX.
+ * React has zero control over the div, so it can never reset it.
+ * Full logging for debugging.
  */
 function EditorArea({
   editorRef,
@@ -64,29 +62,55 @@ function EditorArea({
   const onInputRef = useRef(onInput);
   onInputRef.current = onInput;
 
-  useEffect(() => {
+  useEffect(function mountEditor() {
     const container = containerRef.current;
-    if (!container || editorRef.current) return;
+    console.log("[EditorArea] useEffect | container:", !!container, "editorRef:", !!editorRef.current);
+
+    if (!container) {
+      console.warn("[EditorArea] container is null, bailed");
+      return;
+    }
+    if (editorRef.current) {
+      console.warn("[EditorArea] editorRef already exists (StrictMode?), bailed");
+      return;
+    }
 
     const div = document.createElement("div");
     div.contentEditable = "true";
-    div.setAttribute("data-placeholder", "Tulis konten artikel di sini... (pakai toolbar di atas untuk heading, list, link, tabel)");
+    div.setAttribute("data-placeholder", "Tulis konten artikel di sini...");
     div.className = "reading-prose editor-area min-h-[420px] px-6 sm:px-8 py-6 outline-none";
-    div.addEventListener("input", () => onInputRef.current());
+
+    div.addEventListener("input", function onDivInput() {
+      const len = div.innerHTML.length;
+      console.log("[EditorArea] INPUT event | DOM length:", len, "first200:", div.innerHTML.slice(0, 200));
+      onInputRef.current();
+    });
+
+    div.addEventListener("focus", function onDivFocus() {
+      console.log("[EditorArea] focused");
+    });
 
     container.appendChild(div);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (editorRef as any).current = div;
+    (editorRef as React.MutableRefObject<HTMLDivElement | null>).current = div;
+    console.log("[EditorArea] div created and appended | contentEditable:", div.contentEditable);
 
-    return () => {
-      container.removeChild(div);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (editorRef as any).current = null;
+    const observer = new MutationObserver(function onMutation(mutations) {
+      for (const m of mutations) {
+        console.log("[EditorArea] DOM mutation:", m.type, "added:", m.addedNodes.length, "removed:", m.removedNodes.length, "innerHTMLLen:", div.innerHTML.length);
+      }
+    });
+    observer.observe(div, { childList: true, characterData: true, subtree: true });
+
+    return function cleanup() {
+      console.log("[EditorArea] CLEANUP - removing div");
+      observer.disconnect();
+      if (container.contains(div)) container.removeChild(div);
+      (editorRef as React.MutableRefObject<HTMLDivElement | null>).current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div ref={containerRef} />;
+  return <div ref={containerRef} className="relative" />;
 }
 
 
@@ -109,14 +133,25 @@ export default function ArticleEditor({ mode, initial }: Props) {
   const [notice, setNotice] = useState<{ ok: boolean; text: string } | null>(null);
   const [linkModal, setLinkModal] = useState<{ url: string; text: string } | null>(null);
 
-  // Isi editor sekali saat mount
-  useEffect(() => {
-    if (editorRef.current) editorRef.current.innerHTML = initial?.content ?? "";
+  useEffect(function initContent() {
+    console.log("[Parent] initContent useEffect | editorRef:", !!editorRef.current, "contentLen:", (initial?.content ?? "").length);
+    if (editorRef.current) {
+      editorRef.current.innerHTML = initial?.content ?? "";
+      console.log("[Parent] innerHTML set to", editorRef.current.innerHTML.length, "chars");
+    } else {
+      console.warn("[Parent] editorRef is NULL at init time!");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const syncHtml = useCallback(() => {
-    if (editorRef.current) setHtml(editorRef.current.innerHTML);
+  const syncHtml = useCallback(function syncHtml() {
+    if (editorRef.current) {
+      const len = editorRef.current.innerHTML.length;
+      console.log("[syncHtml] DOM innerHTML length:", len, "first200:", editorRef.current.innerHTML.slice(0, 200));
+      setHtml(editorRef.current.innerHTML);
+    } else {
+      console.warn("[syncHtml] editorRef is NULL!");
+    }
   }, []);
 
   const exec = (cmd: string, value?: string) => {
@@ -209,7 +244,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
       {/* Top bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
         <Link href="/admin" className="text-sm font-bold text-slate-500 hover:text-[var(--blue)]">
-          ← Semua Artikel
+          &larr; Semua Artikel
         </Link>
         <div className="flex items-center gap-2">
           <div className="rounded-lg border border-slate-200 bg-white p-0.5 flex text-sm font-bold">
@@ -226,7 +261,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
               Preview
             </button>
           </div>
-          <span className="hidden sm:inline text-xs text-slate-400">{words.toLocaleString("id-ID")} kata • ±{readingMins} mnt</span>
+          <span className="hidden sm:inline text-xs text-slate-400">{words.toLocaleString("id-ID")} kata &bull; &plusmn;{readingMins} mnt</span>
           <button
             onClick={() => save("draft")}
             disabled={saving !== false}
@@ -252,9 +287,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
 
       {tab === "tulis" ? (
         <div className="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
-          {/* Kolom utama */}
           <div className="space-y-6">
-            {/* Judul */}
             <div className="rounded-2xl bg-white border border-slate-200 p-5">
               <input
                 value={title}
@@ -264,35 +297,46 @@ export default function ArticleEditor({ mode, initial }: Props) {
               />
             </div>
 
-            {/* Body editor */}
             <div className="rounded-2xl bg-white border border-slate-200 overflow-hidden">
               <div className="flex flex-wrap items-center gap-0.5 border-b border-slate-200 bg-slate-50 px-3 py-2 sticky top-14 z-20">
                 <ToolBtn label="H2" title="Heading 2" onClick={() => exec("formatBlock", "<h2>")} />
                 <ToolBtn label="H3" title="Heading 3" onClick={() => exec("formatBlock", "<h3>")} />
-                <ToolBtn label="¶" title="Paragraf" onClick={() => exec("formatBlock", "<p>")} />
+                <ToolBtn label={"\u00B6"} title="Paragraf" onClick={() => exec("formatBlock", "<p>")} />
                 <span className="w-px h-5 bg-slate-300 mx-1" />
                 <ToolBtn label={<b>B</b>} title="Bold" onClick={() => exec("bold")} />
                 <ToolBtn label={<i>I</i>} title="Italic" onClick={() => exec("italic")} />
                 <ToolBtn label={<u>U</u>} title="Underline" onClick={() => exec("underline")} />
                 <span className="w-px h-5 bg-slate-300 mx-1" />
-                <ToolBtn label="•≡" title="Bullet list" onClick={() => exec("insertUnorderedList")} />
-                <ToolBtn label="1≡" title="Numbered list" onClick={() => exec("insertOrderedList")} />
-                <ToolBtn label="❝" title="Quote / callout" onClick={() => exec("formatBlock", "<blockquote>")} />
-                <ToolBtn label="⊞" title="Sisipkan tabel" onClick={insertTable} />
+                <ToolBtn label={"\u2022\u2261"} title="Bullet list" onClick={() => exec("insertUnorderedList")} />
+                <ToolBtn label={"1\u2261"} title="Numbered list" onClick={() => exec("insertOrderedList")} />
+                <ToolBtn label={"\u275D"} title="Quote / callout" onClick={() => exec("formatBlock", "<blockquote>")} />
+                <ToolBtn label={"\u229E"} title="Sisipkan tabel" onClick={insertTable} />
                 <span className="w-px h-5 bg-slate-300 mx-1" />
-                <ToolBtn label="🔗" title="Insert link" onClick={() => setLinkModal({ url: "", text: "" })} />
-                <ToolBtn label="⛓‍💥" title="Hapus link" onClick={() => exec("unlink")} />
-                <ToolBtn label="⌫" title="Hapus format" onClick={() => exec("removeFormat")} />
+                <ToolBtn label={"\uD83D\uDD17"} title="Insert link" onClick={() => setLinkModal({ url: "", text: "" })} />
+                <ToolBtn label={"\u26D3\u200D\uD83D\uDD25"} title="Hapus link" onClick={() => exec("unlink")} />
+                <ToolBtn label={"\u232B"} title="Hapus format" onClick={() => exec("removeFormat")} />
                 <span className="w-px h-5 bg-slate-300 mx-1" />
-                <ToolBtn label="↩" title="Undo" onClick={() => exec("undo")} />
-                <ToolBtn label="↪" title="Redo" onClick={() => exec("redo")} />
+                <ToolBtn label={"\u21A9"} title="Undo" onClick={() => exec("undo")} />
+                <ToolBtn label={"\u21AA"} title="Redo" onClick={() => exec("redo")} />
               </div>
               <EditorArea editorRef={editorRef} onInput={syncHtml} />
+              {/* DEBUG PANEL */}
+              <div className="bg-slate-900 text-green-400 border border-slate-700 rounded-b-xl mx-3 px-4 py-3 text-xs font-mono space-y-1">
+                <div><span className="text-yellow-300 font-bold">html state len:</span> {html.length}</div>
+                <div><span className="text-yellow-300 font-bold">editorRef.current:</span> {editorRef.current ? "EXISTS" : "NULL"}</div>
+                <div><span className="text-yellow-300 font-bold">DOM innerHTML len:</span> {editorRef.current?.innerHTML?.length ?? 0}</div>
+                <div><span className="text-yellow-300 font-bold">DOM childNodes:</span> {editorRef.current?.childNodes?.length ?? 0}</div>
+                <div><span className="text-yellow-300 font-bold">DOM innerHTML (first 300):</span></div>
+                <div className="bg-slate-800 rounded p-2 break-all text-green-300 max-h-24 overflow-auto">{editorRef.current?.innerHTML?.slice(0, 300) || "(empty)"}</div>
+                {html.length > 0 && (editorRef.current?.innerHTML?.length ?? 0) === 0 && (
+                  <div className="text-red-400 font-bold">BUG: state has content but DOM is EMPTY!</div>
+                )}
+                {html.length > 0 && (editorRef.current?.innerHTML?.length ?? 0) > 0 && html.length !== (editorRef.current?.innerHTML?.length ?? 0) && (
+                  <div className="text-orange-400 font-bold">MISMATCH: state={html.length} vs DOM={editorRef.current?.innerHTML?.length}</div>
+                )}
+              </div>
             </div>
 
-
-
-            {/* FAQ repeater */}
             <div className="rounded-2xl bg-white border border-slate-200 p-5">
               <div className="flex items-center justify-between gap-3 mb-4">
                 <div>
@@ -310,7 +354,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
               <div className="space-y-3">
                 {faqs.length === 0 && (
                   <p className="text-sm text-slate-400 border border-dashed border-slate-200 rounded-xl px-4 py-6 text-center">
-                    Belum ada FAQ — klik &quot;+ Tambah FAQ&quot; untuk menambahkan.
+                    Belum ada FAQ &mdash; klik &quot;+ Tambah FAQ&quot; untuk menambahkan.
                   </p>
                 )}
                 {faqs.map((f, i) => (
@@ -329,13 +373,13 @@ export default function ArticleEditor({ mode, initial }: Props) {
                         className="shrink-0 grid place-items-center w-9 h-10 rounded-lg text-rose-500 hover:bg-rose-50 transition"
                         title="Hapus FAQ"
                       >
-                        ✕
+                        &#x2715;
                       </button>
                     </div>
                     <textarea
                       value={f.a}
                       onChange={(e) => setFaqs(faqs.map((x, xi) => (xi === i ? { ...x, a: e.target.value } : x)))}
-                      placeholder="Jawaban langsung 40–80 kata..."
+                      placeholder="Jawaban langsung 40-80 kata..."
                       rows={3}
                       className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] resize-y"
                     />
@@ -345,9 +389,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
             </div>
           </div>
 
-          {/* Sidebar */}
           <aside className="space-y-5 lg:sticky lg:top-20">
-            {/* Publish */}
             <div className="rounded-2xl bg-white border border-slate-200 p-5">
               <h3 className="font-head font-extrabold text-[var(--navy)]">Publish</h3>
               <div className="mt-3 space-y-2 text-sm text-slate-600">
@@ -362,12 +404,11 @@ export default function ArticleEditor({ mode, initial }: Props) {
                   rel="noopener"
                   className="mt-4 block text-center rounded-lg border border-slate-200 py-2 text-sm font-bold text-[var(--blue)] hover:border-blue-300 transition"
                 >
-                  Lihat artikel live ↗
+                  Lihat artikel live &#x2197;
                 </a>
               )}
             </div>
 
-            {/* SEO */}
             <div className="rounded-2xl bg-white border border-slate-200 p-5 space-y-4">
               <h3 className="font-head font-extrabold text-[var(--navy)]">Meta SEO</h3>
               <div>
@@ -401,7 +442,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
                   value={metaDescription}
                   onChange={(e) => setMetaDescription(e.target.value)}
                   rows={3}
-                  placeholder="Ringkasan 140–160 karakter untuk hasil pencarian Google..."
+                  placeholder="Ringkasan 140-160 karakter untuk hasil pencarian Google..."
                   className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] resize-y"
                 />
               </div>
@@ -422,9 +463,6 @@ export default function ArticleEditor({ mode, initial }: Props) {
               </div>
             </div>
 
-
-
-            {/* Kategori & gambar */}
             <div className="rounded-2xl bg-white border border-slate-200 p-5 space-y-4">
               <div>
                 <label className="text-xs font-bold text-slate-600 block mb-1.5">Kategori</label>
@@ -461,7 +499,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
                   value={excerpt}
                   onChange={(e) => setExcerpt(e.target.value)}
                   rows={3}
-                  placeholder="1–2 kalimat ringkasan untuk kartu blog & lead artikel..."
+                  placeholder="1-2 kalimat ringkasan untuk kartu blog &amp; lead artikel..."
                   className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] resize-y"
                 />
               </div>
@@ -469,16 +507,13 @@ export default function ArticleEditor({ mode, initial }: Props) {
           </aside>
         </div>
       ) : (
-
-
-        /* ===== PREVIEW — tampilan mirip halaman blog ===== */
         <div className="max-w-5xl mx-auto">
           <section className="bg-white border border-slate-200 rounded-2xl">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-10 pb-8">
               <div className="flex flex-wrap items-center gap-3 text-xs font-bold">
                 <span className="rounded-full bg-blue-50 text-[var(--blue)] px-3 py-1.5 uppercase tracking-widest">{category}</span>
                 <span className="text-slate-400">{new Date().toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" })}</span>
-                <span className="text-slate-300">•</span>
+                <span className="text-slate-300">&bull;</span>
                 <span className="text-slate-500">{readingMins} menit baca</span>
               </div>
               <h1 className="font-head font-extrabold text-3xl sm:text-4xl md:text-5xl leading-[1.12] text-[var(--navy)] mt-5">
@@ -519,12 +554,11 @@ export default function ArticleEditor({ mode, initial }: Props) {
               <h2 className="font-head font-extrabold text-2xl mt-2">Konsultasikan topologi Anda</h2>
               <p className="text-blue-100 text-sm mt-2">Tim kami siap membantu audit dan konfigurasi jarak jauh.</p>
             </div>
-            <span className="shrink-0 inline-flex justify-center bg-[var(--green)] text-white font-bold px-6 py-3 rounded-xl">Chat WhatsApp →</span>
+            <span className="shrink-0 inline-flex justify-center bg-[var(--green)] text-white font-bold px-6 py-3 rounded-xl">Chat WhatsApp &rarr;</span>
           </section>
         </div>
       )}
 
-      {/* Modal insert link */}
       {linkModal && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-slate-950/50 px-4" onClick={() => setLinkModal(null)}>
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
@@ -541,7 +575,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
                 />
               </div>
               <div>
-                <label className="text-xs font-bold text-slate-600 block mb-1.5">Teks link (opsional — kalau kosong pakai teks yang diseleksi)</label>
+                <label className="text-xs font-bold text-slate-600 block mb-1.5">Teks link (opsional)</label>
                 <input
                   value={linkModal.text}
                   onChange={(e) => setLinkModal({ ...linkModal, text: e.target.value })}
