@@ -11,6 +11,7 @@ import { Table } from "@tiptap/extension-table";
 import { TableRow } from "@tiptap/extension-table-row";
 import { TableCell } from "@tiptap/extension-table-cell";
 import { TableHeader } from "@tiptap/extension-table-header";
+import { ExpertTip } from "./tiptap-expert-tip";
 
 function ToolbarButton({
   onClick,
@@ -101,6 +102,9 @@ function Toolbar({ editor }: { editor: Editor | null }) {
         <ToolbarButton onClick={() => exec("formatBlock", "<blockquote>")} active={editor.isActive("blockquote")} title="Quote">
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z" /></svg>
         </ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().insertExpertTip().run()} active={editor.isActive("expertTip")} title="Tips dari Praktisi">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+        </ToolbarButton>
         <Divider />
         <ToolbarButton onClick={setLink} active={editor.isActive("link")} title="Insert link">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
@@ -155,6 +159,7 @@ export default function TipTapEditor({
       TableCell.configure({
         HTMLAttributes: { class: "border border-slate-200 px-3 py-2" },
       }),
+      ExpertTip,
     ],
     content: content || "",
     editorProps: {

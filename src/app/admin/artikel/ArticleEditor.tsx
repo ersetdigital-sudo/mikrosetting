@@ -55,7 +55,6 @@ export default function ArticleEditor({ mode, initial }: Props) {
   const [slugTouched, setSlugTouched] = useState(mode === "edit");
   const [metaDescription, setMetaDescription] = useState(initial?.meta_description ?? "");
   const [category, setCategory] = useState(initial?.category ?? "MikroTik");
-  const [excerpt, setExcerpt] = useState(initial?.excerpt ?? "");
   const [image, setImage] = useState(initial?.image ?? PRESET_IMAGES[0].value);
   const [faqs, setFaqs] = useState<ArticleFaq[]>(initial?.faqs ?? []);
   const [html, setHtml] = useState(initial?.content ?? "");
@@ -82,7 +81,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
       slug: slug.trim(),
       meta_description: metaDescription.trim(),
       category,
-      excerpt: excerpt.trim(),
+      excerpt: metaDescription.trim(),
       content: finalHtml,
       faqs: faqs.filter((f) => f.q.trim() && f.a.trim()),
       image,
@@ -329,23 +328,6 @@ export default function ArticleEditor({ mode, initial }: Props) {
                     />
                   )}
                 </div>
-                <div>
-                  <div className="flex justify-between items-baseline mb-1.5">
-                    <label className="text-xs font-bold text-slate-500">Excerpt</label>
-                    <span className={`text-[11px] font-bold tabular-nums ${excerpt.length > 160 ? "text-rose-500" : excerpt.length >= 120 ? "text-emerald-600" : "text-slate-400"}`}>
-                      {excerpt.length}/160
-                    </span>
-                  </div>
-                  <textarea
-                    value={excerpt}
-                    onChange={(e) => setExcerpt(e.target.value)}
-                    maxLength={200}
-                    rows={3}
-                    placeholder="1-2 kalimat ringkasan untuk kartu blog..."
-                    className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[var(--blue)] focus:ring-2 focus:ring-[var(--blue)]/10 resize-y transition"
-                  />
-                  <p className="text-[11px] text-slate-400 mt-1">Tampil di kartu artikel halaman blog. Ideal: 120-160 karakter.</p>
-                </div>
               </div>
             </aside>
           </div>
@@ -376,7 +358,7 @@ export default function ArticleEditor({ mode, initial }: Props) {
                 {title || "Judul artikel..."}
               </h1>
               <p className="text-lg text-slate-500 leading-relaxed mt-5 max-w-3xl">
-                {excerpt || metaDescription || "Excerpt / lead artikel..."}
+                {metaDescription || "Meta description akan tampil sebagai lead..."}
               </p>
             </div>
           </div>

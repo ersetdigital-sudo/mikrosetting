@@ -107,7 +107,7 @@ export default async function BlogPage() {
                 <h2 id="featured-title" className="font-head font-extrabold text-2xl sm:text-3xl text-[var(--navy)] leading-tight mt-4">
                   {featuredArticle.title}
                 </h2>
-                <p className="mt-4 text-[var(--muted)] leading-relaxed">{featuredArticle.excerpt}</p>
+                <p className="mt-4 text-[var(--muted)] leading-relaxed">{featuredArticle.excerpt || featuredArticle.meta_description}</p>
                 <div className="mt-6 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     <span className="grid place-items-center w-10 h-10 rounded-full bg-blue-100 text-[var(--blue)] font-head font-bold">MS</span>
@@ -168,7 +168,7 @@ export default async function BlogPage() {
                       {article.title}
                     </Link>
                   </h3>
-                  <p className="line-clamp-2 text-sm leading-relaxed text-slate-500 mt-3">{article.excerpt}</p>
+                  <p className="line-clamp-2 text-sm leading-relaxed text-slate-500 mt-3">{article.excerpt || article.meta_description}</p>
                   <div className="mt-6 pt-4 border-t border-slate-100 flex justify-between text-xs text-slate-400">
                     <span>{readingTime(article)}</span>
                     <Link href={`/blog/artikel?topik=${article.slug}`} className="font-bold text-[var(--blue)]">
