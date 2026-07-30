@@ -71,6 +71,9 @@ const EditorArea = memo(function EditorArea({
     div.contentEditable = "true";
     div.setAttribute("data-placeholder", "Tulis konten artikel di sini...");
     div.className = "reading-prose editor-area min-h-[420px] px-6 sm:px-8 py-6 outline-none";
+    div.style.color = "#0f172a";
+    div.style.fontSize = "1.075rem";
+    div.style.lineHeight = "1.9";
 
     div.addEventListener("input", function onDivInput() {
       onInputRef.current();
