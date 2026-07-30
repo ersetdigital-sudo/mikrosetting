@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import type { Article, ArticleFaq } from "@/lib/articles";
 
 type Props = { mode: "create" | "edit"; initial?: Article };
@@ -47,25 +47,33 @@ function ensureH2Ids(html: string): string {
   return doc.body.innerHTML;
 }
 
-/** contentEditable di-memo agar React nggak me-reset DOM saat parent re-render */
-const EditorArea = memo(function EditorArea({
-  editorRef,
-  onInput,
-}: {
-  editorRef: React.RefObject<HTMLDivElement | null>;
-  onInput: () => void;
-}) {
-  return (
-    <div
-      ref={editorRef}
-      contentEditable
-      suppressContentEditableWarning
-      onInput={onInput}
-      data-placeholder="Tulis konten artikel di sini... (pakai toolbar di atas untuk heading, list, link, tabel)"
-      className="reading-prose editor-area min-h-[420px] px-6 sm:px-8 py-6 outline-none"
-    />
-  );
-});
+/**
+ * contentEditable di-ISOLASI dari re-render React.
+ * Tanpa isolasi ini, React 19 me-reset DOM contentEditable saat parent re-render
+ * -> ketikan terhapus & caret hilang (gejala: counter kata naik tapi layar kosong).
+ * memo(() => true) bikin komponen ini cuma mount sekali, React nggak nyentuh DOM lagi.
+ */
+const EditorArea = memo(
+  function EditorArea({
+    editorRef,
+    onInput,
+  }: {
+    editorRef: React.RefObject<HTMLDivElement | null>;
+    onInput: () => void;
+  }) {
+    return (
+      <div
+        ref={editorRef}
+        contentEditable
+        suppressContentEditableWarning
+        onInput={onInput}
+        data-placeholder="Tulis konten artikel di sini... (pakai toolbar di atas untuk heading, list, link, tabel)"
+        className="reading-prose editor-area min-h-[420px] px-6 sm:px-8 py-6 outline-none"
+      />
+    );
+  },
+  () => true, // Jangan pernah re-render — contentEditable diurus manual
+);
 
 
 export default function ArticleEditor({ mode, initial }: Props) {
@@ -93,9 +101,9 @@ export default function ArticleEditor({ mode, initial }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const syncHtml = () => {
+  const syncHtml = useCallback(() => {
     if (editorRef.current) setHtml(editorRef.current.innerHTML);
-  };
+  }, []);
 
   const exec = (cmd: string, value?: string) => {
     editorRef.current?.focus();
