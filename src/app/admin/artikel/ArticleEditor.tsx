@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import type { Article, ArticleFaq } from "@/lib/articles";
 
 type Props = { mode: "create" | "edit"; initial?: Article };
@@ -47,11 +47,12 @@ function ensureH2Ids(html: string): string {
 }
 
 /**
- * contentEditable created via DOM API (imperative), NOT via JSX.
- * React has zero control over the div, so it can never reset it.
- * Full logging for debugging.
+ * contentEditable created via DOM API (imperative).
+ * Wrapped in memo(() => true) so React NEVER re-renders this component.
+ * Without memo, React reconciler sees <div/> has no JSX children but real DOM
+ * has the imperatively created div, so React DELETES it on every parent re-render.
  */
-function EditorArea({
+const EditorArea = memo(function EditorArea({
   editorRef,
   onInput,
 }: {
@@ -86,7 +87,7 @@ function EditorArea({
   }, []);
 
   return <div ref={containerRef} className="relative" />;
-}
+}, () => true); // Never re-render — imperatively created child would be deleted by React reconciler
 
 
 export default function ArticleEditor({ mode, initial }: Props) {
