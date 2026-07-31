@@ -3,7 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function LogoutButton() {
+type Props = { className?: string };
+
+const DEFAULT_CLASS = "text-sm font-bold rounded-lg bg-white/10 hover:bg-white/20 px-3 py-1.5 transition disabled:opacity-50";
+
+export default function LogoutButton({ className }: Props) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +22,7 @@ export default function LogoutButton() {
     <button
       onClick={handleLogout}
       disabled={loading}
-      className="text-sm font-bold rounded-lg bg-white/10 hover:bg-white/20 px-3 py-1.5 transition disabled:opacity-50"
+      className={className ?? DEFAULT_CLASS}
     >
       {loading ? "..." : "Logout"}
     </button>

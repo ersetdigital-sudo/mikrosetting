@@ -1,3 +1,8 @@
+-- Tabel key/value serbaguna untuk pengaturan situs yang bisa diedit dari admin.
+-- Selain "homepage_services", tabel ini juga dipakai untuk key "admin_credentials"
+-- (hash password admin) yang ditulis/dibaca lewat src/lib/admin-credentials.ts.
+-- Key "admin_credentials" HANYA diakses lewat service role key (server-side),
+-- jadi tidak butuh policy SELECT publik seperti "homepage_services".
 create table if not exists public.site_settings (
   key text primary key,
   value jsonb not null,

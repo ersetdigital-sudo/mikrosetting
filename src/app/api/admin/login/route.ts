@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { checkPassword, createSessionToken, COOKIE_NAME, MAX_AGE } from "@/lib/admin-auth";
+import { createSessionToken, COOKIE_NAME, MAX_AGE } from "@/lib/admin-auth";
+import { verifyAdminPassword } from "@/lib/admin-credentials";
 
 export async function POST(request: Request) {
   let password = "";
@@ -10,7 +11,7 @@ export async function POST(request: Request) {
     password = "";
   }
 
-  if (!password || !checkPassword(password)) {
+  if (!password || !(await verifyAdminPassword(password))) {
     return NextResponse.json({ ok: false, error: "Password salah." }, { status: 401 });
   }
 

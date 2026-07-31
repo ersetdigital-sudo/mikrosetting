@@ -12,14 +12,7 @@ function getSecret(): string {
   );
 }
 
-export function checkPassword(password: string): boolean {
-  const expected = process.env.ADMIN_PASSWORD ?? "mikrosetting2026";
-  try {
-    return timingSafeEqual(Buffer.from(password), Buffer.from(expected));
-  } catch {
-    return false;
-  }
-}
+
 
 function sign(value: string): string {
   return createHmac("sha256", getSecret()).update(value).digest("hex");
