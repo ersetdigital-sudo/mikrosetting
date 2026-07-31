@@ -60,9 +60,16 @@ export function generateMetadata(): Metadata {
       statusBarStyle: "black-translucent",
     },
     manifest: "/manifest.json",
-    verification: {
-      google: "verification_token",
-    },
+    // Verifikasi Google Search Console: isi env GOOGLE_SITE_VERIFICATION
+    // dengan token asli dari Search Console. Field di-skip bila kosong
+    // agar tidak mengirim meta tag placeholder yang tidak valid.
+    ...(process.env.GOOGLE_SITE_VERIFICATION
+      ? {
+          verification: {
+            google: process.env.GOOGLE_SITE_VERIFICATION,
+          },
+        }
+      : {}),
     other: {
       "language": "id",
     },

@@ -8,7 +8,7 @@ export default function JsonLd() {
         "@type": "Organization",
         name: "MikroSetting",
         url: "https://mikrosetting.com",
-        logo: "https://mikrosetting.com/images/fb3b9521-c9c8-4641-b2c5-c60073257a0f.png",
+        logo: "https://mikrosetting.com/images/logo-mark.png",
         description:
           "Jasa setting MikroTik, OLT, Ruijie & Access Point profesional.",
         contactPoint: {
@@ -31,7 +31,7 @@ export default function JsonLd() {
         telephone: PHONE,
         email: EMAIL,
         openingHours: "Mo-Su 08:00-21:00",
-        priceRange: "Rp",
+        priceRange: "Rp150000-Rp5000000",
         image: "https://mikrosetting.com/images/fb3b9521-c9c8-4641-b2c5-c60073257a0f.png",
         address: {
           "@type": "PostalAddress",

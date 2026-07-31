@@ -14,10 +14,15 @@ export const metadata: Metadata = {
     "Panduan praktis seputar MikroTik, OLT, hotspot, VPN, WiFi, dan keamanan jaringan untuk teknisi, pemilik RT/RW Net, sekolah, kantor, dan ISP.",
   keywords:
     "blog mikrotik, tutorial mikrotik, setting OLT, jaringan wifi, hotspot mikrotik, VPN port forwarding, RT RW Net",
+  alternates: {
+    canonical: "/blog",
+  },
   openGraph: {
     title: "Blog Jaringan MikroTik, OLT & WiFi | MikroSetting",
     description:
       "Insight teknis yang praktis, ringkas, dan bisa langsung diterapkan pada jaringan Anda.",
+    url: "/blog",
+    type: "website",
   },
 };
 
@@ -37,8 +42,47 @@ export default async function BlogPage() {
   const articles = await getArticles();
   const featuredArticle = articles.find((a) => a.slug === "optimasi") ?? articles[0];
   const otherArticles = articles.filter((a) => a.slug !== featuredArticle?.slug);
+
+  // GEO/SEO: CollectionPage + ItemList schema agar halaman listing blog
+  // dikenali AI/search engine sebagai entitas konten tersendiri.
+  const blogListSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Blog Jaringan MikroTik, OLT & WiFi",
+    description:
+      "Panduan praktis seputar MikroTik, OLT, hotspot, VPN, WiFi, dan keamanan jaringan.",
+    url: "https://mikrosetting.com/blog",
+    isPartOf: {
+      "@type": "WebSite",
+      name: "MikroSetting",
+      url: "https://mikrosetting.com",
+    },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://mikrosetting.com" },
+        { "@type": "ListItem", position: 2, name: "Blog", item: "https://mikrosetting.com/blog" },
+      ],
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListOrder: "https://schema.org/ItemListOrderDescending",
+      numberOfItems: articles.length,
+      itemListElement: articles.map((a, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `https://mikrosetting.com/blog/artikel?topik=${a.slug}`,
+        name: a.title,
+      })),
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListSchema) }}
+      />
       <Navbar />
       <main>
         {/* Hero */}
