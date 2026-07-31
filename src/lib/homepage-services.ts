@@ -68,6 +68,10 @@ function normalizeServices(value: unknown): HomeServiceConfig[] {
   return DEFAULT_HOMEPAGE_SERVICES.map((fallback, index) => normalizeService(raw[index], fallback));
 }
 
+function isAllowedImageUrl(value: string): boolean {
+  return value.startsWith("/") || value.startsWith("https://res.cloudinary.com/");
+}
+
 export function validateHomepageServices(services: HomeServiceConfig[]): string | null {
   if (services.length !== DEFAULT_HOMEPAGE_SERVICES.length) {
     return "Jumlah card layanan tidak valid.";
@@ -79,8 +83,8 @@ export function validateHomepageServices(services: HomeServiceConfig[]): string 
     if (!service.description) return `Deskripsi layanan ${service.id} wajib diisi.`;
     if (service.description.length > 180) return `Deskripsi layanan ${service.id} maksimal 180 karakter.`;
     if (service.badge.length > 20) return `Badge layanan ${service.id} maksimal 20 karakter.`;
-    if (service.image && !service.image.startsWith("/")) {
-      return `Path gambar layanan ${service.id} harus diawali /.`;
+    if (service.image && !isAllowedImageUrl(service.image)) {
+      return `Gambar layanan ${service.id} harus diupload lewat Cloudinary atau path lokal yang diawali /.`;
     }
     if (service.imageAlt.length > 140) return `Alt gambar layanan ${service.id} maksimal 140 karakter.`;
     if (service.features.length !== 4) return `Fitur layanan ${service.id} harus berjumlah 4.`;
