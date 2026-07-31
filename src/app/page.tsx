@@ -9,6 +9,8 @@ import Footer from "@/components/footer/Footer";
 import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 import JsonLd from "@/components/common/JsonLd";
 
+export const dynamic = "force-dynamic";
+
 export default function HomePage() {
   return (
     <>
