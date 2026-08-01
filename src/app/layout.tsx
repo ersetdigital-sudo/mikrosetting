@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { dmSans, sora } from "@/lib/fonts";
+import { siteUrl, siteName } from "@/lib/site";
 import "./globals.css";
 
-const siteUrl = "https://mikrosetting.com";
-const siteName = "MikroSetting";
 const description =
   "Jasa setting MikroTik, OLT, Ruijie & Access Point profesional. Solusi jaringan untuk RT/RW Net, Hotel, Kantor, Sekolah, dan ISP.";
 const keywords =

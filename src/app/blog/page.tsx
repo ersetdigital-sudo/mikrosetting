@@ -7,6 +7,7 @@ import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 import { SearchIcon } from "@/components/common/Icons";
 import { getArticles, formatDate, readingTime } from "@/lib/articles";
 import BlogFilter from "./BlogFilter";
+import { siteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Blog Jaringan MikroTik, OLT & WiFi",
@@ -51,17 +52,17 @@ export default async function BlogPage() {
     name: "Blog Jaringan MikroTik, OLT & WiFi",
     description:
       "Panduan praktis seputar MikroTik, OLT, hotspot, VPN, WiFi, dan keamanan jaringan.",
-    url: "https://mikrosetting.com/blog",
+    url: `${siteUrl}/blog`,
     isPartOf: {
       "@type": "WebSite",
       name: "MikroSetting",
-      url: "https://mikrosetting.com",
+      url: siteUrl,
     },
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://mikrosetting.com" },
-        { "@type": "ListItem", position: 2, name: "Blog", item: "https://mikrosetting.com/blog" },
+        { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/blog` },
       ],
     },
     mainEntity: {
@@ -71,7 +72,7 @@ export default async function BlogPage() {
       itemListElement: articles.map((a, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `https://mikrosetting.com/blog/artikel?topik=${a.slug}`,
+        url: `${siteUrl}/blog/artikel?topik=${a.slug}`,
         name: a.title,
       })),
     },

@@ -1,4 +1,5 @@
 import { WHATSAPP_URL, PHONE, EMAIL } from "@/constants";
+import { siteUrl } from "@/lib/site";
 
 export default function JsonLd() {
   const schema = {
@@ -7,8 +8,8 @@ export default function JsonLd() {
       {
         "@type": "Organization",
         name: "MikroSetting",
-        url: "https://mikrosetting.com",
-        logo: "https://mikrosetting.com/images/logo-mark.png",
+        url: siteUrl,
+        logo: `${siteUrl}/images/logo-mark.png`,
         description:
           "Jasa setting MikroTik, OLT, Ruijie & Access Point profesional.",
         contactPoint: {
@@ -27,12 +28,12 @@ export default function JsonLd() {
         name: "MikroSetting",
         description:
           "Penyedia jasa setting MikroTik, OLT, Ruijie, dan Access Point profesional untuk RT/RW Net, Hotel, Kantor, Sekolah, dan ISP.",
-        url: "https://mikrosetting.com",
+        url: siteUrl,
         telephone: PHONE,
         email: EMAIL,
         openingHours: "Mo-Su 08:00-21:00",
         priceRange: "Rp150000-Rp5000000",
-        image: "https://mikrosetting.com/images/fb3b9521-c9c8-4641-b2c5-c60073257a0f.png",
+        image: `${siteUrl}/images/fb3b9521-c9c8-4641-b2c5-c60073257a0f.png`,
         address: {
           "@type": "PostalAddress",
           addressCountry: "ID",
@@ -90,7 +91,7 @@ export default function JsonLd() {
       {
         "@type": "WebSite",
         name: "MikroSetting",
-        url: "https://mikrosetting.com",
+        url: siteUrl,
         description:
           "Jasa setting MikroTik, OLT, Ruijie & Access Point profesional.",
         inLanguage: "id-ID",
@@ -98,7 +99,7 @@ export default function JsonLd() {
           "@type": "SearchAction",
           target: {
             "@type": "EntryPoint",
-            urlTemplate: "https://mikrosetting.com/?q={search_term_string}",
+            urlTemplate: `${siteUrl}/?q={search_term_string}`,
           },
           "query-input": "required name=search_term_string",
         },
@@ -106,7 +107,7 @@ export default function JsonLd() {
       {
         "@type": "WebPage",
         name: "Beranda",
-        url: "https://mikrosetting.com",
+        url: siteUrl,
         description:
           "Jasa setting MikroTik, OLT, Ruijie & Access Point profesional.",
         breadcrumb: {
@@ -116,7 +117,7 @@ export default function JsonLd() {
               "@type": "ListItem",
               position: 1,
               name: "Beranda",
-              item: "https://mikrosetting.com",
+              item: siteUrl,
             },
           ],
         },
@@ -128,7 +129,7 @@ export default function JsonLd() {
             "@type": "ListItem",
             position: 1,
             name: "Beranda",
-            item: "https://mikrosetting.com",
+            item: siteUrl,
           },
         ],
       },
@@ -181,11 +182,11 @@ export default function JsonLd() {
         "@type": "Person",
         name: "Tim MikroSetting",
         description: "Praktisi jaringan yang menangani konfigurasi MikroTik, OLT, hotspot, VPN, dan access point.",
-        url: "https://mikrosetting.com",
+        url: siteUrl,
       },
       {
         "@type": "ImageObject",
-        url: "https://mikrosetting.com/images/fb3b9521-c9c8-4641-b2c5-c60073257a0f.png",
+        url: `${siteUrl}/images/fb3b9521-c9c8-4641-b2c5-c60073257a0f.png`,
         width: 1200,
         height: 630,
         caption: "MikroSetting - Jasa Setting Jaringan Profesional",
@@ -194,12 +195,12 @@ export default function JsonLd() {
         "@type": "SiteNavigationElement",
         name: "Navigasi Utama",
         hasPart: [
-          { "@type": "SiteNavigationElement", name: "Home", url: "https://mikrosetting.com/#home" },
-          { "@type": "SiteNavigationElement", name: "Layanan", url: "https://mikrosetting.com/#layanan" },
-          { "@type": "SiteNavigationElement", name: "Mikhmon & Port Forwarding", url: "https://mikrosetting.com/#produk" },
-          { "@type": "SiteNavigationElement", name: "Tentang Kami", url: "https://mikrosetting.com/tentang" },
-          { "@type": "SiteNavigationElement", name: "Blog", url: "https://mikrosetting.com/blog" },
-          { "@type": "SiteNavigationElement", name: "Kontak", url: "https://mikrosetting.com/kontak" },
+          { "@type": "SiteNavigationElement", name: "Home", url: `${siteUrl}/#home` },
+          { "@type": "SiteNavigationElement", name: "Layanan", url: `${siteUrl}/#layanan` },
+          { "@type": "SiteNavigationElement", name: "Mikhmon & Port Forwarding", url: `${siteUrl}/#produk` },
+          { "@type": "SiteNavigationElement", name: "Tentang Kami", url: `${siteUrl}/tentang` },
+          { "@type": "SiteNavigationElement", name: "Blog", url: `${siteUrl}/blog` },
+          { "@type": "SiteNavigationElement", name: "Kontak", url: `${siteUrl}/kontak` },
         ],
       },
     ],

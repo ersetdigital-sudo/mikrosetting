@@ -3,8 +3,8 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 import { WHATSAPP_URL, EMAIL } from "@/constants";
+import { siteUrl } from "@/lib/site";
 
-const siteUrl = "https://mikrosetting.com";
 const pageUrl = `${siteUrl}/privacy-policy`;
 const description =
   "Kebijakan Privasi MikroSetting — bagaimana kami mengumpulkan, menggunakan, melindungi, dan menghapus data Anda saat menggunakan layanan setting jaringan dan produk digital kami.";

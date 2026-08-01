@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getArticle, getRelatedArticles, extractToc } from "@/lib/articles";
 import ArticleContent from "./ArticleContent";
-
-const siteUrl = "https://mikrosetting.com";
+import { siteUrl } from "@/lib/site";
 
 type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

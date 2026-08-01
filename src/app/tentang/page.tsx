@@ -4,8 +4,8 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 import { WHATSAPP_URL, PHONE, EMAIL, BUSINESS_HOURS } from "@/constants";
+import { siteUrl } from "@/lib/site";
 
-const siteUrl = "https://mikrosetting.com";
 const pageUrl = `${siteUrl}/tentang`;
 const description =
   "Mengenal MikroSetting — penyedia jasa setting MikroTik, OLT, Ruijie & Access Point profesional untuk RT/RW Net, hotel, kantor, sekolah, dan ISP di seluruh Indonesia.";

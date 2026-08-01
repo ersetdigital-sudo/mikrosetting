@@ -3,8 +3,8 @@ import Navbar from "@/components/navbar/Navbar";
 import Footer from "@/components/footer/Footer";
 import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 import { WHATSAPP_URL, EMAIL } from "@/constants";
+import { siteUrl } from "@/lib/site";
 
-const siteUrl = "https://mikrosetting.com";
 const pageUrl = `${siteUrl}/terms-of-service`;
 const description =
   "Syarat dan Ketentuan Layanan MikroSetting — ketentuan pemesanan, pelaksanaan, garansi konfigurasi, produk digital, dan tanggung jawab pengguna layanan setting jaringan kami.";

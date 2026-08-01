@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getArticles } from "@/lib/articles";
-
-const siteUrl = "https://mikrosetting.com";
+import { siteUrl } from "@/lib/site";
 
 // Sitemap dibuat saat request agar artikel baru dari Supabase langsung terindeks
 export const dynamic = "force-dynamic";

@@ -4,8 +4,8 @@ import Footer from "@/components/footer/Footer";
 import FloatingWhatsApp from "@/components/common/FloatingWhatsApp";
 import { WHATSAPP_URL, PHONE, EMAIL, BUSINESS_HOURS } from "@/constants";
 import { WhatsAppIcon } from "@/components/common/Icons";
+import { siteUrl } from "@/lib/site";
 
-const siteUrl = "https://mikrosetting.com";
 const pageUrl = `${siteUrl}/kontak`;
 const description =
   "Hubungi MikroSetting — jasa setting MikroTik, OLT, Ruijie & Access Point. WhatsApp aktif setiap hari 08.00–21.00 WIB, respons cepat, konsultasi awal gratis, melayani seluruh Indonesia.";
