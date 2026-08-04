@@ -8,23 +8,58 @@ type PageProps = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
+const DEFAULT_SLUG = "optimasi";
+
 function resolveSlug(raw: string | string[] | undefined): string {
   const topic = Array.isArray(raw) ? raw[0] : raw;
-  return topic?.trim() || "optimasi";
+  return topic?.trim() || DEFAULT_SLUG;
 }
 
+/**
+ * Resolusi artikel dengan perilaku 404 yang benar (revisi 2026-08-04).
+ *
+ * MASALAH SEBELUMNYA (soft 404):
+ * Slug apa pun yang tidak dikenal — termasuk yang diarang crawler atau
+ * ditempel spammer, mis. `?topik=harga-jasa-sembarang-xyz123` — diam-diam
+ * dialihkan ke artikel "optimasi" dan tetap membalas HTTP 200.
+ * Akibatnya URL tak terhingga membalas 200 dengan isi yang sama persis:
+ *   - Google menyebutnya "soft 404" + duplicate content.
+ *   - Crawl budget habis untuk URL sampah, bukan 7 artikel asli kita.
+ *   - Halaman sampah bisa ikut terindeks atas nama brand.
+ *
+ * SEKARANG:
+ *   - Tidak ada parameter sama sekali  → tampilkan artikel default (200).
+ *     Ini pintu masuk yang sah dan canonical-nya menunjuk ke ?topik=optimasi,
+ *     jadi tidak menimbulkan duplikat baru.
+ *   - Parameter ADA tapi artikelnya tidak ada → notFound() → HTTP 404 asli.
+ *     Sinyal jujur ke Google: URL ini memang tidak ada, jangan indeks.
+ */
 async function resolveArticle(raw: string | string[] | undefined) {
+  const topic = Array.isArray(raw) ? raw[0] : raw;
+  const explicit = Boolean(topic?.trim());
   const slug = resolveSlug(raw);
+
   const article = await getArticle(slug);
   if (article) return article;
-  if (slug !== "optimasi") return getArticle("optimasi");
-  return null;
+
+  // Slug diminta secara eksplisit tapi tidak ada → biarkan jadi 404 sungguhan.
+  if (explicit) return null;
+
+  // Tanpa parameter: default masih boleh tampil kalau memang ada.
+  return getArticle(DEFAULT_SLUG);
 }
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const params = await searchParams;
   const data = await resolveArticle(params.topik);
-  if (!data) return { title: "Artikel" };
+  // Slug tidak dikenal → halaman akan 404. Tegaskan noindex supaya kalaupun
+  // URL sampah sempat ter-crawl, ia tidak pernah masuk indeks.
+  if (!data) {
+    return {
+      title: "Artikel tidak ditemukan",
+      robots: { index: false, follow: false },
+    };
+  }
   const canonical = `${siteUrl}/blog/artikel?topik=${data.slug}`;
   const description = data.meta_description ?? data.excerpt ?? "";
   return {
